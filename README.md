@@ -23,22 +23,56 @@ Named after **IRIS**, the AI companion in the Malaysian animated series *Ejen Al
 | Ops | `/iris ops` | Execute with TDD, subagents, and between-task review |
 | Debrief | `/iris debrief` | Wrap up: decisions, open items, next steps |
 
-IRIS chains stages automatically, pausing only when it needs your input — at three points: clarification answers, implementation option selection, and plan confirmation.
+IRIS chains stages automatically, pausing only when it needs your input.
 
-### Brief
-Ask targeted clarifying questions — in one message, not one-by-one — until there are zero gaps, ambiguities, or assumptions. Confirms understanding before writing anything.
-
-### Spec
-Reads the existing codebase, scans available skills and agents, writes numbered testable requirements, data model, API contracts, edge cases, and surfaces 2–3 implementation options with tradeoffs. User picks direction before the plan is written.
-
-### Plan
-Breaks the spec into atomic 2–5 minute tasks, each with a test to write first. Runs a mandatory self-review pass before presenting — checking for contradictions, gaps, loopholes, feasibility, and TDD coverage. Requires explicit confirmation before ops begins.
-
-### Ops
-Executes task by task: write test (RED) → implement (GREEN) → refactor → run full suite. Between every task: code review against spec and plan. If a task reveals a plan flaw, stops and surfaces it before continuing.
-
-### Debrief
-Documents what was built, decisions made, deviations from plan, test coverage, open items, and next steps. Lists all generated docs and offers `.docx` export.
+```
+/iris <idea>
+     │
+     ▼
+┌─────────────────────────────────────────────────────┐
+│  BRIEF — clarify until zero gaps                    │
+│  Ask all questions in one message. Follow up once.  │
+│  Confirm understanding before writing anything.     │
+└────────────────────┬────────────────────────────────┘
+                     │ auto-chains
+                     ▼
+┌─────────────────────────────────────────────────────┐
+│  SPEC — complete technical specification            │
+│  Scans codebase, skills, agents. Writes FR/NFR,     │
+│  data model, API contracts, edge cases.             │
+│  Surfaces 2–3 implementation options with tradeoffs.│
+└────────────────────┬────────────────────────────────┘
+                     │ user picks option, then auto-chains
+                     ▼
+┌─────────────────────────────────────────────────────┐
+│  PLAN — bite-sized tasks + self-review              │
+│  Every task: 2–5 min, test first, Agent assigned.   │
+│  Self-review pass: contradictions, gaps, feasibility│
+│  "Plan ready. Confirm to begin."                    │
+└────────────────────┬────────────────────────────────┘
+                     │ user confirms, then auto-chains
+                     ▼
+┌─────────────────────────────────────────────────────┐
+│  OPS — execute task by task                         │
+│                                                     │
+│  For each task:                                     │
+│    IRIS reads Agent field → dispatches:             │
+│      ali     → write test → implement → refactor    │
+│      alicia  → review vs spec, plan, quality        │
+│      bakar   → scaffold config / infra / CI         │
+│      rizwan  → security audit / arch review         │
+│      comot   → investigate broken behaviour         │
+│    Full test suite after every task.                │
+│    Code review after every task.                    │
+└────────────────────┬────────────────────────────────┘
+                     │ auto-chains when all tasks done
+                     ▼
+┌─────────────────────────────────────────────────────┐
+│  DEBRIEF — wrap up                                  │
+│  What was built, decisions, deviations, open items, │
+│  next steps. Offers .docx export.                   │
+└─────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -134,14 +168,26 @@ IRIS reads the `Agent` field in each plan task and loads the corresponding agent
 iris-ai/                          ← this repo
 ├── .claude/
 │   └── commands/
-│       └── iris.md               ← /iris command router
+│       ├── iris.md               ← /iris command router
+│       ├── ali.md                ← /ali
+│       ├── alicia.md             ← /alicia
+│       ├── bakar.md              ← /bakar
+│       ├── rizwan.md             ← /rizwan
+│       ├── rama.md               ← /rama
+│       └── comot.md              ← /comot
 ├── agents/
-│   └── iris-agent.md             ← IRIS agent (role, personality, output structures)
+│   ├── iris-agent.md             ← orchestrator
+│   ├── ali-agent.md              ← implementation
+│   ├── alicia-agent.md           ← testing & review
+│   ├── bakar-agent.md            ← devops & tooling
+│   ├── rizwan-agent.md           ← security & architecture
+│   ├── rama-agent.md             ← strategic oversight
+│   └── comot-agent.md            ← debugging
 ├── skills/
 │   ├── iris-brief/SKILL.md       ← clarify until zero gaps
 │   ├── iris-spec/SKILL.md        ← spec + project context scan + impl options
 │   ├── iris-plan/SKILL.md        ← bite-sized tasks + self-review + confirm gate
-│   ├── iris-ops/SKILL.md         ← TDD + subagent dispatch + between-task review
+│   ├── iris-ops/SKILL.md         ← TDD + agent dispatch + between-task review
 │   └── iris-debrief/SKILL.md     ← wrap up + doc export offer
 ├── docs/
 │   └── project.md
@@ -154,7 +200,7 @@ your-project/                     ← after install
 │       ├── briefs/               ← brief and spec docs
 │       ├── tasks/                ← plan docs
 │       └── docs/                 ← ops notes and debrief docs
-├── .claude/commands/iris.md
-├── agents/iris-agent.md
+├── .claude/commands/             ← iris + all 6 character commands
+├── agents/                       ← iris-agent + all 6 character agents
 └── skills/iris-*/SKILL.md
 ```
