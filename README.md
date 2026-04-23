@@ -15,64 +15,41 @@ Named after **IRIS**, the AI companion in the Malaysian animated series *Ejen Al
 
 ## The 5-Stage Workflow
 
-| Stage | Command | What happens |
-|---|---|---|
-| Brief | `/iris <idea>` | Clarify requirements until zero gaps |
-| Spec | `/iris spec` | Write a complete technical specification |
-| Plan | `/iris plan` | Break work into 2–5 min atomic tasks with self-review |
-| Ops | `/iris ops` | Execute with TDD, subagents, and between-task review |
-| Debrief | `/iris debrief` | Wrap up: decisions, open items, next steps |
-
-IRIS chains stages automatically, pausing only when it needs your input.
-
 ```
 /iris <idea>
-     │
-     ▼
-┌─────────────────────────────────────────────────────┐
-│  BRIEF — clarify until zero gaps                    │
-│  Ask all questions in one message. Follow up once.  │
-│  Confirm understanding before writing anything.     │
-└────────────────────┬────────────────────────────────┘
-                     │ auto-chains
-                     ▼
-┌─────────────────────────────────────────────────────┐
-│  SPEC — complete technical specification            │
-│  Scans codebase, skills, agents. Writes FR/NFR,     │
-│  data model, API contracts, edge cases.             │
-│  Surfaces 2–3 implementation options with tradeoffs.│
-└────────────────────┬────────────────────────────────┘
-                     │ user picks option, then auto-chains
-                     ▼
-┌─────────────────────────────────────────────────────┐
-│  PLAN — bite-sized tasks + self-review              │
-│  Every task: 2–5 min, test first, Agent assigned.   │
-│  Self-review pass: contradictions, gaps, feasibility│
-│  "Plan ready. Confirm to begin."                    │
-└────────────────────┬────────────────────────────────┘
-                     │ user confirms, then auto-chains
-                     ▼
-┌─────────────────────────────────────────────────────┐
-│  OPS — execute task by task                         │
-│                                                     │
-│  For each task:                                     │
-│    IRIS reads Agent field → dispatches:             │
-│      ali     → write test → implement → refactor    │
-│      alicia  → review vs spec, plan, quality        │
-│      bakar   → scaffold config / infra / CI         │
-│      rizwan  → security audit / arch review         │
-│      comot   → investigate broken behaviour         │
-│    Full test suite after every task.                │
-│    Code review after every task.                    │
-└────────────────────┬────────────────────────────────┘
-                     │ auto-chains when all tasks done
-                     ▼
-┌─────────────────────────────────────────────────────┐
-│  DEBRIEF — wrap up                                  │
-│  What was built, decisions, deviations, open items, │
-│  next steps. Offers .docx export.                   │
-└─────────────────────────────────────────────────────┘
+      │
+      ▼
+  [ BRIEF ] ── auto ──▶ [ SPEC ] ── user picks option ──▶ [ PLAN ] ── user confirms ──▶ [ OPS ] ── auto ──▶ [ DEBRIEF ]
 ```
+
+IRIS chains automatically, pausing only at three points: clarification answers, implementation option selection, and plan confirmation.
+
+---
+
+### Brief — `/iris <idea>`
+Ask all clarifying questions in one message. Follow up on vague answers once. Confirm understanding in plain language before writing anything. No spec until the brief is confirmed.
+
+### Spec — `/iris spec`
+Read the codebase. Scan available skills and agents. Write numbered testable requirements, data model, API contracts, and edge cases. Surface 2–3 implementation options with explicit tradeoffs. User picks direction before the plan is written.
+
+### Plan — `/iris plan`
+Break the spec into atomic 2–5 minute tasks. Every task has a test to write first and an Agent assigned from the dispatch table. Run a mandatory self-review pass — check for contradictions, gaps, loopholes, and feasibility. Present refined plan. Require explicit confirmation before ops begins.
+
+### Ops — `/iris ops`
+Execute task by task. IRIS reads the `Agent` field and dispatches:
+
+| Agent | Dispatched for | What they do |
+|---|---|---|
+| Ali | Coding / implementation | Write test → implement → refactor → run suite |
+| Alicia | Tests / code review | Review vs spec, plan, quality, surface-level security |
+| Bakar | Infra / tooling / CI | Scaffold config, scripts, pipelines |
+| Rizwan | Security / architecture | Full audit — auth, data, dependencies, structure |
+| Comot | Debugging | Investigate broken behaviour, report findings only |
+
+Full test suite after every task. Code review after every task. If a task reveals a plan flaw, stop and surface it before continuing.
+
+### Debrief — `/iris debrief`
+Document what was built, decisions made, deviations from plan, test coverage, open items, and next steps. List all generated docs. Offer `.docx` export.
 
 ---
 
