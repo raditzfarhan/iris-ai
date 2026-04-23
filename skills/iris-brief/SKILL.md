@@ -33,7 +33,7 @@ Once all questions are answered, write back a summary of what will be built in p
 ### 5. Write the brief
 When confirmed, write the brief following the iris-agent output structure for `iris-brief`.
 
-Save to: `outputs/briefs/YYYY-MM-DD-{slug}-brief.md`
+Save to: `.iris-ai/outputs/briefs/YYYY-MM-DD-{slug}-brief.md`
 
 ### 6. Chain to iris-spec
 After saving: "Brief confirmed. Moving to spec." — invoke `skills/iris-spec/SKILL.md` automatically.

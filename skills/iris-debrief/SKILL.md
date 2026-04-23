@@ -11,10 +11,10 @@ Close out the mission cleanly. Document what was built, what was decided, what's
 ## Process
 
 ### 1. Load context
-- Read `outputs/docs/*-ops.md` for implementation notes
-- Read `outputs/tasks/*-plan.md` for the original plan
-- Read `outputs/briefs/*-spec.md` for the spec
-- Read `outputs/briefs/*-brief.md` for the original brief
+- Read `.iris-ai/outputs/docs/*-ops.md` for implementation notes
+- Read `.iris-ai/outputs/tasks/*-plan.md` for the original plan
+- Read `.iris-ai/outputs/briefs/*-spec.md` for the spec
+- Read `.iris-ai/outputs/briefs/*-brief.md` for the original brief
 
 ### 2. Write the debrief
 Following the iris-agent output structure for `iris-debrief`:
@@ -32,15 +32,15 @@ Following the iris-agent output structure for `iris-debrief`:
 **Next Steps** — what logically comes after this feature
 
 ### 3. Save the debrief
-Save to: `outputs/docs/YYYY-MM-DD-{slug}-debrief.md`
+Save to: `.iris-ai/outputs/docs/YYYY-MM-DD-{slug}-debrief.md`
 
 ### 4. Offer doc export
 List all docs generated during this mission:
-- Brief: `outputs/briefs/{slug}-brief.md`
-- Spec: `outputs/briefs/{slug}-spec.md`
-- Plan: `outputs/tasks/{slug}-plan.md`
-- Implementation Notes: `outputs/docs/{slug}-ops.md`
-- Debrief: `outputs/docs/{slug}-debrief.md`
+- Brief: `.iris-ai/outputs/briefs/{slug}-brief.md`
+- Spec: `.iris-ai/outputs/briefs/{slug}-spec.md`
+- Plan: `.iris-ai/outputs/tasks/{slug}-plan.md`
+- Implementation Notes: `.iris-ai/outputs/docs/{slug}-ops.md`
+- Debrief: `.iris-ai/outputs/docs/{slug}-debrief.md`
 
 Ask: "Want to export any of these as `.docx`?"
 

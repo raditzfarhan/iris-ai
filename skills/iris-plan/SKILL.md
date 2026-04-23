@@ -11,8 +11,8 @@ Convert the confirmed spec into a precise, sequenced task list. Every task is at
 ## Process
 
 ### 1. Load context
-- Read confirmed spec from `outputs/briefs/*-spec.md`
-- Read confirmed brief from `outputs/briefs/*-brief.md`
+- Read confirmed spec from `.iris-ai/outputs/briefs/*-spec.md`
+- Read confirmed brief from `.iris-ai/outputs/briefs/*-brief.md`
 
 ### 2. Generate task list
 Break implementation into atomic tasks following this discipline:
@@ -54,7 +54,7 @@ End with: "Plan ready. Confirm to begin implementation."
 **Do not proceed until the user explicitly confirms.**
 
 ### 5. Save the plan
-Save to: `outputs/tasks/YYYY-MM-DD-{slug}-plan.md`
+Save to: `.iris-ai/outputs/tasks/YYYY-MM-DD-{slug}-plan.md`
 
 ### 6. Wait for confirmation
 Only after user confirms: "Plan confirmed. Starting implementation." — invoke `skills/iris-ops/SKILL.md`.

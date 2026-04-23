@@ -11,9 +11,9 @@ Execute the approved plan strictly and methodically. TDD on every task. Full tes
 ## Process
 
 ### 1. Load context
-- Read confirmed plan from `outputs/tasks/*-plan.md`
-- Read confirmed spec from `outputs/briefs/*-spec.md`
-- Read confirmed brief from `outputs/briefs/*-brief.md`
+- Read confirmed plan from `.iris-ai/outputs/tasks/*-plan.md`
+- Read confirmed spec from `.iris-ai/outputs/briefs/*-spec.md`
+- Read confirmed brief from `.iris-ai/outputs/briefs/*-brief.md`
 - Identify the current task (first incomplete task in the plan)
 
 ### 2. For each task — TDD cycle
@@ -69,7 +69,7 @@ After each task report, show: `Progress: {N}/{total} tasks complete`
 Announce the next task before starting it.
 
 ### 5. Save implementation notes
-Append each task's output to: `outputs/docs/YYYY-MM-DD-{slug}-ops.md`
+Append each task's output to: `.iris-ai/outputs/docs/YYYY-MM-DD-{slug}-ops.md`
 
 ### 6. Chain to iris-debrief
 When all tasks are complete: "All tasks done. All tests green." — invoke `skills/iris-debrief/SKILL.md` automatically.

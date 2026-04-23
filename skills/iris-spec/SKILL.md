@@ -11,7 +11,7 @@ Turn the confirmed brief into a complete technical spec that leaves nothing to i
 ## Process
 
 ### 1. Load context
-- Read the confirmed brief from `outputs/briefs/*-brief.md`
+- Read the confirmed brief from `.iris-ai/outputs/briefs/*-brief.md`
 - Read project files to understand the existing codebase: stack, conventions, patterns
 - Scan `skills/` directory — list all available skills and assess which apply to this feature
 - Scan `agents/` directory — list all available agents and assess which apply
@@ -46,7 +46,7 @@ Show the spec. Ask: "Which implementation option do you prefer? Any changes to t
 Apply any changes. Re-present only the changed sections.
 
 ### 5. Save the spec
-Save to: `outputs/briefs/YYYY-MM-DD-{slug}-spec.md`
+Save to: `.iris-ai/outputs/briefs/YYYY-MM-DD-{slug}-spec.md`
 
 ### 6. Chain to iris-plan
 After confirmed: "Spec locked. Moving to plan." — invoke `skills/iris-plan/SKILL.md` automatically.
