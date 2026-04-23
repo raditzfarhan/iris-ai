@@ -55,8 +55,6 @@ Document what was built, decisions made, deviations from plan, test coverage, op
 
 ## Installation
 
-**From GitHub (recommended):**
-
 ```bash
 # First install
 curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh | bash -s -- .
@@ -65,16 +63,7 @@ curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh
 curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh | bash -s -- . --force
 ```
 
-**From a local clone:**
-
-```bash
-bash /path/to/iris-ai/install.sh /path/to/your-project
-
-# Upgrade
-bash /path/to/iris-ai/install.sh /path/to/your-project --force
-```
-
-The installer skips files that already exist by default — pass `--force` to overwrite. It copies commands, skills, and agents into `.claude/`, `skills/`, and `agents/`, and creates the `.iris-ai/outputs/` folder structure for generated docs. Nothing else is carried over.
+The installer always pulls the latest files from GitHub. Existing files are skipped by default — pass `--force` to overwrite them. It copies commands, skills, and agents into `.claude/`, `skills/`, and `agents/`, and creates the `.iris-ai/outputs/` folder structure for generated docs.
 
 ---
 

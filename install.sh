@@ -1,6 +1,5 @@
 #!/bin/bash
-# IRIS installer — installs IRIS into any Claude Code project
-# Supports local install (from a clone) and remote install (via curl from GitHub)
+# IRIS installer — always pulls latest files from GitHub
 #
 # Usage:
 #   bash install.sh [target] [--force]
@@ -23,8 +22,6 @@ for arg in "$@"; do
     *) TARGET="$arg" ;;
   esac
 done
-
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" 2>/dev/null && pwd || echo "")"
 
 FILES=(
   ".claude/commands/iris.md"
@@ -67,6 +64,13 @@ mkdir -p "$TARGET/.iris-ai/outputs/docs"
 INSTALLED=0
 SKIPPED=0
 
+if ! command -v curl &>/dev/null; then
+  echo "Error: curl is required" >&2
+  exit 1
+fi
+
+echo "Source: github.com/$GITHUB_USER/$GITHUB_REPO @ $GITHUB_BRANCH"
+
 install_file() {
   local file="$1"
   local dest="$TARGET/$file"
@@ -77,25 +81,10 @@ install_file() {
     return
   fi
 
-  if [ -f "$SCRIPT_DIR/agents/iris-agent.md" ]; then
-    cp "$SCRIPT_DIR/$file" "$dest"
-  else
-    curl -sSfL "$GITHUB_RAW/$file" -o "$dest"
-  fi
-
+  curl -sSfL "$GITHUB_RAW/$file" -o "$dest"
   echo "  install  $file"
   INSTALLED=$((INSTALLED + 1))
 }
-
-if [ -f "$SCRIPT_DIR/agents/iris-agent.md" ]; then
-  echo "Source: local ($SCRIPT_DIR)"
-else
-  echo "Source: github.com/$GITHUB_USER/$GITHUB_REPO @ $GITHUB_BRANCH"
-  if ! command -v curl &>/dev/null; then
-    echo "Error: curl is required for remote install" >&2
-    exit 1
-  fi
-fi
 
 echo ""
 for file in "${FILES[@]}"; do
