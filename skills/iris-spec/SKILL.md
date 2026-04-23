@@ -17,8 +17,18 @@ Turn the confirmed brief into a complete technical spec that leaves nothing to i
 - Scan `agents/` directory — list all available agents and assess which apply
 - Check for existing tests, CI config, coding standards
 
-### 2. Write the spec
-Following the iris-agent output structure for `iris-spec`:
+### 2. Surface implementation options
+Before writing anything, present the 2–3 implementation options to the user:
+
+For each option:
+- What it involves (one sentence)
+- Pros and cons
+- Mark one as **Recommended** with a clear reason (industry fit, simplicity, project context)
+
+Ask: "Which approach do you want to go with?" — wait for the user to pick before writing the spec.
+
+### 3. Write the spec
+Once the user has chosen an implementation direction, write the full spec following the iris-agent output structure for `iris-spec`:
 
 **Functional Requirements** — numbered (FR-01, FR-02...), each one testable and unambiguous
 
@@ -30,25 +40,22 @@ Following the iris-agent output structure for `iris-spec`:
 
 **Skills & Agents Available** — list which existing skills/agents from this project apply and how
 
-**Implementation Options** — 2–3 concrete options with explicit tradeoffs. For each:
-- What it involves
-- Pros and cons
-- Recommended or not, and why
+**Chosen Implementation Approach** — the option the user selected, with a brief rationale
 
 **Edge Cases & Error Handling** — every failure mode that matters
 
 **Out of Scope** — explicit list of what is NOT being built
 
-### 3. Present to user
-Show the spec. Ask: "Which implementation option do you prefer? Any changes to the spec?"
+### 4. Present to user
+Show the written spec. Ask: "Does this look right? Anything to adjust?"
 
-### 4. Revise if needed
+### 5. Revise if needed
 Apply any changes. Re-present only the changed sections.
 
-### 5. Save the spec
+### 6. Save the spec
 Save to: `.iris-ai/outputs/briefs/YYYY-MM-DD-{slug}-spec.md`
 
-### 6. Chain to iris-plan
+### 7. Chain to iris-plan
 After confirmed: "Spec locked. Moving to plan." — invoke `skills/iris-plan/SKILL.md` automatically.
 
 ## Rules

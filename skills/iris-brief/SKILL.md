@@ -28,6 +28,8 @@ Ask questions **one at a time** — never batch multiple questions in one messag
 For each question:
 - Offer 2–4 labelled options (e.g. `a)`, `b)`, `c)`) that cover the most likely answers
 - Always include a final option such as `d) Other — type your own` so the user is never forced to pick from the list
+- Mark one option as **Recommended** — pick the option that best fits industry standards, common practice, or the context gathered so far. State briefly why
+- Add pros/cons under each option when the tradeoff is non-obvious or the stakes of the choice are high
 - Wait for the user's answer before asking the next question
 - If the answer is still vague, ask one focused follow-up on that point before moving on
 
