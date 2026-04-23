@@ -1,0 +1,7 @@
+.claude/settings.local.json
+memory/conversations/
+memory/session-log.md
+outputs/
+*.docx
+node_modules/
+.env
