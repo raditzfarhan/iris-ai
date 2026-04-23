@@ -27,7 +27,7 @@ IRIS chains automatically, pausing only at three points: clarification answers, 
 ---
 
 ### Brief — `/iris <idea>`
-Ask all clarifying questions in one message. Follow up on vague answers once. Confirm understanding in plain language before writing anything. No spec until the brief is confirmed.
+Ask clarifying questions one at a time, each with labelled options (a, b, c…) plus a free-text escape. Wait for the answer before asking the next question. Keep asking until every gap and edge case is resolved. Confirm understanding in plain language. No spec until the brief is confirmed.
 
 ### Spec — `/iris spec`
 Read the codebase. Scan available skills and agents. Write numbered testable requirements, data model, API contracts, and edge cases. Surface 2–3 implementation options with explicit tradeoffs. User picks direction before the plan is written.
@@ -58,7 +58,11 @@ Document what was built, decisions made, deviations from plan, test coverage, op
 **From GitHub (recommended):**
 
 ```bash
+# First install
 curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh | bash -s -- .
+
+# Upgrade — overwrite existing files
+curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh | bash -s -- . --force
 ```
 
 **From a local clone:**
@@ -66,11 +70,11 @@ curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh
 ```bash
 bash /path/to/iris-ai/install.sh /path/to/your-project
 
-# Or from inside the target project:
-bash /path/to/iris-ai/install.sh .
+# Upgrade
+bash /path/to/iris-ai/install.sh /path/to/your-project --force
 ```
 
-The installer detects which mode to use automatically. It copies the command, skills, and agent into `.claude/`, `skills/`, and `agents/`, and creates the `.iris-ai/outputs/` folder structure for generated docs. Nothing else is carried over.
+The installer skips files that already exist by default — pass `--force` to overwrite. It copies commands, skills, and agents into `.claude/`, `skills/`, and `agents/`, and creates the `.iris-ai/outputs/` folder structure for generated docs. Nothing else is carried over.
 
 ---
 
