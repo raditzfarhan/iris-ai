@@ -23,9 +23,15 @@ Before asking anything, internally assess:
 - Are there dependencies on existing systems? (clear / unclear)
 
 ### 3. Ask clarifying questions
-Ask all unclear questions **in one message** — grouped logically, not one at a time. Be direct. No preamble.
+Ask questions **one at a time** — never batch multiple questions in one message. Be direct. No preamble.
 
-If any answer is still vague, follow up on that specific point only.
+For each question:
+- Offer 2–4 labelled options (e.g. `a)`, `b)`, `c)`) that cover the most likely answers
+- Always include a final option such as `d) Other — type your own` so the user is never forced to pick from the list
+- Wait for the user's answer before asking the next question
+- If the answer is still vague, ask one focused follow-up on that point before moving on
+
+Keep asking until every gap identified in Step 2 is resolved. Do not move to Step 4 while any item is still unclear.
 
 ### 4. Confirm understanding
 Once all questions are answered, write back a summary of what will be built in plain language. Ask: "Is this correct? Anything to adjust?"
@@ -41,4 +47,6 @@ After saving: "Brief confirmed. Moving to spec." — invoke `skills/iris-spec/SK
 ## Rules
 - Never write the spec before the brief is confirmed
 - Never assume — if something is unclear, ask
-- One follow-up round maximum per question — if still unclear after follow-up, flag it as a known risk in the brief
+- One question per message — never combine multiple questions
+- Always offer labelled options per question; always allow a free-text escape option
+- One follow-up per question maximum — if still unclear after follow-up, flag it as a known risk in the brief
