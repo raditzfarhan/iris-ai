@@ -1,3 +1,8 @@
+---
+name: iris
+description: Use as the main orchestrator for the IRIS dev workflow — routes tasks through brief, spec, plan, ops, and debrief stages. Dispatches specialized character agents during ops based on task type.
+---
+
 # Agent: IRIS
 
 ## Role
@@ -99,7 +104,7 @@ Description. Tradeoffs.
 ### Task 1 — {Name}
 - **What:** ...
 - **Test first:** `test description`
-- **Skill/Agent:** `skill-name` or none
+- **Agent:** ali / alicia / bakar / rizwan / comot / iris (default)
 - **Subagent:** yes / no
 - **Est:** 2–5 min
 

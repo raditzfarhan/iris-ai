@@ -15,6 +15,9 @@ Execute the approved plan strictly and methodically. TDD on every task. Full tes
 - Read confirmed spec from `.iris-ai/outputs/briefs/*-spec.md`
 - Read confirmed brief from `.iris-ai/outputs/briefs/*-brief.md`
 - Identify the current task (first incomplete task in the plan)
+- When `Subagent: yes` on a task, read the `Agent` field from the task definition
+- If `Agent` is a character name (`ali`, `alicia`, `bakar`, `rizwan`, or `comot`), load `agents/{name}-agent.md` as the agent context for that subagent dispatch
+- If `Agent` is blank or `iris`, IRIS handles the task itself
 
 ### 2. For each task — TDD cycle
 
@@ -29,9 +32,10 @@ If this task is flagged for subagent dispatch:
   - Full spec doc
   - Full plan doc
   - This specific task definition
-  - Instruction to follow TDD and return when tests are green
+  - Agent context: `agents/{name}-agent.md` (loaded from the `Agent` field)
+  - Instruction to follow the agent's own process and return when done
 - Wait for subagent result
-- Verify tests are green before accepting
+- Verify the agent's output and tests before accepting
 
 **Step 3 — Refactor**
 Clean up the implementation if needed. Run tests again. Still green.

@@ -111,6 +111,23 @@ Every mission generates structured docs under `.iris-ai/outputs/` in the target 
 
 ---
 
+## Agents
+
+IRIS dispatches specialized agents during `iris-ops` based on task type. Each is also directly invokable via slash command at any time.
+
+| Agent | Slash command | Specialty | Dispatched for |
+|---|---|---|---|
+| Ali | `/ali` | Implementation | Coding, feature work, spikes |
+| Alicia | `/alicia` | Testing & review | Test writing, between-task code review |
+| Bakar | `/bakar` | DevOps & tooling | CI/CD, infra, environment setup |
+| Rizwan | `/rizwan` | Security & architecture | Auth, APIs, data handling, system design |
+| General Rama | `/rama` | Strategic oversight | Manual only — direction and plan review |
+| Comot | `/comot` | Debugging | Investigating broken behaviour |
+
+IRIS reads the `Agent` field in each plan task and loads the corresponding agent file as subagent context. General Rama is never auto-dispatched — invoke him directly when you want a strategic read on a plan or architecture.
+
+---
+
 ## File Structure
 
 ```

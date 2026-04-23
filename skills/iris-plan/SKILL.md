@@ -6,7 +6,7 @@ description: Use when breaking a confirmed spec into a sequenced, bite-sized imp
 # iris-plan
 
 ## Overview
-Convert the confirmed spec into a precise, sequenced task list. Every task is atomic (2–5 min), has a test to write first, and references any skill or agent to invoke. Self-review the plan before presenting it.
+Convert the confirmed spec into a precise, sequenced task list. Every task is atomic (2–5 min), has a test to write first, and assigns an Agent from the dispatch table. Self-review the plan before presenting it.
 
 ## Process
 
@@ -21,7 +21,7 @@ Break implementation into atomic tasks following this discipline:
 - Be completable in 2–5 minutes
 - Have one clear, verifiable outcome
 - Include the test to write first (TDD — red before green)
-- Reference any skill or agent to use (if applicable)
+- Assign `Agent` field using the dispatch table: `ali` (coding/implementation), `alicia` (tests/review), `bakar` (infra/tooling), `rizwan` (security/architecture), `comot` (debugging), `iris` (default/mixed)
 - Flag if it should be dispatched as a subagent (yes/no)
 
 **Sequencing rules:**
