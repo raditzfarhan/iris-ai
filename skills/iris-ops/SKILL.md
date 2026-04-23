@@ -14,12 +14,34 @@ Execute the approved plan strictly and methodically. TDD on every task. Full tes
 - Read confirmed plan from `.iris-ai/outputs/tasks/*-plan.md`
 - Read confirmed spec from `.iris-ai/outputs/briefs/*-spec.md`
 - Read confirmed brief from `.iris-ai/outputs/briefs/*-brief.md`
+
+### 2. Create a feature branch (git flow)
+Before writing any code, set up the correct branch following git flow:
+
+1. Check the current branch with `git branch --show-current`
+2. If already on a `feature/*` branch, ask: "You're on `{branch}`. Continue here, or create a new feature branch?"
+3. Otherwise:
+   - Identify the base branch — prefer `develop` if it exists, fall back to `main`/`master`
+   - Switch to the base branch and pull latest: `git checkout develop && git pull`
+   - Create the feature branch from there: `git checkout -b feature/{slug}`
+4. Confirm the new branch before proceeding
+
+**Git flow branch rules:**
+| Branch | Purpose |
+|---|---|
+| `main` / `master` | Production-ready code only — never commit features directly |
+| `develop` | Integration branch — all features merge here first |
+| `feature/{slug}` | One branch per feature, always branched off `develop` |
+
+Never implement directly on `main`, `master`, or `develop`. If the user insists, warn them and ask for explicit confirmation before complying.
+
+### 3. Identify current task
 - Identify the current task (first incomplete task in the plan)
 - When `Subagent: yes` on a task, read the `Agent` field from the task definition
 - If `Agent` is a character name (`ali`, `alicia`, `bakar`, `rizwan`, or `comot`), load `agents/{name}-agent.md` as the agent context for that subagent dispatch
 - If `Agent` is blank or `iris`, IRIS handles the task itself
 
-### 2. For each task — TDD cycle
+### 4. For each task — TDD cycle
 
 **Step 1 — Write the test (RED)**
 Write the test defined in the plan for this task. Run it. Confirm it fails. If it doesn't fail, the test is wrong — fix it before proceeding.
@@ -43,7 +65,7 @@ Clean up the implementation if needed. Run tests again. Still green.
 **Step 4 — Run full test suite**
 Run ALL tests, not just the new one. Every test must pass before moving on. If any test fails — stop, fix, re-run. Do not proceed with a red suite.
 
-### 3. Between-task review
+### 5. Between-task review
 
 After every task, before starting the next:
 
@@ -67,18 +89,19 @@ Issues found: none / [list with severity]
 
 If issues are found: fix them before moving to the next task.
 
-### 4. Progress tracking
+### 6. Progress tracking
 After each task report, show: `Progress: {N}/{total} tasks complete`
 
 Announce the next task before starting it.
 
-### 5. Save implementation notes
+### 7. Save implementation notes
 Append each task's output to: `.iris-ai/outputs/docs/YYYY-MM-DD-{slug}-ops.md`
 
-### 6. Chain to iris-debrief
+### 8. Chain to iris-debrief
 When all tasks are complete: "All tasks done. All tests green." — invoke `skills/iris-debrief/SKILL.md` automatically.
 
 ## Rules
+- Always create a `feature/{slug}` branch before writing any code — never implement on `main`, `master`, or `develop`
 - TDD is non-negotiable — write the test first, always
 - Never move to the next task with a failing test
 - Never skip the between-task code review

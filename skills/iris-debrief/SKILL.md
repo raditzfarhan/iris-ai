@@ -34,7 +34,22 @@ Following the iris-agent output structure for `iris-debrief`:
 ### 3. Save the debrief
 Save to: `.iris-ai/outputs/docs/YYYY-MM-DD-{slug}-debrief.md`
 
-### 4. Offer doc export
+### 4. Offer merge back to base branch
+Following git flow, the feature branch should be merged back to `develop` (or `main` if there is no `develop`).
+
+Ask: "All done. Do you want to merge `feature/{slug}` back to `develop`?"
+
+If yes:
+1. Run the full test suite one final time — do not merge with a red suite
+2. Switch to the base branch: `git checkout develop`
+3. Pull latest: `git pull`
+4. Merge the feature branch: `git merge --no-ff feature/{slug}` (always `--no-ff` to preserve the feature boundary in history)
+5. Confirm the merge succeeded and report: `Merged feature/{slug} into develop.`
+6. Ask: "Delete the feature branch? (`git branch -d feature/{slug}`)"
+
+If no — leave the branch as-is and note it in the debrief under **Next Steps**.
+
+### 5. Offer doc export
 List all docs generated during this mission:
 - Brief: `.iris-ai/outputs/briefs/{slug}-brief.md`
 - Spec: `.iris-ai/outputs/briefs/{slug}-spec.md`
@@ -50,3 +65,5 @@ If yes — convert using the `generate-docx` skill if available, otherwise advis
 - Deviations from the plan must be documented — not hidden
 - Known issues are surfaced, not buried
 - Next steps are specific, not vague ("implement X" not "continue development")
+- Always use `--no-ff` when merging — never fast-forward, so the feature history is preserved
+- Never merge with a failing test suite
