@@ -59,14 +59,14 @@ curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh
 # Global install
 curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh | bash -s -- . --global
 
-# Upgrade — overwrite existing files
+# Update — overwrite existing files
 curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh | bash -s -- . --force
 
 # Force a specific tool
 curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh | bash -s -- . --tool=cursor
 ```
 
-The installer detects **all** AI coding tools present in the project and installs to each. Existing files are skipped by default — pass `--force` to overwrite.
+The installer detects **all** AI coding tools present in the project and installs to each. Existing files are skipped by default — pass `--force` to overwrite (use this when updating IRIS).
 
 **What goes where:**
 
