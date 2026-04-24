@@ -21,7 +21,7 @@ Break implementation into atomic tasks following this discipline:
 - Be completable in 2–5 minutes
 - Have one clear, verifiable outcome
 - Include the test to write first (TDD — red before green)
-- Assign `Agent` field using the dispatch table: `ali` (coding/implementation), `alicia` (tests/review), `bakar` (infra/tooling), `rizwan` (security/architecture), `comot` (debugging), `iris` (default/mixed)
+- Assign `Agent` field using the dispatch table: `iris` (all implementation, testing, infra, and review — default), `audit` (security or architecture deep dive), `probe` (investigating unknown breakage)
 - Flag if it should be dispatched as a subagent (yes/no)
 
 **Sequencing rules:**
@@ -57,7 +57,7 @@ End with: "Plan ready. Confirm to begin implementation."
 Save to: `.iris-ai/outputs/tasks/YYYY-MM-DD-{slug}-plan.md`
 
 ### 6. Wait for confirmation
-Only after user confirms: "Plan confirmed. Starting implementation." — invoke `skills/iris-ops/SKILL.md`.
+Only after user confirms: "Plan confirmed. Starting implementation." — invoke `.claude/skills/iris-ops/SKILL.md`.
 
 ## Rules
 - Never start ops without explicit user confirmation

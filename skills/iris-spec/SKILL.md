@@ -14,7 +14,7 @@ Turn the confirmed brief into a complete technical spec that leaves nothing to i
 - Read the confirmed brief from `.iris-ai/outputs/briefs/*-brief.md`
 - Read project files to understand the existing codebase: stack, conventions, patterns
 - Scan `skills/` directory — list all available skills and assess which apply to this feature
-- Scan `agents/` directory — list all available agents and assess which apply
+- Scan `.claude/agents/` directory — list all available agents and assess which apply
 - Check for existing tests, CI config, coding standards
 
 ### 2. Surface implementation options
@@ -56,7 +56,7 @@ Apply any changes. Re-present only the changed sections.
 Save to: `.iris-ai/outputs/briefs/YYYY-MM-DD-{slug}-spec.md`
 
 ### 7. Chain to iris-plan
-After confirmed: "Spec locked. Moving to plan." — invoke `skills/iris-plan/SKILL.md` automatically.
+After confirmed: "Spec locked. Moving to plan." — invoke `.claude/skills/iris-plan/SKILL.md` automatically.
 
 ## Rules
 - Every functional requirement must be testable

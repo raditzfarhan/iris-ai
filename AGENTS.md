@@ -17,23 +17,18 @@ This project uses **IRIS** — a dev workflow agent suite for AI coding tools. I
 
 ## Available Agents
 
-| Agent | Role | Slash command |
-|---|---|---|
-| **IRIS** | Orchestrator — runs the full brief → spec → plan → ops → debrief pipeline | `/iris <idea>` |
-| **Ali** | Implementation — coding, feature work, TDD discipline | `/ali` |
-| **Alicia** | Testing & review — writes tests, reviews code after each task | `/alicia` |
-| **Bakar** | DevOps & tooling — CI/CD, infra, scripts, environment setup | `/bakar` |
-| **Rizwan** | Security & architecture — auth, data handling, APIs, system design audits | `/rizwan` |
-| **General Rama** | Strategic oversight — reviews plans and direction at a high level | `/rama` |
-| **Comot** | Debugging — investigates broken behaviour, reports findings only | `/comot` |
-
-IRIS auto-dispatches Ali, Alicia, Bakar, Rizwan, and Comot during ops based on the `Agent` field in each plan task. General Rama is manual-only — invoke him directly for a strategic read on a plan or architecture.
+| Agent | Role | Slash command | Auto-dispatched? |
+|---|---|---|---|
+| **IRIS** | Orchestrator and implementation engine — runs the full pipeline, handles all coding, testing, code review, and infra | `/iris <idea>` | Always |
+| **Probe** | Debugging investigator — traces broken behaviour from symptom to root cause, reports findings only, never fixes | `/probe` | When root cause is unknown |
+| **Audit** | Security & architecture auditor — full checklist, every finding listed with severity and required fix | `/audit` | For security/architecture tasks |
+| **Strategy** | Strategic direction reviewer — assesses whether a plan solves the right problem, delivers proceed/reconsider/stop verdict | `/strategy` | Manual only |
 
 ---
 
 ## Agent files
 
-All agent definitions live in `agents/`. Each file contains the agent's persona, specialty, and process. IRIS loads the relevant agent file as subagent context when dispatching.
+All agent definitions live in `agents/`. Each file contains the agent's role, process, and output format. IRIS loads the relevant agent file as subagent context when dispatching.
 
 ---
 

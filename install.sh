@@ -6,13 +6,13 @@
 #
 # Options:
 #   --force, -f       Overwrite existing files (default: skip)
-#   --global, -g      Install skills and agents to the tool's global directory
+#   --global, -g      Install skills and agents to global directory (~/.ai/)
 #   --tool=<name>     Override tool detection (claude|cursor|opencode|windsurf)
 #
 # Examples:
-#   bash install.sh .                        # project install, auto-detect tool
-#   bash install.sh . --global               # global install, auto-detect tool
-#   bash install.sh . --tool=cursor          # project install for Cursor
+#   bash install.sh .                        # project install, auto-detect tool(s)
+#   bash install.sh . --global               # global install
+#   bash install.sh . --tool=cursor          # project install for Cursor only
 #   bash install.sh . --force                # overwrite existing files
 #   bash install.sh . --global --force       # global install, overwrite
 
@@ -40,7 +40,6 @@ done
 # ── Colors (disabled when not writing to a terminal) ─────────────────────────
 if [ -t 1 ]; then
   CYAN='\033[0;36m'
-  CYAN_B='\033[1;36m'
   GREEN='\033[0;32m'
   YELLOW='\033[1;33m'
   RED='\033[0;31m'
@@ -50,94 +49,60 @@ if [ -t 1 ]; then
   BOLD='\033[1m'
   NC='\033[0m'
 else
-  CYAN='' CYAN_B='' GREEN='' YELLOW='' RED='' RED_B='' BLUE_B='' DIM='' BOLD='' NC=''
+  CYAN='' GREEN='' YELLOW='' RED='' RED_B='' BLUE_B='' DIM='' BOLD='' NC=''
 fi
 
-# ── Tool detection ────────────────────────────────────────────────────────────
-detect_tool() {
-  if [ -n "$TOOL_OVERRIDE" ]; then echo "$TOOL_OVERRIDE"; return; fi
-  if command -v claude &>/dev/null 2>&1 || [ -d "$TARGET/.claude" ]; then echo "claude";   return; fi
-  if [ -d "$TARGET/.cursor" ]   || command -v cursor    &>/dev/null 2>&1; then echo "cursor";   return; fi
-  if [ -d "$TARGET/.opencode" ] || command -v opencode  &>/dev/null 2>&1; then echo "opencode"; return; fi
-  if [ -d "$TARGET/.windsurf" ] || command -v windsurf  &>/dev/null 2>&1; then echo "windsurf"; return; fi
-  echo "fallback"
-}
-
-TOOL=$(detect_tool)
+# ── Tool detection — finds ALL tools present in this project ──────────────────
+DETECTED_TOOLS=()
+if [ -n "$TOOL_OVERRIDE" ]; then
+  DETECTED_TOOLS=("$TOOL_OVERRIDE")
+else
+  if command -v claude &>/dev/null 2>&1 || [ -d "$TARGET/.claude" ]; then DETECTED_TOOLS+=("claude"); fi
+  if [ -d "$TARGET/.cursor" ] || command -v cursor &>/dev/null 2>&1; then DETECTED_TOOLS+=("cursor"); fi
+  if [ -d "$TARGET/.opencode" ] || command -v opencode &>/dev/null 2>&1; then DETECTED_TOOLS+=("opencode"); fi
+  if [ -d "$TARGET/.windsurf" ] || command -v windsurf &>/dev/null 2>&1; then DETECTED_TOOLS+=("windsurf"); fi
+  if [ ${#DETECTED_TOOLS[@]} -eq 0 ]; then DETECTED_TOOLS=("fallback"); fi
+fi
 
 # ── Path resolution ───────────────────────────────────────────────────────────
-INSTALL_COMMANDS=0
+# Agents and skills live at a single generic location — all tools share them.
+# Slash commands are tool-specific; each detected tool gets its own copy.
 
-case "$TOOL" in
-  claude)
-    INSTALL_COMMANDS=1
-    if [ "$GLOBAL" = "1" ]; then
-      COMMANDS_DIR="$HOME/.claude/commands"
-      SKILLS_BASE="$HOME/.claude/skills"
-      AGENTS_DIR="$HOME/.claude/agents"
-    else
-      COMMANDS_DIR="$TARGET/.claude/commands"
-      SKILLS_BASE="$TARGET/.claude/skills"
-      AGENTS_DIR="$TARGET/.claude/agents"
-    fi
-    ;;
-  cursor)
-    if [ "$GLOBAL" = "1" ]; then
-      SKILLS_BASE="$HOME/.cursor/skills"
-      AGENTS_DIR="$HOME/.cursor/agents"
-    else
-      SKILLS_BASE="$TARGET/.cursor/skills"
-      AGENTS_DIR="$TARGET/.cursor/agents"
-    fi
-    ;;
-  opencode)
-    if [ "$GLOBAL" = "1" ]; then
-      SKILLS_BASE="$HOME/.opencode/skills"
-      AGENTS_DIR="$HOME/.opencode/agents"
-    else
-      SKILLS_BASE="$TARGET/.opencode/skills"
-      AGENTS_DIR="$TARGET/.opencode/agents"
-    fi
-    ;;
-  windsurf)
-    if [ "$GLOBAL" = "1" ]; then
-      SKILLS_BASE="$HOME/.windsurf/skills"
-      AGENTS_DIR="$HOME/.windsurf/agents"
-    else
-      SKILLS_BASE="$TARGET/.windsurf/skills"
-      AGENTS_DIR="$TARGET/.windsurf/agents"
-    fi
-    ;;
-  *)
-    if [ "$GLOBAL" = "1" ]; then
-      SKILLS_BASE="$HOME/.ai/skills"
-      AGENTS_DIR="$HOME/.ai/agents"
-    else
-      SKILLS_BASE="$TARGET/.ai/skills"
-      AGENTS_DIR="$TARGET/.ai/agents"
-    fi
-    ;;
-esac
+if [ "$GLOBAL" = "1" ]; then
+  AGENTS_DIR="$HOME/.ai/agents"
+  SKILLS_BASE="$HOME/.ai/skills"
+else
+  AGENTS_DIR="$TARGET/agents"
+  SKILLS_BASE="$TARGET/skills"
+fi
+
+# Build list of command directories — one per tool that supports slash commands
+COMMAND_DIRS=()
+for tool in "${DETECTED_TOOLS[@]}"; do
+  case "$tool" in
+    claude)
+      if [ "$GLOBAL" = "1" ]; then
+        COMMAND_DIRS+=("$HOME/.claude/commands")
+      else
+        COMMAND_DIRS+=("$TARGET/.claude/commands")
+      fi
+      ;;
+  esac
+done
 
 # ── File lists ────────────────────────────────────────────────────────────────
 COMMAND_FILES=(
   ".claude/commands/iris.md"
-  ".claude/commands/ali.md"
-  ".claude/commands/alicia.md"
-  ".claude/commands/bakar.md"
-  ".claude/commands/rizwan.md"
-  ".claude/commands/rama.md"
-  ".claude/commands/comot.md"
+  ".claude/commands/probe.md"
+  ".claude/commands/audit.md"
+  ".claude/commands/strategy.md"
 )
 
 AGENT_FILES=(
   "agents/iris-agent.md"
-  "agents/ali-agent.md"
-  "agents/alicia-agent.md"
-  "agents/bakar-agent.md"
-  "agents/rizwan-agent.md"
-  "agents/rama-agent.md"
-  "agents/comot-agent.md"
+  "agents/probe-agent.md"
+  "agents/audit-agent.md"
+  "agents/strategy-agent.md"
 )
 
 SKILL_FILES=(
@@ -160,9 +125,15 @@ echo -e "  ${BLUE_B}╚═╝${RED_B}╚═╝  ╚═╝${BLUE_B}╚═╝${RED
 echo -e "${DIM}  Dev Workflow Suite for AI Coding Tools${NC}"
 echo ""
 
-echo -e "  ${BOLD}Tool:${NC}   $TOOL$( [ -n "$TOOL_OVERRIDE" ] && echo " (forced)" || echo " (detected)" )"
+TOOLS_LABEL=$(IFS=', '; echo "${DETECTED_TOOLS[*]}")
+DETECT_LABEL=$( [ -n "$TOOL_OVERRIDE" ] && echo "(forced)" || echo "(detected)" )
+if [ ${#DETECTED_TOOLS[@]} -eq 1 ]; then
+  echo -e "  ${BOLD}Tool:${NC}   $TOOLS_LABEL $DETECT_LABEL"
+else
+  echo -e "  ${BOLD}Tools:${NC}  $TOOLS_LABEL $DETECT_LABEL"
+fi
 if [ "$GLOBAL" = "1" ]; then
-  echo -e "  ${BOLD}Scope:${NC}  global"
+  echo -e "  ${BOLD}Scope:${NC}  global (~/.ai/)"
 else
   echo -e "  ${BOLD}Target:${NC} $TARGET"
 fi
@@ -197,17 +168,19 @@ fetch_file() {
   INSTALLED=$((INSTALLED + 1))
 }
 
-# ── Commands (Claude only) ────────────────────────────────────────────────────
-if [ "$INSTALL_COMMANDS" = "1" ]; then
-  echo -e "${YELLOW}Commands:${NC}"
-  for file in "${COMMAND_FILES[@]}"; do
-    filename="${file##*/}"
-    fetch_file "$file" "$COMMANDS_DIR/$filename"
+# ── Commands (one set per tool that supports slash commands) ──────────────────
+if [ ${#COMMAND_DIRS[@]} -gt 0 ]; then
+  for cmd_dir in "${COMMAND_DIRS[@]}"; do
+    echo -e "${YELLOW}Commands${NC} → $cmd_dir"
+    for file in "${COMMAND_FILES[@]}"; do
+      filename="${file##*/}"
+      fetch_file "$file" "$cmd_dir/$filename"
+    done
+    echo ""
   done
-  echo ""
 fi
 
-# ── Agents ────────────────────────────────────────────────────────────────────
+# ── Agents (shared across all tools) ─────────────────────────────────────────
 echo -e "${YELLOW}Agents${NC} → $AGENTS_DIR"
 for file in "${AGENT_FILES[@]}"; do
   filename="${file##*/}"
@@ -215,7 +188,7 @@ for file in "${AGENT_FILES[@]}"; do
 done
 echo ""
 
-# ── Skills ────────────────────────────────────────────────────────────────────
+# ── Skills (shared across all tools) ─────────────────────────────────────────
 echo -e "${YELLOW}Skills${NC} → $SKILLS_BASE"
 for file in "${SKILL_FILES[@]}"; do
   subdir="$(echo "$file" | cut -d'/' -f2)"
@@ -240,8 +213,11 @@ fi
 echo -e "${GREEN}${BOLD}Done.${NC} $INSTALLED installed, $SKIPPED skipped."
 echo ""
 echo -e "${BOLD}Usage:${NC}"
-echo -e "  ${CYAN}/iris <idea>${NC}     — start a new mission from scratch"
-echo -e "  ${CYAN}/iris spec${NC}       — jump to spec (brief must exist)"
-echo -e "  ${CYAN}/iris plan${NC}       — jump to plan (spec must be confirmed)"
-echo -e "  ${CYAN}/iris ops${NC}        — jump to ops (plan must be confirmed)"
-echo -e "  ${CYAN}/iris debrief${NC}    — wrap up completed implementation"
+echo -e "  ${CYAN}/iris <idea>${NC}      — start a new mission from scratch"
+echo -e "  ${CYAN}/iris spec${NC}        — jump to spec (brief must exist)"
+echo -e "  ${CYAN}/iris plan${NC}        — jump to plan (spec must be confirmed)"
+echo -e "  ${CYAN}/iris ops${NC}         — jump to ops (plan must be confirmed)"
+echo -e "  ${CYAN}/iris debrief${NC}     — wrap up completed implementation"
+echo -e "  ${CYAN}/probe <error>${NC}    — investigate broken behaviour"
+echo -e "  ${CYAN}/audit <target>${NC}   — security and architecture audit"
+echo -e "  ${CYAN}/strategy <plan>${NC}  — strategic direction review"

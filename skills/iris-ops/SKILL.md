@@ -38,7 +38,7 @@ Never implement directly on `main`, `master`, or `develop`. If the user insists,
 ### 3. Identify current task
 - Identify the current task (first incomplete task in the plan)
 - When `Subagent: yes` on a task, read the `Agent` field from the task definition
-- If `Agent` is a character name (`ali`, `alicia`, `bakar`, `rizwan`, or `comot`), load `agents/{name}-agent.md` as the agent context for that subagent dispatch
+- If `Agent` is `audit` or `probe`, load `agents/{name}-agent.md` as the agent context for that subagent dispatch
 - If `Agent` is blank or `iris`, IRIS handles the task itself
 
 ### 4. For each task — TDD cycle
@@ -98,7 +98,7 @@ Announce the next task before starting it.
 Append each task's output to: `.iris-ai/outputs/docs/YYYY-MM-DD-{slug}-ops.md`
 
 ### 8. Chain to iris-debrief
-When all tasks are complete: "All tasks done. All tests green." — invoke `skills/iris-debrief/SKILL.md` automatically.
+When all tasks are complete: "All tasks done. All tests green." — invoke `.claude/skills/iris-debrief/SKILL.md` automatically.
 
 ## Rules
 - Always create a `feature/{slug}` branch before writing any code — never implement on `main`, `master`, or `develop`

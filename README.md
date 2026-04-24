@@ -36,15 +36,12 @@ Read the codebase. Scan available skills and agents. Write numbered testable req
 Break the spec into atomic 2–5 minute tasks. Every task has a test to write first and an Agent assigned from the dispatch table. Run a mandatory self-review pass — check for contradictions, gaps, loopholes, and feasibility. Present refined plan. Require explicit confirmation before ops begins.
 
 ### Ops — `/iris ops`
-Execute task by task. IRIS reads the `Agent` field and dispatches:
+Execute task by task with full TDD discipline. IRIS handles all implementation, testing, code review, and infra directly. For tasks that need specialist focus, IRIS dispatches:
 
 | Agent | Dispatched for | What they do |
 |---|---|---|
-| Ali | Coding / implementation | Write test → implement → refactor → run suite |
-| Alicia | Tests / code review | Review vs spec, plan, quality, surface-level security |
-| Bakar | Infra / tooling / CI | Scaffold config, scripts, pipelines |
-| Rizwan | Security / architecture | Full audit — auth, data, dependencies, structure |
-| Comot | Debugging | Investigate broken behaviour, report findings only |
+| probe | Unknown breakage during implementation | Trace from symptom to root cause, report findings only |
+| audit | Security or architecture deep dives | Full checklist — auth, data, dependencies, structure |
 
 Full test suite after every task. Code review after every task. If a task reveals a plan flaw, stop and surface it before continuing.
 
@@ -69,19 +66,20 @@ curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh
 curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh | bash -s -- . --tool=cursor
 ```
 
-The installer auto-detects which AI coding tool you use and installs to the correct directories. Existing files are skipped by default — pass `--force` to overwrite.
+The installer detects **all** AI coding tools present in the project and installs to each. Existing files are skipped by default — pass `--force` to overwrite.
 
-**Tool detection and install paths:**
+**What goes where:**
 
-| Tool | Skills | Agents | Commands | Global skills |
-|---|---|---|---|---|
-| Claude Code | `skills/` | `agents/` | `.claude/commands/` | `~/.claude/skills/` |
-| Cursor | `.cursor/skills/` | `.cursor/agents/` | — | `~/.cursor/skills/` |
-| OpenCode | `.opencode/skills/` | `.opencode/agents/` | — | `~/.opencode/skills/` |
-| Windsurf | `.windsurf/skills/` | `.windsurf/agents/` | — | `~/.windsurf/skills/` |
-| Fallback | `.ai/skills/` | `.ai/agents/` | — | `~/.ai/skills/` |
+| What | Project install | Global install (`--global`) |
+|---|---|---|
+| Skills | `skills/` (project root) | `~/.ai/skills/` |
+| Agents | `agents/` (project root) | `~/.ai/agents/` |
+| Commands (Claude) | `.claude/commands/` | `~/.claude/commands/` |
+| Project docs | `.iris-ai/outputs/` | never global |
 
-Generated docs (`.iris-ai/outputs/`) and `AGENTS.md` always install into the project folder — never globally.
+Skills and agents live at the project root and are shared across all tools. Slash commands are installed separately for each detected tool that supports them (currently Claude Code only).
+
+Generated docs (`.iris-ai/outputs/`), `AGENTS.md`, and `CLAUDE.md` always install into the project folder — never globally.
 
 ---
 
@@ -135,18 +133,14 @@ Every mission generates structured docs under `.iris-ai/outputs/` in the target 
 
 ## Agents
 
-IRIS dispatches specialized agents during `iris-ops` based on task type. Each is also directly invokable via slash command at any time.
+IRIS is the primary agent — it handles all implementation, testing, code review, and infra directly. Three specialist agents are available for targeted work, each also invokable via slash command at any time.
 
-| Agent | Slash command | Specialty | Dispatched for |
+| Agent | Slash command | Role | Auto-dispatched? |
 |---|---|---|---|
-| Ali | `/ali` | Implementation | Coding, feature work, spikes |
-| Alicia | `/alicia` | Testing & review | Test writing, between-task code review |
-| Bakar | `/bakar` | DevOps & tooling | CI/CD, infra, environment setup |
-| Rizwan | `/rizwan` | Security & architecture | Auth, APIs, data handling, system design |
-| General Rama | `/rama` | Strategic oversight | Manual only — direction and plan review |
-| Comot | `/comot` | Debugging | Investigating broken behaviour |
-
-IRIS reads the `Agent` field in each plan task and loads the corresponding agent file as subagent context. General Rama is never auto-dispatched — invoke him directly when you want a strategic read on a plan or architecture.
+| **IRIS** | `/iris` | Orchestrator + implementation engine | Always |
+| **Probe** | `/probe` | Debugging investigator — traces breakage to root cause, reports only | When root cause is unknown |
+| **Audit** | `/audit` | Security & architecture auditor — full checklist, every finding listed | For security/architecture tasks |
+| **Strategy** | `/strategy` | Strategic direction reviewer — proceed / reconsider / stop verdict | Manual only |
 
 ---
 
@@ -157,20 +151,14 @@ iris-ai/                          ← this repo
 ├── .claude/
 │   └── commands/
 │       ├── iris.md               ← /iris command router
-│       ├── ali.md                ← /ali
-│       ├── alicia.md             ← /alicia
-│       ├── bakar.md              ← /bakar
-│       ├── rizwan.md             ← /rizwan
-│       ├── rama.md               ← /rama
-│       └── comot.md              ← /comot
+│       ├── probe.md              ← /probe
+│       ├── audit.md              ← /audit
+│       └── strategy.md           ← /strategy
 ├── agents/
-│   ├── iris-agent.md             ← orchestrator
-│   ├── ali-agent.md              ← implementation
-│   ├── alicia-agent.md           ← testing & review
-│   ├── bakar-agent.md            ← devops & tooling
-│   ├── rizwan-agent.md           ← security & architecture
-│   ├── rama-agent.md             ← strategic oversight
-│   └── comot-agent.md            ← debugging
+│   ├── iris-agent.md             ← orchestrator + implementation engine
+│   ├── probe-agent.md            ← debugging investigator
+│   ├── audit-agent.md            ← security & architecture auditor
+│   └── strategy-agent.md         ← strategic direction reviewer
 ├── skills/
 │   ├── iris-brief/SKILL.md       ← clarify until zero gaps
 │   ├── iris-spec/SKILL.md        ← spec + project context scan + impl options
@@ -192,6 +180,6 @@ your-project/                     ← after project install
 │       ├── tasks/                ← plan docs
 │       └── docs/                 ← ops notes and debrief docs
 ├── .claude/commands/             ← iris + all 6 character commands (Claude only)
-├── {tool}/skills/iris-*/         ← skills in tool-specific folder
-└── {tool}/agents/                ← agents in tool-specific folder
+├── skills/iris-*/                ← skills (shared across all detected tools)
+└── agents/                       ← agents (shared across all detected tools)
 ```
