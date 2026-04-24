@@ -56,14 +56,32 @@ Document what was built, decisions made, deviations from plan, test coverage, op
 ## Installation
 
 ```bash
-# First install
+# Project install (auto-detects your AI tool)
 curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh | bash -s -- .
+
+# Global install
+curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh | bash -s -- . --global
 
 # Upgrade — overwrite existing files
 curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh | bash -s -- . --force
+
+# Force a specific tool
+curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh | bash -s -- . --tool=cursor
 ```
 
-The installer always pulls the latest files from GitHub. Existing files are skipped by default — pass `--force` to overwrite them. It copies commands, skills, and agents into `.claude/`, `skills/`, and `agents/`, and creates the `.iris-ai/outputs/` folder structure for generated docs.
+The installer auto-detects which AI coding tool you use and installs to the correct directories. Existing files are skipped by default — pass `--force` to overwrite.
+
+**Tool detection and install paths:**
+
+| Tool | Skills | Agents | Commands | Global skills |
+|---|---|---|---|---|
+| Claude Code | `skills/` | `agents/` | `.claude/commands/` | `~/.claude/skills/` |
+| Cursor | `.cursor/skills/` | `.cursor/agents/` | — | `~/.cursor/skills/` |
+| OpenCode | `.opencode/skills/` | `.opencode/agents/` | — | `~/.opencode/skills/` |
+| Windsurf | `.windsurf/skills/` | `.windsurf/agents/` | — | `~/.windsurf/skills/` |
+| Fallback | `.ai/skills/` | `.ai/agents/` | — | `~/.ai/skills/` |
+
+Generated docs (`.iris-ai/outputs/`) and `AGENTS.md` always install into the project folder — never globally.
 
 ---
 
@@ -162,15 +180,18 @@ iris-ai/                          ← this repo
 ├── docs/
 │   └── project.md
 ├── install.sh
+├── AGENTS.md                     ← agent index for AI tools
 └── CLAUDE.md
 
-your-project/                     ← after install
+your-project/                     ← after project install
 ├── .iris-ai/
+│   ├── AGENTS.md                 ← IRIS agent index (isolated, safe from project files)
+│   ├── CLAUDE.md                 ← IRIS instructions (Claude reads this automatically)
 │   └── outputs/
 │       ├── briefs/               ← brief and spec docs
 │       ├── tasks/                ← plan docs
 │       └── docs/                 ← ops notes and debrief docs
-├── .claude/commands/             ← iris + all 6 character commands
-├── agents/                       ← iris-agent + all 6 character agents
-└── skills/iris-*/SKILL.md
+├── .claude/commands/             ← iris + all 6 character commands (Claude only)
+├── {tool}/skills/iris-*/         ← skills in tool-specific folder
+└── {tool}/agents/                ← agents in tool-specific folder
 ```
