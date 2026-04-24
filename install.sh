@@ -77,8 +77,8 @@ case "$TOOL" in
       AGENTS_DIR="$HOME/.claude/agents"
     else
       COMMANDS_DIR="$TARGET/.claude/commands"
-      SKILLS_BASE="$TARGET/skills"
-      AGENTS_DIR="$TARGET/agents"
+      SKILLS_BASE="$TARGET/.claude/skills"
+      AGENTS_DIR="$TARGET/.claude/agents"
     fi
     ;;
   cursor)
