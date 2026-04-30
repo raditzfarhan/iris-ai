@@ -157,12 +157,13 @@ Announce the next task before starting it.
 Append each task's output to: `.iris-ai/outputs/docs/YYYY-MM-DD-{slug}-ops.md`
 
 ### 9. Chain to iris-debrief
-When all tasks are complete: "All tasks done. All tests green." — invoke `.claude/skills/iris-debrief/SKILL.md` automatically.
+When all groups show status `done` in the master plan: show "All groups complete. All tests green." — invoke `.claude/skills/iris-debrief/SKILL.md` automatically.
 
 ## Rules
-- Always create a `feature/{slug}` branch before writing any code — never implement on `main`, `master`, or `develop`
+- Always create a `feature/{group-slug}` branch per group before writing any code — never implement on `main`, `master`, or `develop`
 - TDD is non-negotiable — write the test first, always
 - Never move to the next task with a failing test
 - Never skip the between-task code review
 - Subagents receive the full spec + plan context — never a partial brief
 - If a task reveals a flaw in the plan, stop and surface it to the user before continuing
+- Never auto-start the next group — always hard-pause after the end-of-group sequence and wait for explicit user trigger
