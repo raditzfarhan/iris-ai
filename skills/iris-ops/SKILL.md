@@ -25,7 +25,7 @@ Before writing any code, set up the correct branch following git flow:
 3. Otherwise:
    - Identify the base branch — prefer `develop` if it exists, fall back to `main`/`master`
    - Switch to the base branch and pull latest: `git checkout develop && git pull`
-   - Create the feature branch from there: `git checkout -b feature/{slug}`
+   - Create the feature branch using the branch name from the group file: `git checkout -b feature/{group-slug}`
 4. Confirm the new branch before proceeding
 
 **Git flow branch rules:**
@@ -33,7 +33,7 @@ Before writing any code, set up the correct branch following git flow:
 |---|---|
 | `main` / `master` | Production-ready code only — never commit features directly |
 | `develop` | Integration branch — all features merge here first |
-| `feature/{slug}` | One branch per feature, always branched off `develop` |
+| `feature/{group-slug}` | One branch per group, always branched off `develop` |
 
 Never implement directly on `main`, `master`, or `develop`. If the user insists, warn them and ask for explicit confirmation before complying.
 
@@ -66,6 +66,15 @@ Clean up the implementation if needed. Run tests again. Still green.
 
 **Step 4 — Run full test suite**
 Run ALL tests, not just the new one. Every test must pass before moving on. If any test fails — stop, fix, re-run. Do not proceed with a red suite.
+
+**Step 5 — Track deviations**
+If this task's implementation differed structurally from the spec or plan, add it to the deviation list (kept in memory until the end-of-group sync):
+- API shape changed
+- Data model field added or removed
+- Requirement dropped or added
+- New dependency introduced
+
+Cosmetic or naming differences are not deviations — do not track them.
 
 ### 5. Between-task review
 
