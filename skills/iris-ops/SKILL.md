@@ -100,15 +100,63 @@ Issues found: none / [list with severity]
 
 If issues are found: fix them before moving to the next task.
 
-### 6. Progress tracking
-After each task report, show: `Progress: {N}/{total} tasks complete`
+### 6. End-of-group sequence
+
+When all tasks in the active group file are complete, before starting any new group:
+
+**1. Sync docs**
+Apply all tracked structural deviations to the spec and plan files:
+- Update the affected section in the spec (`*-spec.md`)
+- Update the affected task description in the group plan file
+- Report what changed
+
+Append a deviation log to `.iris-ai/outputs/docs/YYYY-MM-DD-{slug}-ops.md`:
+
+```
+## Group {N} Deviation Log
+- [deviation description] — [what was updated in docs]
+```
+
+If no deviations were tracked: log "No structural deviations — docs unchanged."
+
+**2. Update group status**
+- In the master plan file: set this group's Status column from `pending` → `done`
+- In the group file: update the `**Status:**` header to `done`
+
+**3. Hard pause — post-group summary and menu**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Group {N} complete: {Group Name}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Tasks:  {X}/{X} done
+Tests:  all green
+Branch: feature/{group-slug}
+Docs:   {list changes, or "no changes"}
+
+What would you like to do next?
+
+  1. Finish branch — merge feature/{group-slug} → develop (or main)
+  2. Create PR — open a pull request for this group
+  3. Do nothing — I'll handle the branch manually
+  4. Custom — tell me what to do
+
+Next up: Group {N+1}: {Name} ({X} tasks) — feature/{next-group-slug}
+(replace "Next up" line with "All groups complete." if this was the last group)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Wait for user response.** After options 1 or 2 complete, wait — do not auto-start the next group. The next group starts only when the user explicitly says so ("continue", "start group 2", etc.).
+
+### 7. Progress tracking
+After each task report, show: `Group {G} — Progress: {N}/{total} tasks complete`
 
 Announce the next task before starting it.
 
-### 7. Save implementation notes
+### 8. Save implementation notes
 Append each task's output to: `.iris-ai/outputs/docs/YYYY-MM-DD-{slug}-ops.md`
 
-### 8. Chain to iris-debrief
+### 9. Chain to iris-debrief
 When all tasks are complete: "All tasks done. All tests green." — invoke `.claude/skills/iris-debrief/SKILL.md` automatically.
 
 ## Rules
