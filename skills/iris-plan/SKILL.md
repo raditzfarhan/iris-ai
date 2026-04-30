@@ -6,7 +6,7 @@ description: Use when breaking a confirmed spec into a sequenced, bite-sized imp
 # iris-plan
 
 ## Overview
-Convert the confirmed spec into a precise, sequenced task list. Every task is atomic (2–5 min), has a test to write first, and assigns an Agent from the dispatch table. Self-review the plan before presenting it.
+Convert the confirmed spec into a precise, sequenced task list grouped by feature area. Every task is atomic (2–5 min), has a test to write first, and assigns an Agent from the dispatch table. Output is a master plan index plus one file per group. Self-review the plan before presenting it.
 
 ## Process
 
@@ -30,7 +30,23 @@ Break implementation into atomic tasks following this discipline:
 - No task depends on work from a later task
 - Group related tasks in phases (setup → core → edge cases → polish)
 
-### 3. Self-review pass
+### 3. Group tasks by feature area
+
+Cluster all generated tasks into feature groups before self-review:
+
+1. **Identify groups** — cluster tasks by the feature or area they build (e.g., Blog Feature, Settings, Auth). If tasks span multiple groups (e.g., a shared DB migration or base model all features depend on), create a **Foundation** group that runs first, or attach them to the earliest group that needs them. Note cross-group dependencies in Sequencing Notes.
+2. **Assign branch names** — each group gets `feature/{group-slug}`
+3. **Present to user for confirmation:**
+   ```
+   Proposed groups:
+     Group 1: Blog Feature (8 tasks) — feature/blog-feature
+     Group 2: Settings (5 tasks) — feature/settings
+
+   Does this grouping look right? You can rename groups, merge them, or split before I save.
+   ```
+4. **Wait for user approval.** Apply any requested changes before proceeding to self-review.
+
+### 4. Self-review pass
 Before showing the plan to the user, review it against these checks:
 
 | Check | Question |
@@ -44,7 +60,7 @@ Before showing the plan to the user, review it against these checks:
 
 Document findings. Refine the plan. If gaps are found, add tasks. If contradictions are found, resolve them.
 
-### 4. Present refined plan
+### 5. Present refined plan
 Show:
 1. Self-review summary (what was found, what was changed)
 2. Full task list
@@ -53,10 +69,10 @@ End with: "Plan ready. Confirm to begin implementation."
 
 **Do not proceed until the user explicitly confirms.**
 
-### 5. Save the plan
+### 6. Save the plan
 Save to: `.iris-ai/outputs/tasks/YYYY-MM-DD-{slug}-plan.md`
 
-### 6. Wait for confirmation
+### 7. Wait for confirmation
 Only after user confirms: "Plan confirmed. Starting implementation." — invoke `.claude/skills/iris-ops/SKILL.md`.
 
 ## Rules
