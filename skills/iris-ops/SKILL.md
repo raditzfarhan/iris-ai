@@ -11,7 +11,9 @@ Execute the approved plan strictly and methodically. TDD on every task. Full tes
 ## Process
 
 ### 1. Load context
-- Read confirmed plan from `.iris-ai/outputs/tasks/*-plan.md`
+- Read confirmed master plan from `.iris-ai/outputs/tasks/*-plan.md`
+- Identify the first group with status `pending` in the master plan's Groups table
+- Read that group's file from `.iris-ai/outputs/tasks/` (e.g., `*-plan-g1.md`)
 - Read confirmed spec from `.iris-ai/outputs/briefs/*-spec.md`
 - Read confirmed brief from `.iris-ai/outputs/briefs/*-brief.md`
 
@@ -36,7 +38,7 @@ Before writing any code, set up the correct branch following git flow:
 Never implement directly on `main`, `master`, or `develop`. If the user insists, warn them and ask for explicit confirmation before complying.
 
 ### 3. Identify current task
-- Identify the current task (first incomplete task in the plan)
+- Identify the current task (first incomplete task in the active group file)
 - When `Subagent: yes` on a task, read the `Agent` field from the task definition
 - If `Agent` is `audit` or `probe`, load `agents/{name}-agent.md` as the agent context for that subagent dispatch
 - If `Agent` is blank or `iris`, IRIS handles the task itself
