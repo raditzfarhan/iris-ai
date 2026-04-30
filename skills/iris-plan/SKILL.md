@@ -57,6 +57,9 @@ Before showing the plan to the user, review it against these checks:
 | Feasibility | Can these tasks actually be done in this sequence? |
 | Best practices | Does the plan follow conventions from the available skills? |
 | TDD coverage | Does every functional requirement have a test task? |
+| Group independence | Are all groups truly independent of each other? |
+| Cross-group dependency | Does any task in group N depend on work from a later group? If so, move it to the earlier group or note it in Sequencing Notes. |
+| Branch isolation | Can each group's branch be created and merged independently? |
 
 Document findings. Refine the plan. If gaps are found, add tasks. If contradictions are found, resolve them.
 
