@@ -73,7 +73,27 @@ End with: "Plan ready. Confirm to begin implementation."
 **Do not proceed until the user explicitly confirms.**
 
 ### 6. Save the plan
-Save to: `.iris-ai/outputs/tasks/YYYY-MM-DD-{slug}-plan.md`
+
+Save all files to `.iris-ai/outputs/tasks/`:
+
+**Master file** — `YYYY-MM-DD-{slug}-plan.md`
+
+Include:
+- `# Plan: {Feature Name}` heading
+- `**Spec:**` link to the brief spec file
+- `**Date:**` YYYY-MM-DD
+- `## Groups` section with a table: `# | Group | Branch | Status | File` — one row per group, Status starts as `pending`, File is the per-group filename
+- `## Sequencing Notes` section — cross-group dependencies or "None."
+
+**Per-group files** — `YYYY-MM-DD-{slug}-plan-g{N}.md` (one per group)
+
+Include:
+- `# Group {N}: {Group Name}` heading
+- `**Branch:** feature/{group-slug}`
+- `**Status:** pending`
+- `**Parent plan:** YYYY-MM-DD-{slug}-plan.md`
+- `## Tasks` section with all tasks for this group in the standard task format:
+  - `**What:**`, `**Test first:**`, `**Agent:**`, `**Subagent:**`, `**Est:**`
 
 ### 7. Wait for confirmation
 Only after user confirms: "Plan confirmed. Starting implementation." — invoke `.claude/skills/iris-ops/SKILL.md`.
