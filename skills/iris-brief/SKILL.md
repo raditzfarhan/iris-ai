@@ -14,13 +14,47 @@ Extract a complete, unambiguous understanding of what needs to be built before a
 Take the user's idea or task description from the `/iris` argument.
 
 ### 2. Identify gaps
-Before asking anything, internally assess:
-- What is the goal? (clear / unclear)
-- Who uses this? (clear / unclear)
-- What are the boundaries — what's in, what's out? (clear / unclear)
-- What are the constraints — tech, time, team, budget? (clear / unclear)
-- What does success look like? (clear / unclear)
-- Are there dependencies on existing systems? (clear / unclear)
+Before asking anything, build an exhaustive internal gap list across every dimension below. Mark each as clear or unclear. Every unclear item becomes a question.
+
+**Purpose & users**
+- What is the core goal — what problem does this solve?
+- Who are the users — role, technical level, internal/external?
+- What is the primary user action / happy path?
+
+**Scope & boundaries**
+- What is explicitly in scope?
+- What is explicitly out of scope (now or ever)?
+- Are there phased deliverables or an MVP cut?
+
+**Behaviour & features**
+- What are the core features?
+- What are the edge cases and error states?
+- What does the UI look like — web, mobile, CLI, API only?
+- Are there notifications, emails, background jobs?
+- Are there roles, permissions, or access levels?
+
+**Data & state**
+- What data is created, read, updated, or deleted?
+- Where does data come from — user input, third-party APIs, existing DB?
+- What are the data retention or privacy requirements?
+
+**Tech & architecture**
+- What is the tech stack — language, framework, database?
+- Is this greenfield or does it extend an existing codebase?
+- What integrations are needed — auth providers, payment, storage, APIs?
+- What are the hosting / deployment constraints?
+
+**Non-functional requirements**
+- Performance expectations — response time, throughput, concurrency?
+- Availability / uptime requirements?
+- Security requirements — auth method, encryption, compliance?
+- Accessibility or internationalisation requirements?
+
+**Constraints & context**
+- Timeline or deadline?
+- Team size and skill set?
+- Budget constraints that affect tech choices?
+- Any decisions already locked in?
 
 ### 3. Ask clarifying questions
 Ask questions **one at a time** — never batch multiple questions in one message. Be direct. No preamble.
@@ -54,7 +88,7 @@ d) Other — type your own
 ★ Recommended: a) PostgreSQL — the industry default for production web apps. Strong consistency, proven at scale, and widely supported by hosting providers and ORMs. Unless this is a local tool or prototype, PostgreSQL is the right call.
 ```
 
-Keep asking until every gap identified in Step 2 is resolved. Do not move to Step 4 while any item is still unclear.
+**Keep asking until the gap list from Step 2 is fully resolved — every single item.** Do not move to Step 4 while anything is still unclear. There is no question limit. If an answer reveals a new gap, add it to the list and ask about it. The brief cannot be written until there is zero ambiguity across all dimensions.
 
 ### 4. Confirm understanding
 Once all questions are answered, write back a summary of what will be built in plain language. Ask: "Is this correct? Anything to adjust?"
@@ -74,4 +108,7 @@ After saving: "Brief confirmed. Moving to spec." — invoke `.claude/skills/iris
 - Always offer labelled options per question; always allow a free-text escape option
 - Always include pros/cons for every option — never skip them
 - Always include a ★ Recommended pick with a specific, grounded reason — not generic praise
-- One follow-up per question maximum — if still unclear after follow-up, flag it as a known risk in the brief
+- No question limit — keep asking until every dimension in Step 2 is fully resolved
+- If an answer opens a new gap, ask about it before moving on
+- Follow up as many times as needed on a point — don't accept vague answers
+- Do not move to confirmation until the entire gap list is empty
