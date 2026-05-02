@@ -53,20 +53,30 @@ Document what was built, decisions made, deviations from plan, test coverage, op
 ## Installation
 
 ```bash
-# Project install (auto-detects your AI tool)
-curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh | bash -s -- .
+# Download then run (required for the interactive tool selector)
+curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh -o /tmp/iris.sh
+bash /tmp/iris.sh .
 
 # Global install
-curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh | bash -s -- . --global
+bash /tmp/iris.sh . --global
 
 # Update — overwrite existing files
-curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh | bash -s -- . --force
+bash /tmp/iris.sh . --force
+```
 
-# Force a specific tool
+> **Why download first?** Piping directly into bash (`curl | bash`) disables TTY, which prevents the interactive menu from appearing. Download the script first, then run it.
+
+If you don't need the menu (CI, scripting, or you already know which tool):
+
+```bash
+# Skip the menu, install for a specific tool
+curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh | bash -s -- . --tool=claude
 curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh | bash -s -- . --tool=cursor
 ```
 
 The installer detects AI coding tools present in the project and shows an **interactive checkbox menu** — detected tools are pre-selected, but you can toggle any combination before confirming. Existing files are skipped by default — pass `--force` to overwrite (use this when updating IRIS).
+
+**Version check:** The installer compares your installed version against the latest release and tells you if an update is available. Your current version is stored in `.iris-ai/version` (project installs) or `~/.ai/iris-version` (global installs).
 
 **What goes where (per tool):**
 

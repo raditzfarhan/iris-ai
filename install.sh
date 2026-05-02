@@ -310,6 +310,27 @@ if ! command -v curl &>/dev/null; then
   exit 1
 fi
 
+# ── Version check ─────────────────────────────────────────────────────────────
+REMOTE_VERSION=$(curl -sSfL "$GITHUB_RAW/VERSION" 2>/dev/null | tr -d '[:space:]')
+REMOTE_VERSION="${REMOTE_VERSION:-unknown}"
+
+if [ "$GLOBAL" = "1" ]; then
+  VERSION_FILE="$HOME/.ai/iris-version"
+else
+  VERSION_FILE="$TARGET/.iris-ai/version"
+fi
+
+if [ -f "$VERSION_FILE" ]; then
+  LOCAL_VERSION=$(cat "$VERSION_FILE" | tr -d '[:space:]')
+  if [ "$LOCAL_VERSION" = "$REMOTE_VERSION" ]; then
+    echo -e "  ${DIM}Version: $LOCAL_VERSION (up to date)${NC}"
+  else
+    echo -e "  ${YELLOW}Update available: $LOCAL_VERSION → $REMOTE_VERSION${NC}"
+  fi
+else
+  echo -e "  ${DIM}Version: $REMOTE_VERSION (fresh install)${NC}"
+fi
+
 echo -e "${DIM}  Source: github.com/$GITHUB_USER/$GITHUB_REPO @ $GITHUB_BRANCH${NC}"
 echo ""
 
@@ -386,10 +407,17 @@ if [ "$GLOBAL" = "0" ]; then
   echo ""
 fi
 
+# ── Write version file ────────────────────────────────────────────────────────
+if [ "$REMOTE_VERSION" != "unknown" ]; then
+  mkdir -p "$(dirname "$VERSION_FILE")"
+  echo "$REMOTE_VERSION" > "$VERSION_FILE"
+fi
+
 # ── Done ──────────────────────────────────────────────────────────────────────
 echo -e "${GREEN}${BOLD}Done.${NC} $INSTALLED installed, $SKIPPED skipped."
 echo ""
 TOOLS_DONE=$(IFS=', '; echo "${SELECTED_TOOLS[*]}")
+echo -e "  ${DIM}Version:       $REMOTE_VERSION${NC}"
 echo -e "  ${DIM}Installed for: $TOOLS_DONE${NC}"
 echo ""
 echo -e "${BOLD}Usage:${NC}"
