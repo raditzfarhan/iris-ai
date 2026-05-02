@@ -241,10 +241,10 @@ show_menu() {
 
 # ── File lists ────────────────────────────────────────────────────────────────
 COMMAND_FILES=(
-  ".claude/commands/iris.md"
-  ".claude/commands/probe.md"
-  ".claude/commands/audit.md"
-  ".claude/commands/strategy.md"
+  "commands/iris.md"
+  "commands/probe.md"
+  "commands/audit.md"
+  "commands/strategy.md"
 )
 
 AGENT_FILES=(

@@ -149,12 +149,11 @@ IRIS is the primary agent — it handles all implementation, testing, code revie
 
 ```
 iris-ai/                          ← this repo
-├── .claude/
-│   └── commands/
-│       ├── iris.md               ← /iris command router
-│       ├── probe.md              ← /probe
-│       ├── audit.md              ← /audit
-│       └── strategy.md           ← /strategy
+├── commands/
+│   ├── iris.md                   ← /iris command router
+│   ├── probe.md                  ← /probe
+│   ├── audit.md                  ← /audit
+│   └── strategy.md               ← /strategy
 ├── agents/
 │   ├── iris-agent.md             ← orchestrator + implementation engine
 │   ├── probe-agent.md            ← debugging investigator
