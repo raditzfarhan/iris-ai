@@ -66,18 +66,19 @@ curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh
 curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh | bash -s -- . --tool=cursor
 ```
 
-The installer detects **all** AI coding tools present in the project and installs to each. Existing files are skipped by default — pass `--force` to overwrite (use this when updating IRIS).
+The installer detects AI coding tools present in the project and shows an **interactive checkbox menu** — detected tools are pre-selected, but you can toggle any combination before confirming. Existing files are skipped by default — pass `--force` to overwrite (use this when updating IRIS).
 
-**What goes where:**
+**What goes where (per tool):**
 
-| What | Project install | Global install (`--global`) |
+| Tool | Project: Skills / Agents / Commands | Global (`--global`) |
 |---|---|---|
-| Skills | `skills/` (project root) | `~/.ai/skills/` |
-| Agents | `agents/` (project root) | `~/.ai/agents/` |
-| Commands (Claude) | `.claude/commands/` | `~/.claude/commands/` |
-| Project docs | `.iris-ai/outputs/` | never global |
+| Claude | `.claude/skills/` `.claude/agents/` `.claude/commands/` | `~/.claude/skills/` `~/.claude/agents/` `~/.claude/commands/` |
+| Cursor | `.cursor/skills/` `.cursor/agents/` `.cursor/rules/` | `~/.cursor/skills/` `~/.cursor/agents/` `~/.cursor/rules/` |
+| Windsurf | `.windsurf/skills/` `.windsurf/agents/` `.windsurf/rules/` | `~/.windsurf/skills/` `~/.windsurf/agents/` `~/.windsurf/rules/` |
+| Opencode | `.opencode/skills/` `.opencode/agents/` `.opencode/rules/` | `~/.config/opencode/skills/` `~/.config/opencode/agents/` `~/.config/opencode/rules/` |
+| Fallback | `.ai/skills/` `.ai/agents/` `.ai/commands/` | `~/.ai/skills/` `~/.ai/agents/` `~/.ai/commands/` |
 
-Skills and agents live at the project root and are shared across all tools. Slash commands are installed separately for each detected tool that supports them (currently Claude Code only).
+Each selected tool gets its own copy of all files in its own directory. Fallback (`.ai/`) is used when no tool is selected or detected.
 
 Generated docs (`.iris-ai/outputs/`), `AGENTS.md`, and `CLAUDE.md` always install into the project folder — never globally.
 
@@ -179,7 +180,13 @@ your-project/                     ← after project install
 │       ├── briefs/               ← brief and spec docs
 │       ├── tasks/                ← plan docs
 │       └── docs/                 ← ops notes and debrief docs
-├── .claude/commands/             ← iris + all 6 character commands (Claude only)
-├── skills/iris-*/                ← skills (shared across all detected tools)
-└── agents/                       ← agents (shared across all detected tools)
+├── .claude/
+│   ├── commands/                 ← /iris, /probe, /audit, /strategy
+│   ├── skills/iris-*/            ← IRIS skills (Claude)
+│   └── agents/                   ← IRIS agents (Claude)
+├── .cursor/
+│   ├── skills/iris-*/            ← IRIS skills (Cursor)
+│   ├── agents/                   ← IRIS agents (Cursor)
+│   └── rules/                    ← commands as rules (Cursor)
+└── .ai/                          ← fallback if no tool selected
 ```
