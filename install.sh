@@ -273,15 +273,31 @@ echo -e "  ${BLUE_B}╚═╝${RED_B}╚═╝  ╚═╝${BLUE_B}╚═╝${RED
 echo -e "${DIM}  Dev Workflow Suite for AI Coding Tools${NC}"
 echo ""
 
-TOOLS_LABEL=$(IFS=', '; echo "${DETECTED_TOOLS[*]}")
-DETECT_LABEL=$( [ -n "$TOOL_OVERRIDE" ] && echo "(forced)" || echo "(detected)" )
-if [ ${#DETECTED_TOOLS[@]} -eq 1 ]; then
-  echo -e "  ${BOLD}Tool:${NC}   $TOOLS_LABEL $DETECT_LABEL"
+# ── Tool selection ────────────────────────────────────────────────────────────
+SELECTED_TOOLS=()
+
+if [ -n "$TOOL_OVERRIDE" ]; then
+  # --tool= flag: skip menu, use override directly
+  SELECTED_TOOLS=("$TOOL_OVERRIDE")
+elif [ ! -t 0 ] || [ ! -t 1 ]; then
+  # Non-interactive (piped): use all detected tools, or fallback
+  for t in "${ALL_TOOLS[@]}"; do
+    if is_detected "$t"; then SELECTED_TOOLS+=("$t"); fi
+  done
+  [ ${#SELECTED_TOOLS[@]} -eq 0 ] && SELECTED_TOOLS=("fallback")
 else
-  echo -e "  ${BOLD}Tools:${NC}  $TOOLS_LABEL $DETECT_LABEL"
+  # Interactive: show checkbox menu
+  show_menu
+fi
+
+TOOLS_LABEL=$(IFS=', '; echo "${SELECTED_TOOLS[*]}")
+if [ -n "$TOOL_OVERRIDE" ]; then
+  echo -e "  ${BOLD}Tool:${NC}   $TOOLS_LABEL (--tool override)"
+else
+  echo -e "  ${BOLD}Tools:${NC}  $TOOLS_LABEL"
 fi
 if [ "$GLOBAL" = "1" ]; then
-  echo -e "  ${BOLD}Scope:${NC}  global (~/.ai/)"
+  echo -e "  ${BOLD}Scope:${NC}  global (per-tool dirs)"
 else
   echo -e "  ${BOLD}Target:${NC} $TARGET"
 fi
