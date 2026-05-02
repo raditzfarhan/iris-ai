@@ -66,17 +66,22 @@ else
   CYAN='' GREEN='' YELLOW='' RED='' RED_B='' BLUE_B='' DIM='' BOLD='' NC=''
 fi
 
-# ── Tool detection — finds ALL tools present in this project ──────────────────
-DETECTED_TOOLS=()
-if [ -n "$TOOL_OVERRIDE" ]; then
-  DETECTED_TOOLS=("$TOOL_OVERRIDE")
-else
-  if command -v claude &>/dev/null 2>&1 || [ -d "$TARGET/.claude" ]; then DETECTED_TOOLS+=("claude"); fi
-  if [ -d "$TARGET/.cursor" ] || command -v cursor &>/dev/null 2>&1; then DETECTED_TOOLS+=("cursor"); fi
-  if [ -d "$TARGET/.opencode" ] || command -v opencode &>/dev/null 2>&1; then DETECTED_TOOLS+=("opencode"); fi
-  if [ -d "$TARGET/.windsurf" ] || command -v windsurf &>/dev/null 2>&1; then DETECTED_TOOLS+=("windsurf"); fi
-  if [ ${#DETECTED_TOOLS[@]} -eq 0 ]; then DETECTED_TOOLS=("fallback"); fi
-fi
+# ── Tool registry ─────────────────────────────────────────────────────────────
+ALL_TOOLS=("claude" "cursor" "windsurf" "opencode")
+
+# ── Tool detection ────────────────────────────────────────────────────────────
+# Returns 0 (true) if tool is detected, 1 (false) if not.
+# Detection is always project-scoped regardless of --global.
+is_detected() {
+  local tool="$1"
+  case "$tool" in
+    claude)   command -v claude &>/dev/null 2>&1 || [ -d "$TARGET/.claude" ] ;;
+    cursor)   command -v cursor &>/dev/null 2>&1 || [ -d "$TARGET/.cursor" ] ;;
+    windsurf) command -v windsurf &>/dev/null 2>&1 || [ -d "$TARGET/.windsurf" ] ;;
+    opencode) command -v opencode &>/dev/null 2>&1 || [ -d "$TARGET/.opencode" ] ;;
+    *)        return 1 ;;
+  esac
+}
 
 # ── Path resolution ───────────────────────────────────────────────────────────
 # Agents and skills live at a single generic location — all tools share them.
