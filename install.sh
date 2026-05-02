@@ -397,6 +397,7 @@ done
 # ── Project-level files (always in the project, never global) ─────────────────
 if [ "$GLOBAL" = "0" ]; then
   mkdir -p "$TARGET/.iris-ai/outputs/briefs"
+  mkdir -p "$TARGET/.iris-ai/outputs/specs"
   mkdir -p "$TARGET/.iris-ai/outputs/tasks"
   mkdir -p "$TARGET/.iris-ai/outputs/docs"
 

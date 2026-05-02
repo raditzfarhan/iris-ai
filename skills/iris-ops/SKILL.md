@@ -14,7 +14,7 @@ Execute the approved plan strictly and methodically. TDD on every task. Full tes
 - Read confirmed master plan from `.iris-ai/outputs/tasks/*-plan.md`
 - Identify the first group with status `pending` in the master plan's Groups table
 - Read that group's file from `.iris-ai/outputs/tasks/` (e.g., `*-plan-g1.md`)
-- Read confirmed spec from `.iris-ai/outputs/briefs/*-spec.md`
+- Read confirmed spec from `.iris-ai/outputs/specs/*-spec.md`
 - Read confirmed brief from `.iris-ai/outputs/briefs/*-brief.md`
 
 ### 2. Create a feature branch (git flow)
@@ -155,6 +155,9 @@ Announce the next task before starting it.
 
 ### 8. Save implementation notes
 Append each task's output to: `.iris-ai/outputs/docs/YYYY-MM-DD-{slug}-ops.md`
+
+After the first task's output is appended (file created), output a clickable link:
+> Ops log: [.iris-ai/outputs/docs/YYYY-MM-DD-{slug}-ops.md](.iris-ai/outputs/docs/YYYY-MM-DD-{slug}-ops.md)
 
 ### 9. Chain to iris-debrief
 When all groups show status `done` in the master plan: show "All groups complete. All tests green." — invoke `.claude/skills/iris-debrief/SKILL.md` automatically.

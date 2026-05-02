@@ -39,7 +39,7 @@ Every mission generates structured docs under `.iris-ai/outputs/` — always in 
 | Stage | File | Folder |
 |---|---|---|
 | Brief | `{slug}-brief.md` | `.iris-ai/outputs/briefs/` |
-| Spec | `{slug}-spec.md` | `.iris-ai/outputs/briefs/` |
+| Spec | `{slug}-spec.md` | `.iris-ai/outputs/specs/` |
 | Plan | `{slug}-plan.md` | `.iris-ai/outputs/tasks/` |
 | Implementation notes | `{slug}-ops.md` | `.iris-ai/outputs/docs/` |
 | Debrief | `{slug}-debrief.md` | `.iris-ai/outputs/docs/` |

@@ -11,7 +11,7 @@ Convert the confirmed spec into a precise, sequenced task list grouped by featur
 ## Process
 
 ### 1. Load context
-- Read confirmed spec from `.iris-ai/outputs/briefs/*-spec.md`
+- Read confirmed spec from `.iris-ai/outputs/specs/*-spec.md`
 - Read confirmed brief from `.iris-ai/outputs/briefs/*-brief.md`
 
 ### 2. Generate task list
@@ -94,6 +94,10 @@ Include:
 - `**Parent plan:** YYYY-MM-DD-{slug}-plan.md`
 - `## Tasks` section with all tasks for this group in the standard task format:
   - `**What:**`, `**Test first:**`, `**Agent:**`, `**Subagent:**`, `**Est:**`
+
+After saving, output clickable links:
+> Saved: [.iris-ai/outputs/tasks/YYYY-MM-DD-{slug}-plan.md](.iris-ai/outputs/tasks/YYYY-MM-DD-{slug}-plan.md)
+> Per-group files: [g1](.iris-ai/outputs/tasks/YYYY-MM-DD-{slug}-plan-g1.md), [g2](.iris-ai/outputs/tasks/YYYY-MM-DD-{slug}-plan-g2.md) … (one link per group)
 
 ### 7. Wait for confirmation
 Only after user confirms: "Plan confirmed. Starting implementation." — invoke `.claude/skills/iris-ops/SKILL.md`.

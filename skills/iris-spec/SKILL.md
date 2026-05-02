@@ -53,7 +53,10 @@ Show the written spec. Ask: "Does this look right? Anything to adjust?"
 Apply any changes. Re-present only the changed sections.
 
 ### 6. Save the spec
-Save to: `.iris-ai/outputs/briefs/YYYY-MM-DD-{slug}-spec.md`
+Save to: `.iris-ai/outputs/specs/YYYY-MM-DD-{slug}-spec.md`
+
+After saving, output a clickable link:
+> Saved: [.iris-ai/outputs/specs/YYYY-MM-DD-{slug}-spec.md](.iris-ai/outputs/specs/YYYY-MM-DD-{slug}-spec.md)
 
 ### 7. Chain to iris-plan
 After confirmed: "Spec locked. Moving to plan." — invoke `.claude/skills/iris-plan/SKILL.md` automatically.

@@ -98,6 +98,9 @@ When confirmed, write the brief following the iris-agent output structure for `i
 
 Save to: `.iris-ai/outputs/briefs/YYYY-MM-DD-{slug}-brief.md`
 
+After saving, output a clickable link:
+> Saved: [.iris-ai/outputs/briefs/YYYY-MM-DD-{slug}-brief.md](.iris-ai/outputs/briefs/YYYY-MM-DD-{slug}-brief.md)
+
 ### 6. Chain to iris-spec
 After saving: "Brief confirmed. Moving to spec." — invoke `.claude/skills/iris-spec/SKILL.md` automatically.
 
