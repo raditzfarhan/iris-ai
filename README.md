@@ -52,19 +52,31 @@ Document what was built, decisions made, deviations from plan, test coverage, op
 
 ## Installation
 
+> **Why download first?** Piping directly into bash (`curl | bash`) disables TTY, which prevents the interactive menu from appearing. Download the script first, then run it.
+
 ```bash
-# Download then run (required for the interactive tool selector)
+# 1. Download
 curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh -o /tmp/iris.sh
+
+# 2. Run — shows interactive tool selector
 bash /tmp/iris.sh .
 
-# Global install
-bash /tmp/iris.sh . --global
-
-# Update — overwrite existing files
-bash /tmp/iris.sh . --force
+# 3. Clean up
+rm /tmp/iris.sh
 ```
 
-> **Why download first?** Piping directly into bash (`curl | bash`) disables TTY, which prevents the interactive menu from appearing. Download the script first, then run it.
+**Options:**
+
+```bash
+# Install globally (copies to home directories instead of the project)
+bash /tmp/iris.sh . --global
+
+# Force overwrite existing files (use this when updating IRIS)
+bash /tmp/iris.sh . --force
+
+# Combine — global update
+bash /tmp/iris.sh . --global --force
+```
 
 If you don't need the menu (CI, scripting, or you already know which tool):
 
@@ -72,6 +84,9 @@ If you don't need the menu (CI, scripting, or you already know which tool):
 # Skip the menu, install for a specific tool
 curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh | bash -s -- . --tool=claude
 curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh | bash -s -- . --tool=cursor
+
+# Global + specific tool, no menu
+curl -sSL https://raw.githubusercontent.com/raditzfarhan/iris-ai/main/install.sh | bash -s -- . --tool=claude --global
 ```
 
 The installer detects AI coding tools present in the project and shows an **interactive checkbox menu** — detected tools are pre-selected, but you can toggle any combination before confirming. Existing files are skipped by default — pass `--force` to overwrite (use this when updating IRIS).
@@ -106,7 +121,7 @@ Jump to a specific stage directly:
 
 ```
 /iris spec      ← requires a confirmed brief in .iris-ai/outputs/briefs/
-/iris plan      ← requires a confirmed spec
+/iris plan      ← requires a confirmed spec in .iris-ai/outputs/specs/
 /iris ops       ← requires an approved plan
 /iris debrief   ← wraps up a completed implementation
 ```
@@ -186,7 +201,8 @@ your-project/                     ← after project install
 │   ├── AGENTS.md                 ← IRIS agent index
 │   ├── CLAUDE.md                 ← IRIS instructions (auto-loaded by Claude)
 │   └── outputs/
-│       ├── briefs/               ← brief + spec docs
+│       ├── briefs/               ← brief docs
+│       ├── specs/                ← spec docs
 │       ├── tasks/                ← plan docs
 │       └── docs/                 ← ops notes + debrief docs
 │
