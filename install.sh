@@ -6,8 +6,8 @@
 #
 # Options:
 #   --force, -f       Overwrite existing files (default: skip)
-#   --global, -g      Install skills and agents to global directory (~/.ai/)
-#   --tool=<name>     Override tool detection (claude|cursor|opencode|windsurf)
+#   --global, -g      Install to global tool directories (e.g. ~/.claude/)
+#   --tool=<name>     Skip menu, install for one tool only (claude|cursor|windsurf|opencode|fallback)
 #
 # Examples:
 #   bash install.sh .                        # project install, auto-detect tool(s)
@@ -36,6 +36,20 @@ for arg in "$@"; do
     *)            TARGET="$arg" ;;
   esac
 done
+
+VALID_TOOLS=("claude" "cursor" "windsurf" "opencode" "fallback")
+
+if [ -n "$TOOL_OVERRIDE" ]; then
+  valid=0
+  for t in "${VALID_TOOLS[@]}"; do
+    [ "$t" = "$TOOL_OVERRIDE" ] && valid=1 && break
+  done
+  if [ "$valid" = "0" ]; then
+    echo "Unknown tool: $TOOL_OVERRIDE" >&2
+    echo "Valid tools: claude, cursor, windsurf, opencode, fallback" >&2
+    exit 1
+  fi
+fi
 
 # ── Colors (disabled when not writing to a terminal) ─────────────────────────
 if [ -t 1 ]; then
