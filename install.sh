@@ -10,9 +10,10 @@
 #   --tool=<name>     Skip menu, install for one tool only (claude|cursor|windsurf|opencode|fallback)
 #
 # Examples:
-#   bash install.sh .                        # project install, auto-detect tool(s)
-#   bash install.sh . --global               # global install
-#   bash install.sh . --tool=cursor          # project install for Cursor only
+#   bash install.sh .                        # project install, auto-detect + interactive menu
+#   bash install.sh . --global               # global install, interactive menu
+#   bash install.sh . --tool=cursor          # project install for Cursor only (no menu)
+#   bash install.sh . --tool=claude,cursor   # NOT supported — run twice
 #   bash install.sh . --force                # overwrite existing files
 #   bash install.sh . --global --force       # global install, overwrite
 
@@ -387,6 +388,9 @@ fi
 
 # ── Done ──────────────────────────────────────────────────────────────────────
 echo -e "${GREEN}${BOLD}Done.${NC} $INSTALLED installed, $SKIPPED skipped."
+echo ""
+TOOLS_DONE=$(IFS=', '; echo "${SELECTED_TOOLS[*]}")
+echo -e "  ${DIM}Installed for: $TOOLS_DONE${NC}"
 echo ""
 echo -e "${BOLD}Usage:${NC}"
 echo -e "  ${CYAN}/iris <idea>${NC}      — start a new mission from scratch"
