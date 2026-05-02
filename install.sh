@@ -144,6 +144,100 @@ tool_paths() {
   esac
 }
 
+# ── Interactive checkbox menu ─────────────────────────────────────────────────
+# Populates SELECTED_TOOLS array. Requires a TTY.
+# Pre-checks any tool where is_detected() returns true.
+show_menu() {
+  local -a tools=("${ALL_TOOLS[@]}")
+  local -a checked=()
+  local cursor_pos=0
+  local i key
+
+  # Initialise checked state from detection
+  for i in "${!tools[@]}"; do
+    if is_detected "${tools[$i]}"; then
+      checked[$i]=1
+    else
+      checked[$i]=0
+    fi
+  done
+
+  # Restore terminal on interrupt or exit
+  _menu_cleanup() { tput cnorm; }
+  trap _menu_cleanup EXIT INT
+
+  tput civis  # hide cursor
+
+  _draw_menu() {
+    local j
+    for j in "${!tools[@]}"; do
+      if [ "$j" = "$cursor_pos" ]; then
+        printf "  \033[1m▶\033[0m "
+      else
+        printf "    "
+      fi
+      if [ "${checked[$j]}" = "1" ]; then
+        printf "[x] %-10s" "${tools[$j]}"
+      else
+        printf "[ ] %-10s" "${tools[$j]}"
+      fi
+      if is_detected "${tools[$j]}"; then printf " ${DIM}(detected)${NC}"; fi
+      printf "\n"
+    done
+    tput cuu ${#tools[@]}  # move cursor back to top of menu
+  }
+
+  echo ""
+  echo -e "  Select AI tools to install for:"
+  echo -e "  ──────────────────────────────────"
+  # Reserve lines for menu rows
+  for i in "${!tools[@]}"; do printf "\n"; done
+  _draw_menu
+  tput cud ${#tools[@]}
+  echo -e "  ──────────────────────────────────"
+  echo -e "  ${DIM}↑↓/jk navigate  Space toggle  Enter confirm  a all  n none${NC}"
+  tput cuu $((${#tools[@]} + 2))
+
+  while true; do
+    IFS= read -rsn1 key 2>/dev/null
+    case "$key" in
+      $'\x1b')
+        read -rsn2 -t 0.1 seq 2>/dev/null
+        case "$seq" in
+          '[A') cursor_pos=$(( (cursor_pos - 1 + ${#tools[@]}) % ${#tools[@]} )) ;;
+          '[B') cursor_pos=$(( (cursor_pos + 1) % ${#tools[@]} )) ;;
+        esac ;;
+      k) cursor_pos=$(( (cursor_pos - 1 + ${#tools[@]}) % ${#tools[@]} )) ;;
+      j) cursor_pos=$(( (cursor_pos + 1) % ${#tools[@]} )) ;;
+      ' ')
+        if [ "${checked[$cursor_pos]}" = "1" ]; then
+          checked[$cursor_pos]=0
+        else
+          checked[$cursor_pos]=1
+        fi ;;
+      a) for i in "${!tools[@]}"; do checked[$i]=1; done ;;
+      n) for i in "${!tools[@]}"; do checked[$i]=0; done ;;
+      '') break ;;  # Enter
+    esac
+    _draw_menu
+  done
+
+  tput cud ${#tools[@]}
+  printf "\n"
+  tput cnorm
+  trap - EXIT INT
+
+  SELECTED_TOOLS=()
+  for i in "${!tools[@]}"; do
+    [ "${checked[$i]}" = "1" ] && SELECTED_TOOLS+=("${tools[$i]}")
+  done
+
+  if [ ${#SELECTED_TOOLS[@]} -eq 0 ]; then
+    echo -e "  ${DIM}No tool selected — installing to .ai/${NC}"
+    SELECTED_TOOLS=("fallback")
+  fi
+}
+
 # ── File lists ────────────────────────────────────────────────────────────────
 COMMAND_FILES=(
   ".claude/commands/iris.md"
