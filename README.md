@@ -173,19 +173,30 @@ iris-ai/                          ← this repo
 
 your-project/                     ← after project install
 ├── .iris-ai/
-│   ├── AGENTS.md                 ← IRIS agent index (isolated, safe from project files)
-│   ├── CLAUDE.md                 ← IRIS instructions (Claude reads this automatically)
+│   ├── AGENTS.md                 ← IRIS agent index
+│   ├── CLAUDE.md                 ← IRIS instructions (auto-loaded by Claude)
 │   └── outputs/
-│       ├── briefs/               ← brief and spec docs
+│       ├── briefs/               ← brief + spec docs
 │       ├── tasks/                ← plan docs
-│       └── docs/                 ← ops notes and debrief docs
-├── .claude/
+│       └── docs/                 ← ops notes + debrief docs
+│
+│   Each selected tool gets its own directory:
+│
+├── .claude/                      ← Claude Code
 │   ├── commands/                 ← /iris, /probe, /audit, /strategy
-│   ├── skills/iris-*/            ← IRIS skills (Claude)
-│   └── agents/                   ← IRIS agents (Claude)
-├── .cursor/
-│   ├── skills/iris-*/            ← IRIS skills (Cursor)
-│   ├── agents/                   ← IRIS agents (Cursor)
-│   └── rules/                    ← commands as rules (Cursor)
-└── .ai/                          ← fallback if no tool selected
+│   ├── skills/iris-*/
+│   └── agents/
+├── .cursor/                      ← Cursor
+│   ├── rules/                    ← commands (as rules)
+│   ├── skills/iris-*/
+│   └── agents/
+├── .windsurf/                    ← Windsurf
+│   ├── rules/
+│   ├── skills/iris-*/
+│   └── agents/
+├── .opencode/                    ← Opencode
+│   ├── rules/
+│   ├── skills/iris-*/
+│   └── agents/
+└── .ai/                          ← fallback (no tool selected/detected)
 ```
