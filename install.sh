@@ -332,33 +332,45 @@ fetch_file() {
   INSTALLED=$((INSTALLED + 1))
 }
 
-# ── Commands (one set per tool that supports slash commands) ──────────────────
-if [ ${#COMMAND_DIRS[@]} -gt 0 ]; then
-  for cmd_dir in "${COMMAND_DIRS[@]}"; do
-    echo -e "${YELLOW}Commands${NC} → $cmd_dir"
-    for file in "${COMMAND_FILES[@]}"; do
-      filename="${file##*/}"
-      fetch_file "$file" "$cmd_dir/$filename"
-    done
-    echo ""
+# ── Install files per selected tool ──────────────────────────────────────────
+for tool in "${SELECTED_TOOLS[@]}"; do
+  tool_paths "$tool" "$GLOBAL"
+
+  if [ "$GLOBAL" = "1" ]; then
+    case "$tool" in
+      opencode) display_root="~/.config/opencode/" ;;
+      fallback) display_root="~/.ai/" ;;
+      *)        display_root="~/.$tool/" ;;
+    esac
+  else
+    case "$tool" in
+      fallback) display_root="$TARGET/.ai/" ;;
+      *)        display_root="$TARGET/.$tool/" ;;
+    esac
+  fi
+
+  echo -e "${YELLOW}$tool${NC} → $display_root"
+
+  echo -e "  ${DIM}Skills${NC}   → $TOOL_SKILLS_DIR"
+  for file in "${SKILL_FILES[@]}"; do
+    subdir="$(echo "$file" | cut -d'/' -f2)"
+    fetch_file "$file" "$TOOL_SKILLS_DIR/$subdir/SKILL.md"
   done
-fi
 
-# ── Agents (shared across all tools) ─────────────────────────────────────────
-echo -e "${YELLOW}Agents${NC} → $AGENTS_DIR"
-for file in "${AGENT_FILES[@]}"; do
-  filename="${file##*/}"
-  fetch_file "$file" "$AGENTS_DIR/$filename"
-done
-echo ""
+  echo -e "  ${DIM}Agents${NC}   → $TOOL_AGENTS_DIR"
+  for file in "${AGENT_FILES[@]}"; do
+    filename="${file##*/}"
+    fetch_file "$file" "$TOOL_AGENTS_DIR/$filename"
+  done
 
-# ── Skills (shared across all tools) ─────────────────────────────────────────
-echo -e "${YELLOW}Skills${NC} → $SKILLS_BASE"
-for file in "${SKILL_FILES[@]}"; do
-  subdir="$(echo "$file" | cut -d'/' -f2)"
-  fetch_file "$file" "$SKILLS_BASE/$subdir/SKILL.md"
+  echo -e "  ${DIM}Commands${NC} → $TOOL_COMMANDS_DIR"
+  for file in "${COMMAND_FILES[@]}"; do
+    filename="${file##*/}"
+    fetch_file "$file" "$TOOL_COMMANDS_DIR/$filename"
+  done
+
+  echo ""
 done
-echo ""
 
 # ── Project-level files (always in the project, never global) ─────────────────
 if [ "$GLOBAL" = "0" ]; then
