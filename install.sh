@@ -84,30 +84,65 @@ is_detected() {
 }
 
 # ── Path resolution ───────────────────────────────────────────────────────────
-# Agents and skills live at a single generic location — all tools share them.
-# Slash commands are tool-specific; each detected tool gets its own copy.
+# Sets TOOL_SKILLS_DIR, TOOL_AGENTS_DIR, TOOL_COMMANDS_DIR for a given tool.
+# Usage: tool_paths <tool> <global=0|1>
+tool_paths() {
+  local tool="$1"
+  local global="${2:-0}"
 
-if [ "$GLOBAL" = "1" ]; then
-  AGENTS_DIR="$HOME/.ai/agents"
-  SKILLS_BASE="$HOME/.ai/skills"
-else
-  AGENTS_DIR="$TARGET/agents"
-  SKILLS_BASE="$TARGET/skills"
-fi
-
-# Build list of command directories — one per tool that supports slash commands
-COMMAND_DIRS=()
-for tool in "${DETECTED_TOOLS[@]}"; do
   case "$tool" in
     claude)
-      if [ "$GLOBAL" = "1" ]; then
-        COMMAND_DIRS+=("$HOME/.claude/commands")
+      if [ "$global" = "1" ]; then
+        TOOL_SKILLS_DIR="$HOME/.claude/skills"
+        TOOL_AGENTS_DIR="$HOME/.claude/agents"
+        TOOL_COMMANDS_DIR="$HOME/.claude/commands"
       else
-        COMMAND_DIRS+=("$TARGET/.claude/commands")
-      fi
-      ;;
+        TOOL_SKILLS_DIR="$TARGET/.claude/skills"
+        TOOL_AGENTS_DIR="$TARGET/.claude/agents"
+        TOOL_COMMANDS_DIR="$TARGET/.claude/commands"
+      fi ;;
+    cursor)
+      if [ "$global" = "1" ]; then
+        TOOL_SKILLS_DIR="$HOME/.cursor/skills"
+        TOOL_AGENTS_DIR="$HOME/.cursor/agents"
+        TOOL_COMMANDS_DIR="$HOME/.cursor/rules"
+      else
+        TOOL_SKILLS_DIR="$TARGET/.cursor/skills"
+        TOOL_AGENTS_DIR="$TARGET/.cursor/agents"
+        TOOL_COMMANDS_DIR="$TARGET/.cursor/rules"
+      fi ;;
+    windsurf)
+      if [ "$global" = "1" ]; then
+        TOOL_SKILLS_DIR="$HOME/.windsurf/skills"
+        TOOL_AGENTS_DIR="$HOME/.windsurf/agents"
+        TOOL_COMMANDS_DIR="$HOME/.windsurf/rules"
+      else
+        TOOL_SKILLS_DIR="$TARGET/.windsurf/skills"
+        TOOL_AGENTS_DIR="$TARGET/.windsurf/agents"
+        TOOL_COMMANDS_DIR="$TARGET/.windsurf/rules"
+      fi ;;
+    opencode)
+      if [ "$global" = "1" ]; then
+        TOOL_SKILLS_DIR="$HOME/.config/opencode/skills"
+        TOOL_AGENTS_DIR="$HOME/.config/opencode/agents"
+        TOOL_COMMANDS_DIR="$HOME/.config/opencode/rules"
+      else
+        TOOL_SKILLS_DIR="$TARGET/.opencode/skills"
+        TOOL_AGENTS_DIR="$TARGET/.opencode/agents"
+        TOOL_COMMANDS_DIR="$TARGET/.opencode/rules"
+      fi ;;
+    fallback)
+      if [ "$global" = "1" ]; then
+        TOOL_SKILLS_DIR="$HOME/.ai/skills"
+        TOOL_AGENTS_DIR="$HOME/.ai/agents"
+        TOOL_COMMANDS_DIR="$HOME/.ai/commands"
+      else
+        TOOL_SKILLS_DIR="$TARGET/.ai/skills"
+        TOOL_AGENTS_DIR="$TARGET/.ai/agents"
+        TOOL_COMMANDS_DIR="$TARGET/.ai/commands"
+      fi ;;
   esac
-done
+}
 
 # ── File lists ────────────────────────────────────────────────────────────────
 COMMAND_FILES=(
