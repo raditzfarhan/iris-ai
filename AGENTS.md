@@ -40,6 +40,6 @@ Every mission generates structured docs under `docs/iris-ai/` — always in the 
 |---|---|---|
 | Brief | `{slug}-brief.md` | `docs/iris-ai/briefs/` |
 | Spec | `{slug}-spec.md` | `docs/iris-ai/specs/` |
-| Plan | `{slug}-plan.md` | `docs/iris-ai/tasks/` |
+| Plan | `{slug}-plan.md` | `docs/iris-ai/plans/` |
 | Implementation notes | `{slug}-ops.md` | `docs/iris-ai/docs/` |
-| Debrief | `{slug}-debrief.md` | `docs/iris-ai/docs/` |
+| Debrief | `{slug}-debrief.md` | `docs/iris-ai/debriefs/` |

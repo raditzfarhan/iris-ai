@@ -11,9 +11,9 @@ Execute the approved plan strictly and methodically. TDD on every task. Full tes
 ## Process
 
 ### 1. Load context
-- Read confirmed master plan from `docs/iris-ai/tasks/*-plan.md`
+- Read confirmed master plan from `docs/iris-ai/plans/*-plan.md`
 - Identify the first group with status `pending` in the master plan's Groups table
-- Read that group's file from `docs/iris-ai/tasks/` (e.g., `*-plan-g1.md`)
+- Read that group's file from `docs/iris-ai/plans/` (e.g., `*-plan-g1.md`)
 - Read confirmed spec from `docs/iris-ai/specs/*-spec.md`
 - Read confirmed brief from `docs/iris-ai/briefs/*-brief.md`
 

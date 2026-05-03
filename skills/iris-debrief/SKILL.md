@@ -12,7 +12,7 @@ Close out the mission cleanly. Document what was built, what was decided, what's
 
 ### 1. Load context
 - Read `docs/iris-ai/docs/*-ops.md` for implementation notes
-- Read `docs/iris-ai/tasks/*-plan.md` for the original plan
+- Read `docs/iris-ai/plans/*-plan.md` for the original plan
 - Read `docs/iris-ai/specs/*-spec.md` for the spec
 - Read `docs/iris-ai/briefs/*-brief.md` for the original brief
 
@@ -32,10 +32,10 @@ Following the iris-agent output structure for `iris-debrief`:
 **Next Steps** — what logically comes after this feature
 
 ### 3. Save the debrief
-Save to: `docs/iris-ai/docs/YYYY-MM-DD-{slug}-debrief.md`
+Save to: `docs/iris-ai/debriefs/YYYY-MM-DD-{slug}-debrief.md`
 
 After saving, output a clickable link:
-> Saved: [docs/iris-ai/docs/YYYY-MM-DD-{slug}-debrief.md](docs/iris-ai/docs/YYYY-MM-DD-{slug}-debrief.md)
+> Saved: [docs/iris-ai/debriefs/YYYY-MM-DD-{slug}-debrief.md](docs/iris-ai/debriefs/YYYY-MM-DD-{slug}-debrief.md)
 
 ### 4. Offer merge back to base branch
 Following git flow, the feature branch should be merged back to `develop` (or `main` if there is no `develop`).
@@ -56,9 +56,9 @@ If no — leave the branch as-is and note it in the debrief under **Next Steps**
 List all docs generated during this mission:
 - Brief: `docs/iris-ai/briefs/{slug}-brief.md`
 - Spec: `docs/iris-ai/specs/{slug}-spec.md`
-- Plan: `docs/iris-ai/tasks/{slug}-plan.md`
+- Plan: `docs/iris-ai/plans/{slug}-plan.md`
 - Implementation Notes: `docs/iris-ai/docs/{slug}-ops.md`
-- Debrief: `docs/iris-ai/docs/{slug}-debrief.md`
+- Debrief: `docs/iris-ai/debriefs/{slug}-debrief.md`
 
 Ask: "Want to export any of these as `.docx`?"
 

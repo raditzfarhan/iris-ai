@@ -122,7 +122,7 @@ Jump to a specific stage directly:
 ```
 /iris spec      ← requires a confirmed brief in docs/iris-ai/briefs/
 /iris plan      ← requires a confirmed spec in docs/iris-ai/specs/
-/iris ops       ← requires an approved plan
+/iris ops       ← requires an approved plan in docs/iris-ai/plans/
 /iris debrief   ← wraps up a completed implementation
 ```
 
@@ -136,9 +136,9 @@ Every mission generates structured docs under `.iris-ai/outputs/` in the target 
 |---|---|---|
 | Brief | `{slug}-brief.md` | `docs/iris-ai/briefs/` |
 | Spec | `{slug}-spec.md` | `docs/iris-ai/specs/` |
-| Plan | `{slug}-plan.md` | `docs/iris-ai/tasks/` |
+| Plan | `{slug}-plan.md` | `docs/iris-ai/plans/` |
 | Implementation notes | `{slug}-ops.md` | `docs/iris-ai/docs/` |
-| Debrief | `{slug}-debrief.md` | `docs/iris-ai/docs/` |
+| Debrief | `{slug}-debrief.md` | `docs/iris-ai/debriefs/` |
 
 ---
 
@@ -204,8 +204,9 @@ your-project/                     ← after project install
 ├── docs/iris-ai/
 │   ├── briefs/                   ← brief docs
 │   ├── specs/                    ← spec docs
-│   ├── tasks/                    ← plan docs
-│   └── docs/                     ← ops notes + debrief docs
+│   ├── plans/                    ← plan docs
+│   ├── docs/                     ← ops notes
+│   └── debriefs/                 ← debrief docs
 │
 │   Each selected tool gets its own directory:
 │

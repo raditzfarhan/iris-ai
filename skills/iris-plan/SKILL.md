@@ -74,7 +74,7 @@ End with: "Plan ready. Confirm to begin implementation."
 
 ### 6. Save the plan
 
-Save all files to `docs/iris-ai/tasks/`:
+Save all files to `docs/iris-ai/plans/`:
 
 **Master file** — `YYYY-MM-DD-{slug}-plan.md`
 
@@ -96,8 +96,8 @@ Include:
   - `**What:**`, `**Test first:**`, `**Agent:**`, `**Subagent:**`, `**Est:**`
 
 After saving, output clickable links:
-> Saved: [docs/iris-ai/tasks/YYYY-MM-DD-{slug}-plan.md](docs/iris-ai/tasks/YYYY-MM-DD-{slug}-plan.md)
-> Per-group files: [g1](docs/iris-ai/tasks/YYYY-MM-DD-{slug}-plan-g1.md), [g2](docs/iris-ai/tasks/YYYY-MM-DD-{slug}-plan-g2.md) … (one link per group)
+> Saved: [docs/iris-ai/plans/YYYY-MM-DD-{slug}-plan.md](docs/iris-ai/plans/YYYY-MM-DD-{slug}-plan.md)
+> Per-group files: [g1](docs/iris-ai/plans/YYYY-MM-DD-{slug}-plan-g1.md), [g2](docs/iris-ai/plans/YYYY-MM-DD-{slug}-plan-g2.md) … (one link per group)
 
 ### 7. Wait for confirmation
 Only after user confirms: "Plan confirmed. Starting implementation." — invoke `.claude/skills/iris-ops/SKILL.md`.

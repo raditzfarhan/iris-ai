@@ -398,13 +398,14 @@ done
 if [ "$GLOBAL" = "0" ]; then
   mkdir -p "$TARGET/docs/iris-ai/briefs"
   mkdir -p "$TARGET/docs/iris-ai/specs"
-  mkdir -p "$TARGET/docs/iris-ai/tasks"
+  mkdir -p "$TARGET/docs/iris-ai/plans"
   mkdir -p "$TARGET/docs/iris-ai/docs"
+  mkdir -p "$TARGET/docs/iris-ai/debriefs"
 
   echo -e "${YELLOW}Project files${NC} → $TARGET/.iris-ai"
   fetch_file "AGENTS.md" "$TARGET/.iris-ai/AGENTS.md"
   fetch_file "CLAUDE.md" "$TARGET/.iris-ai/CLAUDE.md"
-  echo -e "  ${CYAN}create${NC}   $TARGET/docs/iris-ai/{briefs,specs,tasks,docs}"
+  echo -e "  ${CYAN}create${NC}   $TARGET/docs/iris-ai/{briefs,specs,plans,docs,debriefs}"
   echo ""
 fi
 

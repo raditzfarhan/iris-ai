@@ -179,6 +179,6 @@ Done / Blocked (reason)
 ## Docs Generated
 - [Brief](docs/iris-ai/briefs/{slug}-brief.md)
 - [Spec](docs/iris-ai/specs/{slug}-spec.md)
-- [Plan](docs/iris-ai/tasks/{slug}-plan.md)
+- [Plan](docs/iris-ai/plans/{slug}-plan.md)
 - [Implementation Notes](docs/iris-ai/docs/{slug}-ops.md)
 ```
