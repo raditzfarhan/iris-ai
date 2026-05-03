@@ -120,8 +120,8 @@ Once installed, open Claude Code in the target project and run:
 Jump to a specific stage directly:
 
 ```
-/iris spec      ← requires a confirmed brief in .iris-ai/outputs/briefs/
-/iris plan      ← requires a confirmed spec in .iris-ai/outputs/specs/
+/iris spec      ← requires a confirmed brief in docs/iris-ai/briefs/
+/iris plan      ← requires a confirmed spec in docs/iris-ai/specs/
 /iris ops       ← requires an approved plan
 /iris debrief   ← wraps up a completed implementation
 ```
@@ -134,11 +134,11 @@ Every mission generates structured docs under `.iris-ai/outputs/` in the target 
 
 | Stage | File | Folder |
 |---|---|---|
-| Brief | `{slug}-brief.md` | `.iris-ai/outputs/briefs/` |
-| Spec | `{slug}-spec.md` | `.iris-ai/outputs/specs/` |
-| Plan | `{slug}-plan.md` | `.iris-ai/outputs/tasks/` |
-| Implementation notes | `{slug}-ops.md` | `.iris-ai/outputs/docs/` |
-| Debrief | `{slug}-debrief.md` | `.iris-ai/outputs/docs/` |
+| Brief | `{slug}-brief.md` | `docs/iris-ai/briefs/` |
+| Spec | `{slug}-spec.md` | `docs/iris-ai/specs/` |
+| Plan | `{slug}-plan.md` | `docs/iris-ai/tasks/` |
+| Implementation notes | `{slug}-ops.md` | `docs/iris-ai/docs/` |
+| Debrief | `{slug}-debrief.md` | `docs/iris-ai/docs/` |
 
 ---
 
@@ -200,11 +200,12 @@ your-project/                     ← after project install
 ├── .iris-ai/
 │   ├── AGENTS.md                 ← IRIS agent index
 │   ├── CLAUDE.md                 ← IRIS instructions (auto-loaded by Claude)
-│   └── outputs/
-│       ├── briefs/               ← brief docs
-│       ├── specs/                ← spec docs
-│       ├── tasks/                ← plan docs
-│       └── docs/                 ← ops notes + debrief docs
+│   └── version                   ← installed IRIS version
+├── docs/iris-ai/
+│   ├── briefs/                   ← brief docs
+│   ├── specs/                    ← spec docs
+│   ├── tasks/                    ← plan docs
+│   └── docs/                     ← ops notes + debrief docs
 │
 │   Each selected tool gets its own directory:
 │

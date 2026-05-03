@@ -11,8 +11,8 @@ Convert the confirmed spec into a precise, sequenced task list grouped by featur
 ## Process
 
 ### 1. Load context
-- Read confirmed spec from `.iris-ai/outputs/specs/*-spec.md`
-- Read confirmed brief from `.iris-ai/outputs/briefs/*-brief.md`
+- Read confirmed spec from `docs/iris-ai/specs/*-spec.md`
+- Read confirmed brief from `docs/iris-ai/briefs/*-brief.md`
 
 ### 2. Generate task list
 Break implementation into atomic tasks following this discipline:
@@ -74,7 +74,7 @@ End with: "Plan ready. Confirm to begin implementation."
 
 ### 6. Save the plan
 
-Save all files to `.iris-ai/outputs/tasks/`:
+Save all files to `docs/iris-ai/tasks/`:
 
 **Master file** — `YYYY-MM-DD-{slug}-plan.md`
 
@@ -96,8 +96,8 @@ Include:
   - `**What:**`, `**Test first:**`, `**Agent:**`, `**Subagent:**`, `**Est:**`
 
 After saving, output clickable links:
-> Saved: [.iris-ai/outputs/tasks/YYYY-MM-DD-{slug}-plan.md](.iris-ai/outputs/tasks/YYYY-MM-DD-{slug}-plan.md)
-> Per-group files: [g1](.iris-ai/outputs/tasks/YYYY-MM-DD-{slug}-plan-g1.md), [g2](.iris-ai/outputs/tasks/YYYY-MM-DD-{slug}-plan-g2.md) … (one link per group)
+> Saved: [docs/iris-ai/tasks/YYYY-MM-DD-{slug}-plan.md](docs/iris-ai/tasks/YYYY-MM-DD-{slug}-plan.md)
+> Per-group files: [g1](docs/iris-ai/tasks/YYYY-MM-DD-{slug}-plan-g1.md), [g2](docs/iris-ai/tasks/YYYY-MM-DD-{slug}-plan-g2.md) … (one link per group)
 
 ### 7. Wait for confirmation
 Only after user confirms: "Plan confirmed. Starting implementation." — invoke `.claude/skills/iris-ops/SKILL.md`.

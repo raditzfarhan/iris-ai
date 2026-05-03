@@ -396,15 +396,15 @@ done
 
 # ── Project-level files (always in the project, never global) ─────────────────
 if [ "$GLOBAL" = "0" ]; then
-  mkdir -p "$TARGET/.iris-ai/outputs/briefs"
-  mkdir -p "$TARGET/.iris-ai/outputs/specs"
-  mkdir -p "$TARGET/.iris-ai/outputs/tasks"
-  mkdir -p "$TARGET/.iris-ai/outputs/docs"
+  mkdir -p "$TARGET/docs/iris-ai/briefs"
+  mkdir -p "$TARGET/docs/iris-ai/specs"
+  mkdir -p "$TARGET/docs/iris-ai/tasks"
+  mkdir -p "$TARGET/docs/iris-ai/docs"
 
   echo -e "${YELLOW}Project files${NC} → $TARGET/.iris-ai"
   fetch_file "AGENTS.md" "$TARGET/.iris-ai/AGENTS.md"
   fetch_file "CLAUDE.md" "$TARGET/.iris-ai/CLAUDE.md"
-  echo -e "  ${CYAN}create${NC}   $TARGET/.iris-ai/outputs/{briefs,tasks,docs}"
+  echo -e "  ${CYAN}create${NC}   $TARGET/docs/iris-ai/{briefs,specs,tasks,docs}"
   echo ""
 fi
 

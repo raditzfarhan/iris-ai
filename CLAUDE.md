@@ -24,7 +24,7 @@ Usage:
 2. Load agents/iris-agent.md
 3. Load the relevant iris-* skill
 4. Execute the stage
-5. Save output to outputs/{type}/YYYY-MM-DD-{slug}-{stage}.md
+5. Save output to docs/iris-ai/{type}/YYYY-MM-DD-{slug}-{stage}.md
 6. Chain to next stage automatically (unless awaiting user input)
 ```
 
@@ -34,11 +34,11 @@ Usage:
 
 | Stage | File | Folder |
 |---|---|---|
-| Brief | `{slug}-brief.md` | `.iris-ai/outputs/briefs/` |
-| Spec | `{slug}-spec.md` | `.iris-ai/outputs/specs/` |
-| Plan | `{slug}-plan.md` | `.iris-ai/outputs/tasks/` |
-| Implementation notes | `{slug}-ops.md` | `.iris-ai/outputs/docs/` |
-| Debrief | `{slug}-debrief.md` | `.iris-ai/outputs/docs/` |
+| Brief | `{slug}-brief.md` | `docs/iris-ai/briefs/` |
+| Spec | `{slug}-spec.md` | `docs/iris-ai/specs/` |
+| Plan | `{slug}-plan.md` | `docs/iris-ai/tasks/` |
+| Implementation notes | `{slug}-ops.md` | `docs/iris-ai/docs/` |
+| Debrief | `{slug}-debrief.md` | `docs/iris-ai/docs/` |
 
 ---
 

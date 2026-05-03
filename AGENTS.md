@@ -34,12 +34,12 @@ All agent definitions live in `agents/`. Each file contains the agent's role, pr
 
 ## Output files
 
-Every mission generates structured docs under `.iris-ai/outputs/` — always in the project folder, never global:
+Every mission generates structured docs under `docs/iris-ai/` — always in the project folder, never global:
 
 | Stage | File | Folder |
 |---|---|---|
-| Brief | `{slug}-brief.md` | `.iris-ai/outputs/briefs/` |
-| Spec | `{slug}-spec.md` | `.iris-ai/outputs/specs/` |
-| Plan | `{slug}-plan.md` | `.iris-ai/outputs/tasks/` |
-| Implementation notes | `{slug}-ops.md` | `.iris-ai/outputs/docs/` |
-| Debrief | `{slug}-debrief.md` | `.iris-ai/outputs/docs/` |
+| Brief | `{slug}-brief.md` | `docs/iris-ai/briefs/` |
+| Spec | `{slug}-spec.md` | `docs/iris-ai/specs/` |
+| Plan | `{slug}-plan.md` | `docs/iris-ai/tasks/` |
+| Implementation notes | `{slug}-ops.md` | `docs/iris-ai/docs/` |
+| Debrief | `{slug}-debrief.md` | `docs/iris-ai/docs/` |
