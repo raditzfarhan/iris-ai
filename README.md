@@ -139,6 +139,7 @@ Every mission generates structured docs under `.iris-ai/outputs/` in the target 
 | Plan | `{slug}-plan.md` | `docs/iris-ai/plans/` |
 | Implementation notes | `{slug}-ops.md` | `docs/iris-ai/docs/` |
 | Debrief | `{slug}-debrief.md` | `docs/iris-ai/debriefs/` |
+| Any other generated doc | `{slug}-{name}.md` | `docs/iris-ai/docs/` |
 
 ---
 
@@ -205,7 +206,7 @@ your-project/                     ← after project install
 │   ├── briefs/                   ← brief docs
 │   ├── specs/                    ← spec docs
 │   ├── plans/                    ← plan docs
-│   ├── docs/                     ← ops notes
+│   ├── docs/                     ← ops notes + any other generated docs
 │   └── debriefs/                 ← debrief docs
 │
 │   Each selected tool gets its own directory:

@@ -39,6 +39,7 @@ Usage:
 | Plan | `{slug}-plan.md` | `docs/iris-ai/plans/` |
 | Implementation notes | `{slug}-ops.md` | `docs/iris-ai/docs/` |
 | Debrief | `{slug}-debrief.md` | `docs/iris-ai/debriefs/` |
+| Any other generated doc | `{slug}-{name}.md` | `docs/iris-ai/docs/` |
 
 ---
 
