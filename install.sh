@@ -263,14 +263,14 @@ SKILL_FILES=(
 )
 
 # ── ASCII art + header ────────────────────────────────────────────────────────
-# I=blue, R=red, I=blue, S=red — Ejen Ali's costume colours
+# 256-color gradient: blue (top) → red (bottom) — Ejen Ali's costume colours
 echo ""
-echo -e "  ${BLUE_B}██╗${RED_B}██████╗ ${BLUE_B}██╗${RED_B}███████╗${NC}"
-echo -e "  ${BLUE_B}██║${RED_B}██╔══██╗${BLUE_B}██║${RED_B}██╔════╝${NC}"
-echo -e "  ${BLUE_B}██║${RED_B}██████╔╝${BLUE_B}██║${RED_B}███████╗${NC}"
-echo -e "  ${BLUE_B}██║${RED_B}██╔══██╗${BLUE_B}██║${RED_B}╚════██║${NC}"
-echo -e "  ${BLUE_B}██║${RED_B}██║  ██║${BLUE_B}██║${RED_B}███████║${NC}"
-echo -e "  ${BLUE_B}╚═╝${RED_B}╚═╝  ╚═╝${BLUE_B}╚═╝${RED_B}╚══════╝${NC}"
+echo -e "  \033[1;38;5;27m██╗██████╗ ██╗███████╗${NC}"
+echo -e "  \033[1;38;5;57m██║██╔══██╗██║██╔════╝${NC}"
+echo -e "  \033[1;38;5;93m██║██████╔╝██║███████╗${NC}"
+echo -e "  \033[1;38;5;129m██║██╔══██╗██║╚════██║${NC}"
+echo -e "  \033[1;38;5;161m██║██║  ██║██║███████║${NC}"
+echo -e "  \033[1;38;5;196m╚═╝╚═╝  ╚═╝╚═╝╚══════╝${NC}"
 echo -e "${DIM}  Dev Workflow Suite for AI Coding Tools${NC}"
 echo ""
 
