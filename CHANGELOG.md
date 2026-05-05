@@ -6,6 +6,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.0.3] — 2026-05-05
+
+### Changed
+
+- `sync-version.yml` renamed to `Release` workflow — now creates a GitHub Release automatically on every tag push, with release notes extracted from the matching `## [x.y.z]` section in `CHANGELOG.md`
+
+---
+
 ## [1.0.2] — 2026-05-05
 
 ### Fixed
@@ -80,6 +88,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Debrief docs moved from `docs/` to dedicated `debriefs/` folder
 - `docs/iris-ai/docs/` designated as catch-all for any other generated docs
 
+[1.0.3]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.0.3
 [1.0.2]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.0.2
 [1.0.1]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.0.1
 [1.0.0]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.0.0
