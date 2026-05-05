@@ -3,7 +3,7 @@ name: Sync VERSION
 on:
   push:
     tags:
-      - 'v*'
+      - '[0-9]*'
 
 jobs:
   sync:
@@ -16,7 +16,7 @@ jobs:
           ref: main
 
       - name: Write version
-        run: echo "${GITHUB_REF_NAME#v}" > VERSION
+        run: echo "${GITHUB_REF_NAME}" > VERSION
 
       - name: Commit VERSION
         run: |
