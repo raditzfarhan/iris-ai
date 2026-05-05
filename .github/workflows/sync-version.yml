@@ -1,12 +1,12 @@
-name: Sync VERSION
+name: Release
 
 on:
   push:
     tags:
-      - '[0-9]*'
+      - "[0-9]*"
 
 jobs:
-  sync:
+  release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -15,13 +15,28 @@ jobs:
         with:
           ref: main
 
-      - name: Write version
-        run: echo "${GITHUB_REF_NAME}" > VERSION
-
-      - name: Commit VERSION
+      - name: Sync VERSION
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          echo "${GITHUB_REF_NAME}" > VERSION
+          git config user.name "raditzfarhan"
+          git config user.email "raditzfarhan@gmail.com"
           git add VERSION
           git diff --cached --quiet || git commit -m "chore: sync VERSION to ${GITHUB_REF_NAME}"
           git push
+
+      - name: Extract changelog notes
+        id: notes
+        run: |
+          VERSION="${GITHUB_REF_NAME}"
+          NOTES=$(awk "/^## \[${VERSION}\]/{found=1; next} found && /^## \[/{exit} found{print}" CHANGELOG.md)
+          echo "notes<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$NOTES" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" \
+            --title "v${GITHUB_REF_NAME}" \
+            --notes "${{ steps.notes.outputs.notes }}"
