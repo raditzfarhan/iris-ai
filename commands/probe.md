@@ -4,8 +4,8 @@
 `probe` → load from `agents/probe-agent.md`
 
 ## Context to load
-1. Check `.iris-ai/outputs/briefs/` for the most recent spec and brief
-2. Check `.iris-ai/outputs/tasks/` for the most recent plan
+1. Check `docs/iris-ai/briefs/` for the most recent brief and `docs/iris-ai/specs/` for the most recent spec
+2. Check `docs/iris-ai/plans/` for the most recent plan
 3. Pass relevant context to Probe
 
 ## Input

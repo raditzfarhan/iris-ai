@@ -19,8 +19,8 @@ If no argument is given, ask: "What are we building?"
 
 ## Context to load before executing any stage
 
-1. Check `.iris-ai/outputs/briefs/` for the most recent `*-brief.md` and `*-spec.md`
-2. Check `.iris-ai/outputs/tasks/` for the most recent `*-plan.md`
+1. Check `docs/iris-ai/briefs/` for the most recent `*-brief.md` and `docs/iris-ai/specs/` for the most recent `*-spec.md`
+2. Check `docs/iris-ai/plans/` for the most recent `*-plan.md`
 3. Pass relevant context to the active skill
 
 ## Chaining

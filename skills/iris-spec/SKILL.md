@@ -11,7 +11,7 @@ Turn the confirmed brief into a complete technical spec that leaves nothing to i
 ## Process
 
 ### 1. Load context
-- Read the confirmed brief from `.iris-ai/outputs/briefs/*-brief.md`
+- Read the confirmed brief from `docs/iris-ai/briefs/*-brief.md`
 - Read project files to understand the existing codebase: stack, conventions, patterns
 - Scan `skills/` directory — list all available skills and assess which apply to this feature
 - Scan `.claude/agents/` directory — list all available agents and assess which apply

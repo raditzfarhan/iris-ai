@@ -105,7 +105,7 @@ The installer detects AI coding tools present in the project and shows an **inte
 
 Each selected tool gets its own copy of all files in its own directory. Fallback (`.ai/`) is used when no tool is selected or detected.
 
-Generated docs (`.iris-ai/outputs/`), `AGENTS.md`, and `CLAUDE.md` always install into the project folder — never globally.
+Generated docs (`docs/iris-ai/`), `AGENTS.md`, and `CLAUDE.md` always install into the project folder — never globally.
 
 ---
 
@@ -130,7 +130,7 @@ Jump to a specific stage directly:
 
 ## Output Files
 
-Every mission generates structured docs under `.iris-ai/outputs/` in the target project:
+Every mission generates structured docs under `docs/iris-ai/` in the target project:
 
 | Stage | File | Folder |
 |---|---|---|
