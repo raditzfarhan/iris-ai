@@ -1,12 +1,17 @@
 ---
 name: iris-ops
-description: Use when executing an approved implementation plan task by task — following TDD, dispatching subagents, running tests, and reviewing code between tasks. Also use when asked to implement, build, code, execute the plan, or start development on a confirmed spec and plan.
+description: Use when executing an approved implementation plan task by task — following TDD or Verify mode, dispatching subagents, running tests, and reviewing code between tasks. Also use when asked to implement, build, code, execute the plan, or start development on a confirmed spec and plan.
 ---
 
 # iris-ops
 
 ## Overview
-Execute the approved plan strictly and methodically. TDD on every task. Full test suite between tasks. Code review between tasks. No skipping, no shortcuts.
+Execute the approved plan strictly and methodically. Two execution modes are supported — chosen once at the start of ops and applied consistently to every task. Full test suite between tasks. Code review between tasks. No skipping, no shortcuts.
+
+| Mode | Order | When to use |
+|---|---|---|
+| **TDD** | Test (RED) → Implement (GREEN) → Refactor | Interface is uncertain or the task is exploratory |
+| **Verify** | Implement → Test against spec → Green → Refactor | Spec is tight and you know exactly what you're writing |
 
 ## Process
 
@@ -37,13 +42,30 @@ Before writing any code, set up the correct branch following git flow:
 
 Never implement directly on `main`, `master`, or `develop`. If the user insists, warn them and ask for explicit confirmation before complying.
 
-### 3. Identify current task
+### 3. Choose execution mode
+
+Ask the user once before the first task:
+
+```
+Which execution mode?
+
+  1. TDD — write the failing test first, then implement (classic red-green-refactor)
+  2. Verify — implement first, then write tests against the spec until green
+
+Both modes require all tests to pass before moving to the next task.
+```
+
+Store the chosen mode and apply it to every task in this ops session. Do not ask again per task.
+
+### 4. Identify current task
 - Identify the current task (first incomplete task in the active group file)
 - When `Subagent: yes` on a task, read the `Agent` field from the task definition
 - If `Agent` is `audit` or `probe`, load `agents/{name}-agent.md` as the agent context for that subagent dispatch
 - If `Agent` is blank or `iris`, IRIS handles the task itself
 
-### 4. For each task — TDD cycle
+### 5. For each task — execution cycle
+
+#### TDD mode
 
 **Step 1 — Write the test (RED)**
 Write the test defined in the plan for this task. Run it. Confirm it fails. If it doesn't fail, the test is wrong — fix it before proceeding.
@@ -51,23 +73,45 @@ Write the test defined in the plan for this task. Run it. Confirm it fails. If i
 **Step 2 — Implement (GREEN)**
 Write the minimum code to make the test pass. No more than what's needed.
 
+**Step 3 — Refactor**
+Clean up the implementation if needed. Run tests again. Still green.
+
+---
+
+#### Verify mode
+
+**Step 1 — Implement**
+Write the full implementation for this task as defined in the plan.
+
+**Step 2 — Write tests against the spec**
+Write tests that verify the spec requirement this task covers. Reference the spec — not the code you just wrote. The test must be an independent verifier of the requirement, not a mirror of the implementation.
+
+**Step 3 — Run until green**
+Run the tests. Fix the implementation (or the test if it's wrong) until all pass.
+
+**Step 4 — Refactor**
+Clean up the implementation if needed. Run tests again. Still green.
+
+---
+
+#### Both modes — subagent dispatch
+
 If this task is flagged for subagent dispatch:
 - Dispatch a subagent with:
   - Full spec doc
   - Full plan doc
   - This specific task definition
+  - The active execution mode (TDD or Verify)
   - Agent context: `agents/{name}-agent.md` (loaded from the `Agent` field)
   - Instruction to follow the agent's own process and return when done
 - Wait for subagent result
 - Verify the agent's output and tests before accepting
 
-**Step 3 — Refactor**
-Clean up the implementation if needed. Run tests again. Still green.
+#### Both modes — full test suite
 
-**Step 4 — Run full test suite**
-Run ALL tests, not just the new one. Every test must pass before moving on. If any test fails — stop, fix, re-run. Do not proceed with a red suite.
+After every task (regardless of mode): run ALL tests, not just the new ones. Every test must pass before moving on. If any test fails — stop, fix, re-run. Do not proceed with a red suite.
 
-**Step 5 — Track deviations**
+**Step N — Track deviations**
 If this task's implementation differed structurally from the spec or plan, add it to the deviation list (kept in memory until the end-of-group sync):
 - API shape changed
 - Data model field added or removed
@@ -76,7 +120,7 @@ If this task's implementation differed structurally from the spec or plan, add i
 
 Cosmetic or naming differences are not deviations — do not track them.
 
-### 5. Between-task review
+### 6. Between-task review
 
 After every task, before starting the next:
 
@@ -100,7 +144,7 @@ Issues found: none / [list with severity]
 
 If issues are found: fix them before moving to the next task.
 
-### 6. End-of-group sequence
+### 7. End-of-group sequence
 
 When all tasks in the active group file are complete, before starting any new group:
 
@@ -148,23 +192,24 @@ Next up: Group {N+1}: {Name} ({X} tasks) — feature/{next-group-slug}
 
 **Wait for user response.** After options 1 or 2 complete, wait — do not auto-start the next group. The next group starts only when the user explicitly says so ("continue", "start group 2", etc.).
 
-### 7. Progress tracking
+### 8. Progress tracking
 After each task report, show: `Group {G} — Progress: {N}/{total} tasks complete`
 
 Announce the next task before starting it.
 
-### 8. Save implementation notes
+### 9. Save implementation notes
 Append each task's output to: `docs/iris-ai/docs/YYYY-MM-DD-{slug}-ops.md`
 
 After the first task's output is appended (file created), output a clickable link:
 > Ops log: [docs/iris-ai/docs/YYYY-MM-DD-{slug}-ops.md](docs/iris-ai/docs/YYYY-MM-DD-{slug}-ops.md)
 
-### 9. Chain to iris-debrief
+### 10. Chain to iris-debrief
 When all groups show status `done` in the master plan: show "All groups complete. All tests green." — invoke `.claude/skills/iris-debrief/SKILL.md` automatically.
 
 ## Rules
 - Always create a `feature/{group-slug}` branch per group before writing any code — never implement on `main`, `master`, or `develop`
-- TDD is non-negotiable — write the test first, always
+- Ask for execution mode once at the start — apply it consistently to every task, never mix mid-session
+- In Verify mode, write tests against the spec requirement — never against the implementation
 - Never move to the next task with a failing test
 - Never skip the between-task code review
 - Subagents receive the full spec + plan context — never a partial brief
