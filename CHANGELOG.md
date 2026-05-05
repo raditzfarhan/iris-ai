@@ -6,6 +6,19 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.0.1] — 2026-05-05
+
+### Added
+
+- `/iris version` — shows the installed IRIS version by reading `.iris-ai/version`; prints a helpful message if the file is missing
+- GitHub Actions workflow (`sync-version.yml`) — automatically writes `VERSION` from the tag name on every `v*` tag push, keeping the file in sync without manual edits
+
+### Changed
+
+- README version badge switched from static (`shields.io/badge`) to dynamic (`shields.io/github/v/release`) — updates automatically on each GitHub release
+
+---
+
 ## [1.0.0] — 2026-05-05
 
 ### Added
@@ -58,4 +71,5 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Debrief docs moved from `docs/` to dedicated `debriefs/` folder
 - `docs/iris-ai/docs/` designated as catch-all for any other generated docs
 
+[1.0.1]: https://github.com/raditzfarhan/iris-ai/releases/tag/v1.0.1
 [1.0.0]: https://github.com/raditzfarhan/iris-ai/releases/tag/v1.0.0
