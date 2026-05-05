@@ -6,6 +6,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.0.4] — 2026-05-06
+
+### Added
+
+- **Verify mode** in `iris-ops` — implement first, then write tests against the spec (not the code) until green; complements classic TDD for cases where the spec is tight and the implementation is already clear
+- Mode selection prompt at the start of every ops session — choose TDD or Verify once, applied consistently to every task
+- Subagent dispatch now passes the active execution mode so subagents honour the same choice
+
+---
+
 ## [1.0.3] — 2026-05-05
 
 ### Changed
@@ -88,6 +98,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Debrief docs moved from `docs/` to dedicated `debriefs/` folder
 - `docs/iris-ai/docs/` designated as catch-all for any other generated docs
 
+[1.0.4]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.0.4
 [1.0.3]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.0.3
 [1.0.2]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.0.2
 [1.0.1]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.0.1
