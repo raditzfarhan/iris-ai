@@ -1,0 +1,27 @@
+name: Sync VERSION
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Write version
+        run: echo "${GITHUB_REF_NAME#v}" > VERSION
+
+      - name: Commit VERSION
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add VERSION
+          git diff --cached --quiet || git commit -m "chore: sync VERSION to ${GITHUB_REF_NAME}"
+          git push

@@ -14,8 +14,22 @@ Parse the arguments after `/iris`:
 | `/iris plan` | Plan | `skills/iris-plan/SKILL.md` |
 | `/iris ops` | Ops | `skills/iris-ops/SKILL.md` |
 | `/iris debrief` | Debrief | `skills/iris-debrief/SKILL.md` |
+| `/iris version` | Version | — (handled inline, no skill) |
 
 If no argument is given, ask: "What are we building?"
+
+### `/iris version` behaviour
+Read `.iris-ai/version`. Output exactly:
+
+```
+IRIS v{version}
+```
+
+If the file does not exist, output:
+
+```
+IRIS version unknown — .iris-ai/version not found. Re-run the installer to fix this.
+```
 
 ## Context to load before executing any stage
 
