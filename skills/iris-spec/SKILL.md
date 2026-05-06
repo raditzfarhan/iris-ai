@@ -6,37 +6,76 @@ description: Use when translating a confirmed brief into a detailed technical sp
 # iris-spec
 
 ## Overview
-Turn the confirmed brief into a complete technical spec that leaves nothing to interpretation. Identify what skills and agents are already available for implementation. Surface implementation options with tradeoffs.
+Turn the confirmed brief into a complete technical spec that leaves nothing to interpretation. Understand the codebase fully before recommending anything — reuse and extend what exists before proposing anything new.
 
 ## Process
 
-### 1. Load context
+### 1. Read the brief
 - Read the confirmed brief from `docs/iris-ai/briefs/*-brief.md`
-- Read project files to understand the existing codebase: stack, conventions, patterns
-- Scan `skills/` directory — list all available skills and assess which apply to this feature
-- Scan `.claude/agents/` directory — list all available agents and assess which apply
-- Check for existing tests, CI config, coding standards
+- Extract the core nouns and verbs — these are your search terms for step 2 (e.g. "user authentication" → search for `auth`, `login`, `user`, `session`)
 
-### 2. Surface implementation options
-Before writing anything, present the 2–3 implementation options to the user:
+### 2. Explore the codebase
+Use the brief's search terms to actively investigate what already exists. Do not skim — read the relevant files in full.
+
+**Stack and structure**
+- Identify the framework, language, folder conventions, and entry points
+- Read config files, `package.json` / `composer.json` / `pyproject.toml`, etc.
+- Note the existing folder structure for features similar to this one
+
+**Existing implementation**
+For each concept in the brief, search for:
+- Functions, methods, or classes that already do this or something close
+- Services, repositories, or helpers that could be extended
+- Existing routes, controllers, or handlers in the same domain
+- Database tables, models, or schemas related to the feature
+- Utility functions that could be reused
+
+**Patterns and conventions**
+- How are similar features structured? (e.g. if there's already a `UserService`, a new feature likely needs a similar service)
+- What naming conventions are used?
+- How is error handling done in existing code?
+- How are tests written and organised?
+
+**Skills and agents**
+- Scan `skills/` — list available skills and assess which apply
+- Scan `.claude/agents/` — list available agents and assess which apply
+
+**Produce a codebase summary before moving on:**
+```
+Codebase context:
+- Stack: {framework, language, key dependencies}
+- Relevant existing code:
+  - {file/function}: {what it does, how it relates to this feature}
+  - {file/function}: {reusable / extendable / replace}
+- Patterns to follow: {naming, structure, error handling}
+- Test setup: {framework, location, conventions}
+- Gaps: {what does not exist yet and must be built fresh}
+```
+
+### 3. Surface implementation options
+With full codebase context in hand, present 2–3 implementation options:
 
 For each option:
 - What it involves (one sentence)
+- What existing code it reuses or extends
+- What needs to be built fresh
 - Pros and cons
-- Mark one as **Recommended** with a clear reason (industry fit, simplicity, project context)
+- Mark one as **Recommended** — default to the option that reuses the most existing code while meeting the requirements cleanly
 
 Ask: "Which approach do you want to go with?" — wait for the user to pick before writing the spec.
 
-### 3. Write the spec
-Once the user has chosen an implementation direction, write the full spec following the iris-agent output structure for `iris-spec`:
+### 4. Write the spec
+Once the user has chosen an implementation direction, write the full spec:
+
+**Codebase Context** — what already exists that this feature builds on; what will be reused, extended, or replaced
 
 **Functional Requirements** — numbered (FR-01, FR-02...), each one testable and unambiguous
 
 **Non-Functional Requirements** — performance, security, reliability, scalability
 
-**Data Model** — tables, fields, types, relationships, indexes
+**Data Model** — tables, fields, types, relationships, indexes (mark each as existing / extended / new)
 
-**API Contracts** — endpoints, methods, request/response shapes, auth, error codes
+**API Contracts** — endpoints, methods, request/response shapes, auth, error codes (mark each as existing / extended / new)
 
 **Skills & Agents Available** — list which existing skills/agents from this project apply and how
 
@@ -46,22 +85,24 @@ Once the user has chosen an implementation direction, write the full spec follow
 
 **Out of Scope** — explicit list of what is NOT being built
 
-### 4. Present to user
+### 5. Present to user
 Show the written spec. Ask: "Does this look right? Anything to adjust?"
 
-### 5. Revise if needed
+### 6. Revise if needed
 Apply any changes. Re-present only the changed sections.
 
-### 6. Save the spec
+### 7. Save the spec
 Save to: `docs/iris-ai/specs/YYYY-MM-DD-{slug}-spec.md`
 
 After saving, output a clickable link:
 > Saved: [docs/iris-ai/specs/YYYY-MM-DD-{slug}-spec.md](docs/iris-ai/specs/YYYY-MM-DD-{slug}-spec.md)
 
-### 7. Chain to iris-plan
+### 8. Chain to iris-plan
 After confirmed: "Spec locked. Moving to plan." — invoke `.claude/skills/iris-plan/SKILL.md` automatically.
 
 ## Rules
+- Explore the codebase before forming any opinion — never recommend an approach without knowing what already exists
+- Default to reuse and extension over creating new code; only build fresh when nothing relevant exists
 - Every functional requirement must be testable
-- Never recommend an implementation option without explaining the tradeoff
+- Never recommend an implementation option without explaining the tradeoff and what it reuses vs builds new
 - If existing skills/agents cover part of the implementation, reference them explicitly — do not reinvent

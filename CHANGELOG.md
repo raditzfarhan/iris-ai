@@ -6,6 +6,21 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.0.5] — 2026-05-06
+
+### Added
+
+- MIT license (`LICENSE.md`)
+- License badge in README
+
+### Changed
+
+- `iris-spec` codebase exploration overhauled — now actively searches for existing functions, services, models, and patterns related to the feature before recommending any approach; defaults to reuse and extension over creating new code
+- Implementation options in `iris-spec` now include what each option reuses vs builds fresh
+- Spec output includes a **Codebase Context** section; data model and API contracts mark each item as existing / extended / new
+
+---
+
 ## [1.0.4] — 2026-05-06
 
 ### Added
@@ -98,6 +113,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Debrief docs moved from `docs/` to dedicated `debriefs/` folder
 - `docs/iris-ai/docs/` designated as catch-all for any other generated docs
 
+[1.0.5]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.0.5
 [1.0.4]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.0.4
 [1.0.3]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.0.3
 [1.0.2]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.0.2

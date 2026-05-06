@@ -1,6 +1,6 @@
 # IRIS
 
-![Version](https://img.shields.io/github/v/release/raditzfarhan/iris-ai) ![Claude Code](https://img.shields.io/badge/Claude%20Code-compatible-blueviolet)
+![Version](https://img.shields.io/github/v/release/raditzfarhan/iris-ai) ![Claude Code](https://img.shields.io/badge/Claude%20Code-compatible-blueviolet) ![License](https://img.shields.io/github/license/raditzfarhan/iris-ai)
 
 A dev workflow command suite for Claude Code. IRIS guides any development task from raw idea to working, tested, reviewed implementation — one disciplined stage at a time.
 
