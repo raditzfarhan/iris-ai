@@ -6,6 +6,26 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.1.0] — 2026-06-24
+
+### Added
+
+- **`iris-spec-review`** — new quality-gate stage that runs automatically after `iris-spec` saves the spec, before handing off to `iris-plan`
+  - Checks four dimensions: completeness (no TBD/placeholders), requirement alignment (spec matches brief, no scope creep), buildability (every FR is actionable without ambiguity), and contradictions (no conflicting requirements or NFRs)
+  - Calibrated to flag only issues that will cause real problems during implementation — not style, not theory
+  - Outputs a `PASSED` summary or a `NEEDS REVISION` findings table with a clear "why it blocks implementation" column
+  - Loops until clean, then chains to `iris-plan` automatically
+- `/iris spec-review` — direct command to re-run the spec quality gate at any point
+
+### Changed
+
+- `iris-spec` now chains to `iris-spec-review` automatically after saving (previously chained directly to `iris-plan`)
+- `iris-plan` self-review pass adds three new checks: **DRY** (no duplicated patterns), **KISS** (simplest solution), **YAGNI** (every task traces to a spec requirement)
+- `iris-plan` rules section now enforces DRY, KISS, and YAGNI explicitly
+- README updated to reflect the 6-stage workflow diagram, new stage description, updated usage commands, core principles, and file structure
+
+---
+
 ## [1.0.5] — 2026-05-06
 
 ### Added
@@ -113,6 +133,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Debrief docs moved from `docs/` to dedicated `debriefs/` folder
 - `docs/iris-ai/docs/` designated as catch-all for any other generated docs
 
+[1.1.0]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.1.0
 [1.0.5]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.0.5
 [1.0.4]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.0.4
 [1.0.3]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.0.3
