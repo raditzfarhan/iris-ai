@@ -6,6 +6,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.1.1] — 2026-06-24
+
+### Fixed
+
+- Installer (`install.sh`) now includes `skills/iris-spec-review/SKILL.md` in `SKILL_FILES` — it was missing from the file list, so fresh installs would not receive the spec review skill
+- Installer usage block updated to show `/iris spec-review` alongside the other stage commands
+
+---
+
 ## [1.1.0] — 2026-06-24
 
 ### Added
@@ -133,6 +142,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Debrief docs moved from `docs/` to dedicated `debriefs/` folder
 - `docs/iris-ai/docs/` designated as catch-all for any other generated docs
 
+[1.1.1]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.1.1
 [1.1.0]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.1.0
 [1.0.5]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.0.5
 [1.0.4]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.0.4
