@@ -11,6 +11,7 @@ Parse the arguments after `/iris`:
 |---|---|---|
 | `/iris <idea>` (no stage keyword) | Brief | `skills/iris-brief/SKILL.md` |
 | `/iris spec` | Spec | `skills/iris-spec/SKILL.md` |
+| `/iris spec-review` | Spec Review | `skills/iris-spec-review/SKILL.md` |
 | `/iris plan` | Plan | `skills/iris-plan/SKILL.md` |
 | `/iris ops` | Ops | `skills/iris-ops/SKILL.md` |
 | `/iris debrief` | Debrief | `skills/iris-debrief/SKILL.md` |

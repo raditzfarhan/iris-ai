@@ -97,8 +97,8 @@ Save to: `docs/iris-ai/specs/YYYY-MM-DD-{slug}-spec.md`
 After saving, output a clickable link:
 > Saved: [docs/iris-ai/specs/YYYY-MM-DD-{slug}-spec.md](docs/iris-ai/specs/YYYY-MM-DD-{slug}-spec.md)
 
-### 8. Chain to iris-plan
-After confirmed: "Spec locked. Moving to plan." — invoke `.claude/skills/iris-plan/SKILL.md` automatically.
+### 8. Chain to iris-spec-review
+After saving: "Spec written. Running quality review before planning." — invoke `skills/iris-spec-review/SKILL.md` automatically.
 
 ## Rules
 - Explore the codebase before forming any opinion — never recommend an approach without knowing what already exists

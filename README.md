@@ -15,16 +15,16 @@ Named after **IRIS**, the AI companion in the Malaysian animated series *Ejen Al
 
 ---
 
-## The 5-Stage Workflow
+## The 6-Stage Workflow
 
 ```
 /iris <idea>
       │
       ▼
-  [ BRIEF ] ── auto ──▶ [ SPEC ] ── user picks option ──▶ [ PLAN ] ── user confirms ──▶ [ OPS ] ── auto ──▶ [ DEBRIEF ]
+  [ BRIEF ] ── auto ──▶ [ SPEC ] ── auto ──▶ [ SPEC REVIEW ] ── user picks option ──▶ [ PLAN ] ── user confirms ──▶ [ OPS ] ── auto ──▶ [ DEBRIEF ]
 ```
 
-IRIS chains automatically, pausing only at three points: clarification answers, implementation option selection, and plan confirmation.
+IRIS chains automatically, pausing only at three points: clarification answers, implementation option selection, and plan confirmation. The spec review loop runs silently until the spec is clean before presenting options.
 
 ---
 
@@ -33,6 +33,9 @@ Ask clarifying questions one at a time, each with labelled options (a, b, c…) 
 
 ### Spec — `/iris spec`
 Read the codebase. Scan available skills and agents. Write numbered testable requirements, data model, API contracts, and edge cases. Surface 2–3 implementation options with explicit tradeoffs. User picks direction before the plan is written.
+
+### Spec Review — `/iris spec-review`
+Quality-gate the spec before planning. Checks four dimensions: completeness (no TBD or vague placeholders), requirement alignment (spec matches the brief, no scope creep), buildability (every requirement is actionable without ambiguity), and contradictions (no FRs or NFRs conflict). Only flags issues that will cause real problems during implementation. If clean, approves and moves to plan automatically. If issues are found, returns a precise findings table and loops until resolved.
 
 ### Plan — `/iris plan`
 Break the spec into atomic 2–5 minute tasks. Every task has a test to write first and an Agent assigned from the dispatch table. Run a mandatory self-review pass — check for contradictions, gaps, loopholes, and feasibility. Present refined plan. Require explicit confirmation before ops begins.
@@ -122,11 +125,12 @@ Once installed, open Claude Code in the target project and run:
 Jump to a specific stage directly:
 
 ```
-/iris version   ← show installed IRIS version
-/iris spec      ← requires a confirmed brief in docs/iris-ai/briefs/
-/iris plan      ← requires a confirmed spec in docs/iris-ai/specs/
-/iris ops       ← requires an approved plan in docs/iris-ai/plans/
-/iris debrief   ← wraps up a completed implementation
+/iris version      ← show installed IRIS version
+/iris spec         ← requires a confirmed brief in docs/iris-ai/briefs/
+/iris spec-review  ← re-run spec quality gate (runs automatically after spec)
+/iris plan         ← requires a confirmed spec in docs/iris-ai/specs/
+/iris ops          ← requires an approved plan in docs/iris-ai/plans/
+/iris debrief      ← wraps up a completed implementation
 ```
 
 ---
@@ -151,10 +155,11 @@ Every mission generates structured docs under `docs/iris-ai/` in the target proj
 | Principle | Rule |
 |---|---|
 | No gaps before spec | Brief must be confirmed before spec is written |
+| Spec quality gate | Spec is reviewed for completeness, alignment, buildability, and contradictions before planning begins |
 | No execution before approval | Plan must be explicitly confirmed before ops starts |
 | TDD always | Write the failing test first. Every time. No exceptions. |
 | Bite-sized tasks | 2–5 minutes each. If larger, split it. |
-| Self-reviewing plan | Plan checks itself for contradictions, gaps, and feasibility before you see it |
+| Self-reviewing plan | Plan checks itself for contradictions, gaps, feasibility, and DRY/KISS/YAGNI violations before you see it |
 | Between-task review | Code review after every task. Fix issues before next task. |
 | Subagents for execution | Tasks can be dispatched as subagents with full spec + plan context |
 | Project-aware spec | Spec scans existing skills and agents — uses what's already there |
@@ -191,7 +196,8 @@ iris-ai/                          ← this repo
 ├── skills/
 │   ├── iris-brief/SKILL.md       ← clarify until zero gaps
 │   ├── iris-spec/SKILL.md        ← spec + project context scan + impl options
-│   ├── iris-plan/SKILL.md        ← bite-sized tasks + self-review + confirm gate
+│   ├── iris-spec-review/SKILL.md ← quality gate: completeness, alignment, buildability, contradictions
+│   ├── iris-plan/SKILL.md        ← bite-sized tasks + self-review (DRY/KISS/YAGNI) + confirm gate
 │   ├── iris-ops/SKILL.md         ← TDD + agent dispatch + between-task review
 │   └── iris-debrief/SKILL.md     ← wrap up + doc export offer
 ├── docs/
