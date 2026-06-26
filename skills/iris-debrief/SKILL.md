@@ -43,6 +43,32 @@ Following git flow, the feature branch should be merged back to `develop` (or `m
 Ask: "All done. Do you want to merge `feature/{slug}` back to `develop`?"
 
 If yes:
+
+**4a. Commit hygiene check** (before anything else)
+
+Run `git log --oneline develop..HEAD` (or `git log --oneline $(git merge-base develop HEAD)..HEAD` if the base branch name differs) to list all commits on the feature branch.
+
+Check each commit subject against the Conventional Commits format defined in `../references/commit-guidelines.md`:
+- Format: `type(scope): description` or `type: description`
+- Subject ≤ 50 characters
+
+Report one of:
+```
+Commit hygiene: PASS — all N commits follow Conventional Commits format
+```
+or:
+```
+Commit hygiene: NEEDS ATTENTION
+  - {short-sha} "{subject}" — {issue}
+  - {short-sha} "{subject}" — {issue}
+```
+
+If any commits are non-conforming: ask "Do you want to fix these before merging?" and wait for the user's answer before proceeding. Do not merge until the user explicitly continues.
+
+If zero commits are found on the branch: report "No commits found on this branch — verify the branch is correct before merging."
+
+**4b. Merge**
+
 1. Run the full test suite one final time — do not merge with a red suite
 2. Switch to the base branch: `git checkout develop`
 3. Pull latest: `git pull`
