@@ -263,6 +263,10 @@ SKILL_FILES=(
   "skills/iris-debrief/SKILL.md"
 )
 
+REFERENCE_FILES=(
+  "skills/references/commit-guidelines.md"
+)
+
 # ── ASCII art + header ────────────────────────────────────────────────────────
 # 256-color gradient: blue (top) → red (bottom) — Ejen Ali's costume colours
 echo ""
@@ -378,6 +382,11 @@ for tool in "${SELECTED_TOOLS[@]}"; do
   for file in "${SKILL_FILES[@]}"; do
     subdir="$(echo "$file" | cut -d'/' -f2)"
     fetch_file "$file" "$TOOL_SKILLS_DIR/$subdir/SKILL.md"
+  done
+
+  for file in "${REFERENCE_FILES[@]}"; do
+    relpath="${file#skills/}"
+    fetch_file "$file" "$TOOL_SKILLS_DIR/$relpath"
   done
 
   echo -e "  ${DIM}Agents${NC}   → $TOOL_AGENTS_DIR"

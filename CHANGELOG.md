@@ -6,6 +6,25 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.2.0] — 2026-06-26
+
+### Added
+
+- **`skills/references/commit-guidelines.md`** — shared commit reference file covering the frequency rule (commit at logical checkpoints, not at task-group boundaries), the classic 50/72 formatting rule, the full Conventional Commits specification with a canonical type table and breaking-change syntax, and a reusable commit message template with three worked examples
+- **Commit step in `iris-ops`** — new Step 7 "Commit the task" fires after the between-task review passes and before the next task begins; enforces one commit per task, references `commit-guidelines.md` for format, and appends a `Commit: {type}({scope}): {subject} [{short-sha}]` line to the task report; steps 7–10 renumbered to 8–11
+- **Commit hygiene checkpoint in `iris-debrief`** — Step 4 now runs a pre-merge hygiene check: lists all commits on the feature branch via `git log --oneline develop..HEAD`, validates each subject against Conventional Commits format, and surfaces non-conforming commits before asking whether to proceed with the merge
+
+### Changed
+
+- `iris-ops` Rules section now explicitly requires a commit after every task once the between-task review passes — batching multiple tasks into one commit is disallowed
+- Installer (`install.sh`) adds a `REFERENCE_FILES` array and install loop so that `skills/references/` files are copied to the target tool's skills directory alongside the per-stage `SKILL.md` files
+
+### Fixed
+
+- `iris-ops` Step 11 chain reference replaced `.claude/skills/iris-debrief/SKILL.md` (Claude-specific path) with the platform-neutral `iris-debrief` skill name
+
+---
+
 ## [1.1.1] — 2026-06-24
 
 ### Fixed
@@ -142,6 +161,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Debrief docs moved from `docs/` to dedicated `debriefs/` folder
 - `docs/iris-ai/docs/` designated as catch-all for any other generated docs
 
+[1.2.0]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.2.0
 [1.1.1]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.1.1
 [1.1.0]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.1.0
 [1.0.5]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.0.5
