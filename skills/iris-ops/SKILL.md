@@ -144,7 +144,20 @@ Issues found: none / [list with severity]
 
 If issues are found: fix them before moving to the next task.
 
-### 7. End-of-group sequence
+Update the task report with the commit line before closing out the task:
+```
+Commit: {type}({scope}): {subject} [{short-sha}]
+```
+
+### 7. Commit the task
+
+After the between-task review passes, commit all staged changes for this task:
+
+- Follow `../references/commit-guidelines.md` for message format and type selection
+- One commit per task — do not batch multiple tasks into one commit
+- If the working tree is clean (no file changes), skip the commit and note it in the task report
+
+### 8. End-of-group sequence
 
 When all tasks in the active group file are complete, before starting any new group:
 
@@ -192,19 +205,19 @@ Next up: Group {N+1}: {Name} ({X} tasks) — feature/{next-group-slug}
 
 **Wait for user response.** After options 1 or 2 complete, wait — do not auto-start the next group. The next group starts only when the user explicitly says so ("continue", "start group 2", etc.).
 
-### 8. Progress tracking
+### 9. Progress tracking
 After each task report, show: `Group {G} — Progress: {N}/{total} tasks complete`
 
 Announce the next task before starting it.
 
-### 9. Save implementation notes
+### 10. Save implementation notes
 Append each task's output to: `docs/iris-ai/docs/YYYY-MM-DD-{slug}-ops.md`
 
 After the first task's output is appended (file created), output a clickable link:
 > Ops log: [docs/iris-ai/docs/YYYY-MM-DD-{slug}-ops.md](docs/iris-ai/docs/YYYY-MM-DD-{slug}-ops.md)
 
-### 10. Chain to iris-debrief
-When all groups show status `done` in the master plan: show "All groups complete. All tests green." — invoke `.claude/skills/iris-debrief/SKILL.md` automatically.
+### 11. Chain to iris-debrief
+When all groups show status `done` in the master plan: show "All groups complete. All tests green." — invoke the `iris-debrief` skill automatically.
 
 ## Rules
 - Always create a `feature/{group-slug}` branch per group before writing any code — never implement on `main`, `master`, or `develop`
@@ -215,3 +228,4 @@ When all groups show status `done` in the master plan: show "All groups complete
 - Subagents receive the full spec + plan context — never a partial brief
 - If a task reveals a flaw in the plan, stop and surface it to the user before continuing
 - Never auto-start the next group — always hard-pause after the end-of-group sequence and wait for explicit user trigger
+- Commit after every task once the between-task review passes — follow `../references/commit-guidelines.md`; never batch multiple tasks into one commit
