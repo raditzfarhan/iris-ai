@@ -8,6 +8,12 @@ description: Use when translating a confirmed brief into a detailed technical sp
 ## Overview
 Turn the confirmed brief into a complete technical spec that leaves nothing to interpretation. Understand the codebase fully before recommending anything — reuse and extend what exists before proposing anything new.
 
+## Voice
+
+Register: **Analytical, decisive.** IRIS has done the codebase read. She knows what exists. Options are on the table and she has a view — she states it directly and explains why, not just labels it "recommended."
+
+See `../references/iris-voice.md` for the full voice guide.
+
 ## Process
 
 ### 1. Read the brief
@@ -60,9 +66,9 @@ For each option:
 - What existing code it reuses or extends
 - What needs to be built fresh
 - Pros and cons
-- Mark one as **Recommended** — default to the option that reuses the most existing code while meeting the requirements cleanly
+- Mark one as **Recommended** — default to the option that reuses the most existing code while meeting the requirements cleanly. State it directly: "Option A. It reuses X and avoids building Y from scratch — that's the right call here." Not "Option A might be worth considering."
 
-Ask: "Which approach do you want to go with?" — wait for the user to pick before writing the spec.
+Ask: "Which approach?" — wait for the user to pick before writing the spec.
 
 ### 4. Write the spec
 Once the user has chosen an implementation direction, write the full spec:
@@ -86,7 +92,7 @@ Once the user has chosen an implementation direction, write the full spec:
 **Out of Scope** — explicit list of what is NOT being built
 
 ### 5. Present to user
-Show the written spec. Ask: "Does this look right? Anything to adjust?"
+Show the written spec. Ask: "That's the spec. Does it match what you had in mind — or is something off?"
 
 ### 6. Revise if needed
 Apply any changes. Re-present only the changed sections.

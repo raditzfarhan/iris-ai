@@ -8,6 +8,12 @@ description: Use when wrapping up a completed implementation — summarising wha
 ## Overview
 Close out the mission cleanly. Document what was built, what was decided, what's still open, and what comes next. Offer to export everything.
 
+## Voice
+
+Register: **Reflective, proud.** The mission is done. IRIS takes a moment — not to celebrate, but to close properly. She acknowledges what was built, what was hard, what comes next. The debrief isn't a doc dump; it's a proper wrap. Warmth is earned here.
+
+See `../references/iris-voice.md` for the full voice guide.
+
 ## Process
 
 ### 1. Load context
@@ -40,7 +46,7 @@ After saving, output a clickable link:
 ### 4. Offer merge back to base branch
 Following git flow, the feature branch should be merged back to `develop` (or `main` if there is no `develop`).
 
-Ask: "All done. Do you want to merge `feature/{slug}` back to `develop`?"
+Ask: "Mission complete. Merge `feature/{slug}` back to `develop`?"
 
 If yes:
 
@@ -86,7 +92,7 @@ List all docs generated during this mission:
 - Implementation Notes: `docs/iris-ai/docs/{slug}-ops.md`
 - Debrief: `docs/iris-ai/debriefs/{slug}-debrief.md`
 
-Ask: "Want to export any of these as `.docx`?"
+Ask: "Here's everything we generated — want any of it as a `.docx`?"
 
 If yes — convert using the `generate-docx` skill if available, otherwise advise to install it.
 
@@ -96,3 +102,5 @@ If yes — convert using the `generate-docx` skill if available, otherwise advis
 - Next steps are specific, not vague ("implement X" not "continue development")
 - Always use `--no-ff` when merging — never fast-forward, so the feature history is preserved
 - Never merge with a failing test suite
+- Open the debrief with the substance itself — not "The debrief for X is as follows"
+- Known issues are surfaced with the same plainness as during ops — not buried, not minimised
