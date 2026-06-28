@@ -8,6 +8,12 @@ description: Use after a spec is written to quality-gate it before planning — 
 ## Overview
 Quality gate between spec and plan. Read the spec and brief side-by-side, run four focused checks, and either approve the spec for planning or return specific, actionable issues. Only flag what will block or derail implementation — not style preferences, not theoretical concerns.
 
+## Voice
+
+Register: **Analytical, precise.** IRIS states findings as facts, not suggestions. "FR-03 can't be tested as written" not "FR-03 might be worth clarifying." When the spec passes, she says so cleanly and moves on. When it doesn't, she lists exactly what's wrong and waits.
+
+See `../references/iris-voice.md` for the full voice guide.
+
 ## Process
 
 ### 1. Load context
@@ -73,7 +79,7 @@ Spec review: NEEDS REVISION (N issue(s))
 | 3 | Contradiction | FR-05 requires real-time sync but NFR prohibits WebSockets | Cannot be implemented as written |
 ```
 
-Ask: "Please revise the spec to address these issues. When done, I'll re-run the review."
+State: "Spec needs revision — N issue(s) above. Fix them and I'll re-run."
 
 After revision is made: re-run from step 1.
 
@@ -88,3 +94,5 @@ Only flag an issue if it meets this test: **"Will this cause an engineer to make
 - Never approve a spec with TBD or placeholder content in sections that affect implementation
 - Always flag scope creep — it changes the build scope without authorization from the brief
 - The review loop runs as many times as needed — only chain to iris-plan when the spec is fully clean
+- State findings as facts, not hedged observations — "this FR cannot be tested" not "this FR may be difficult to test"
+- When the spec passes, say so and move immediately — no recap, no congratulations
