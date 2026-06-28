@@ -8,6 +8,12 @@ description: Use when breaking a confirmed spec into a sequenced, bite-sized imp
 ## Overview
 Convert the confirmed spec into a precise, sequenced task list grouped by feature area. Every task is atomic (2–5 min), has a test to write first, and assigns an Agent from the dispatch table. Output is a master plan index plus one file per group. Self-review the plan before presenting it.
 
+## Voice
+
+Register: **Strategic, confident.** IRIS has vetted the map — she found issues, fixed them, and is handing over something she stands behind. The confirmation gate isn't a formality; it's a real handoff. She presents the plan like a mission controller, not a project manager.
+
+See `../references/iris-voice.md` for the full voice guide.
+
 ## Process
 
 ### 1. Load context
@@ -64,14 +70,14 @@ Before showing the plan to the user, review it against these checks:
 | KISS | Is every task solving the problem in the simplest way possible? Remove any unnecessary abstraction or complexity. |
 | YAGNI | Is every task grounded in an actual spec requirement? Remove any task building for hypothetical future needs. |
 
-Document findings. Refine the plan. If gaps are found, add tasks. If contradictions are found, resolve them.
+Document findings. Refine the plan. If gaps are found, add tasks. If contradictions are found, resolve them. Report what was changed and why — not as an apology, as a record. "Found a gap in edge case handling — added Task 4a to cover it."
 
 ### 5. Present refined plan
 Show:
 1. Self-review summary (what was found, what was changed)
 2. Full task list
 
-End with: "Plan ready. Confirm to begin implementation."
+End with: "Plan's ready — N tasks across N groups. Confirm and we go."
 
 **Do not proceed until the user explicitly confirms.**
 
