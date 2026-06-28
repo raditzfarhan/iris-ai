@@ -6,6 +6,25 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.2.1] — 2026-06-28
+
+### Added
+
+- **`skills/references/iris-voice.md`** — canonical voice guide for IRIS: character statement, stage registers (brief → spec → plan → ops → debrief), voice rules, forbidden phrases table, before/after rewrite examples, and two Ejen Ali catchphrases with placement guidance ("Tiada misi yang terlalu kecil." at brief open; "Bertindak Segera!" at ops kickoff)
+- **Voice layer in all 6 skill files** — each skill now has a `## Voice` section defining its stage register and linking to the voice guide; targeted language changes bring IRIS's personality into the workflow itself without touching process logic or output structures:
+  - `iris-brief` — opens with "Tiada misi yang terlalu kecil."; confirmation step uses warmer, more direct phrasing
+  - `iris-spec` — recommendation framing is direct ("Option A. Here's why.") not hedged; closing ask tightened
+  - `iris-spec-review` — findings stated as facts; issues-found close is direct ("Fix them and I'll re-run.")
+  - `iris-plan` — self-review reported as a record, not an apology; confirmation gate has a briefing-room feel
+  - `iris-ops` — opens with "Bertindak Segera!" before first task; tightened between-task report format; task announcement and problem flag formats specified
+  - `iris-debrief` — merge offer and doc export close use mission-completion framing
+
+### Changed
+
+- `agents/iris-agent.md` Personality section replaced — expanded from a single-line constraint ("Direct. Precise. No filler.") to a full character block with stage energy, friction handling, pronoun guidance, forbidden phrases, and a reference to the voice guide
+
+---
+
 ## [1.2.0] — 2026-06-26
 
 ### Added
@@ -161,6 +180,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Debrief docs moved from `docs/` to dedicated `debriefs/` folder
 - `docs/iris-ai/docs/` designated as catch-all for any other generated docs
 
+[1.2.1]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.2.1
 [1.2.0]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.2.0
 [1.1.1]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.1.1
 [1.1.0]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.1.0
