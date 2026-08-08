@@ -70,7 +70,8 @@ Both modes require all tests to pass before moving to the next task.
 Store the chosen mode and apply it to every task in this ops session. Do not ask again per task.
 
 ### 4. Identify current task
-- Identify the current task (first incomplete task in the active group file)
+- Identify the current task: the first task in the group file whose `**Status:**` field is not `done`
+- **If the group file's header status is anything other than freshly created** (i.e. this is a resume, not a fresh start) — do not trust the per-task `Status:` fields blindly. Verify against reality first: check git log for commits referencing this group's tasks, and check for orphaned test files with no matching implementation (a task can be left mid-cycle — test written and committed, implementation never done — with no field ever recording that). Reconcile the plan file's per-task status to match what's actually in the repo before picking the current task.
 - When `Subagent: yes` on a task, read the `Agent` field from the task definition
 - If `Agent` is `audit` or `probe`, load `agents/{name}-agent.md` as the agent context for that subagent dispatch
 - If `Agent` is blank or `iris`, IRIS handles the task itself
@@ -166,6 +167,7 @@ After the between-task review passes, commit all staged changes for this task:
 - Follow `../references/commit-guidelines.md` for message format and type selection
 - One commit per task — do not batch multiple tasks into one commit
 - If the working tree is clean (no file changes), skip the commit and note it in the task report
+- Update this task's `**Status:**` field to `done` in the group file. Do this as part of closing out the task — a task is never left committed without its status field updated, and never marked `done` without being committed (or explicitly noted as a no-file-change task).
 
 ### 8. End-of-group sequence
 
@@ -238,6 +240,7 @@ When all groups show status `done` in the master plan: show "All groups complete
 - Subagents receive the full spec + plan context — never a partial brief
 - If a task reveals a flaw in the plan, stop and surface it to the user before continuing
 - Never auto-start the next group — always hard-pause after the end-of-group sequence and wait for explicit user trigger
+- Never leave a task's per-task `Status:` field out of sync with reality — a stalled or interrupted task (e.g. test committed, implementation never finished) must not silently look identical to a task that was never started. When resuming any group that isn't brand new, reconcile status fields against git log and actual code/test state before trusting them.
 - Commit after every task once the between-task review passes — follow `../references/commit-guidelines.md`; never batch multiple tasks into one commit
 - Announce each task before starting it using the format from the Voice section above
 - Keep status reports short — the format above is the ceiling, not the floor

@@ -102,7 +102,7 @@ Include:
 - `**Status:** pending`
 - `**Parent plan:** YYYY-MM-DD-{slug}-plan.md`
 - `## Tasks` section with all tasks for this group in the standard task format:
-  - `**What:**`, `**Test first:**`, `**Agent:**`, `**Subagent:**`, `**Est:**`
+  - `**What:**`, `**Test first:**`, `**Agent:**`, `**Subagent:**`, `**Est:**`, `**Status:** pending`
 
 After saving, output clickable links:
 > Saved: [docs/iris-ai/plans/YYYY-MM-DD-{slug}-plan.md](docs/iris-ai/plans/YYYY-MM-DD-{slug}-plan.md)
