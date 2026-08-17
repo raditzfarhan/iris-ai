@@ -199,28 +199,47 @@ If no deviations were tracked: log "No structural deviations — docs unchanged.
 
 **3. Hard pause — post-group summary and menu**
 
+If this was **not** the last group, show the simplified mid-plan menu (no branch actions — the branch is still in progress):
+
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Group {N} complete: {Group Name}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Tasks:  {X}/{X} done
 Tests:  all green
-Branch: feature/{group-slug}
+Branch: feature/{slug} (in progress — {N}/{total groups} groups done)
+Docs:   {list changes, or "no changes"}
+
+1. Continue to next group
+2. Pause here — I'll continue later
+
+Next up: Group {N+1}: {Name} ({X} tasks)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+If this **was** the last group, show the full menu instead — this is the only point where the branch is offered for merge or PR:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Group {N} complete: {Group Name}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Tasks:  {X}/{X} done
+Tests:  all green
+Branch: feature/{slug}
 Docs:   {list changes, or "no changes"}
 
 What would you like to do next?
 
-  1. Finish branch — merge feature/{group-slug} → develop (or main)
-  2. Create PR — open a pull request for this group
+  1. Finish branch — merge feature/{slug} → develop (or main)
+  2. Create PR — open a pull request for this plan
   3. Do nothing — I'll handle the branch manually
   4. Custom — tell me what to do
 
-Next up: Group {N+1}: {Name} ({X} tasks) — feature/{next-group-slug}
-(replace "Next up" line with "All groups complete." if this was the last group)
+All groups complete.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-**Wait for user response.** After options 1 or 2 complete, wait — do not auto-start the next group. The next group starts only when the user explicitly says so ("continue", "start group 2", etc.).
+**Wait for user response.** After options 1 or 2 complete on the full menu, wait — do not auto-start anything further. On the mid-plan menu, only "Continue to next group" advances; "Pause here" stops and waits for the user to resume explicitly ("continue", "start group 2", etc.).
 
 ### 9. Progress tracking
 After each task report, show: `Group {G} — Progress: {N}/{total} tasks complete`
