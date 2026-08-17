@@ -6,6 +6,23 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.2.2] — 2026-08-17
+
+### Added
+
+- **Blocker Protocol in `iris-ops`** — new `## Blocker Protocol` section: when execution hits something that blocks a task (a plan/spec assumption that doesn't hold, a missing dependency, an approach that doesn't work as designed), IRIS stops immediately, reports what was found, suggests 2–3 ways to proceed with trade-offs, and asks the user to pick one or propose their own solution (reviewed for feasibility before implementing) — replaces silent ad-hoc workarounds
+- **Authorship rule in `skills/references/commit-guidelines.md`** — commit messages must never include an AI/agent author or co-author trailer; the message describes the change only
+
+### Changed
+
+- **Branching model — one branch per plan, not per group** — `iris-plan` assigns a single `feature/{slug}` branch for the whole plan (shared by every group in it); `iris-ops` creates it once when starting Group 1 and, on a resumed session starting at Group 2+, checks it's already on that branch instead of creating a new one; the git flow rules table and Rules section updated to match
+- **Conditional per-plan subfolder** — plans with only 1 group save a single flat file as before; plans with 2+ groups now nest their master + per-group files under `docs/iris-ai/plans/{slug}/` instead of sitting flat alongside every other plan's files; `iris-ops` checks for the subfolder first when loading
+- **End-of-group hard-pause menu split into two variants** — mid-plan groups show a simplified menu (continue / pause — no branch actions, since the shared branch isn't done yet); only the last group shows the full menu with Finish branch / Create PR, now scoped to the whole plan's branch rather than a per-group one
+- `iris-ops` Voice section's "Problem flag format" and two Rules bullets reworded to report blocker options rather than assume a fix is already in motion, aligning with the new Blocker Protocol
+- `iris-plan` self-review checklist drops the "Branch isolation" check (no longer meaningful with a single shared branch)
+
+---
+
 ## [1.2.1] — 2026-06-28
 
 ### Added
@@ -180,6 +197,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Debrief docs moved from `docs/` to dedicated `debriefs/` folder
 - `docs/iris-ai/docs/` designated as catch-all for any other generated docs
 
+[1.2.2]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.2.2
 [1.2.1]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.2.1
 [1.2.0]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.2.0
 [1.1.1]: https://github.com/raditzfarhan/iris-ai/releases/tag/1.1.1
