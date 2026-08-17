@@ -65,7 +65,6 @@ Before showing the plan to the user, review it against these checks:
 | TDD coverage | Does every functional requirement have a test task? |
 | Group independence | Are all groups truly independent of each other? |
 | Cross-group dependency | Does any task in group N depend on work from a later group? If so, move it to the earlier group or note it in Sequencing Notes. |
-| Branch isolation | Can each group's branch be created and merged independently? |
 | DRY | Does any task duplicate logic or patterns already in the codebase or in an earlier task? If so, extend what exists. |
 | KISS | Is every task solving the problem in the simplest way possible? Remove any unnecessary abstraction or complexity. |
 | YAGNI | Is every task grounded in an actual spec requirement? Remove any task building for hypothetical future needs. |
