@@ -28,9 +28,9 @@ See `../references/iris-voice.md` for the full voice guide.
 ## Process
 
 ### 1. Load context
-- Read confirmed master plan from `docs/iris-ai/plans/*-plan.md`
-- Identify the first group with status `pending` in the master plan's Groups table
-- Read that group's file from `docs/iris-ai/plans/` (e.g., `*-plan-g1.md`)
+- Look for a per-plan subfolder first: `docs/iris-ai/plans/{slug}/`. If it exists, read the master plan from `docs/iris-ai/plans/{slug}/*-plan.md`; otherwise read the flat file `docs/iris-ai/plans/*-plan.md` directly (single-group plan, no subfolder)
+- If a subfolder exists: identify the first group with status `pending` in the master plan's Groups table, and read that group's file from the same subfolder (e.g., `*-plan-g1.md`)
+- If there's no subfolder (flat file): treat the whole file as the only unit of work — there is no separate group file to load
 - Read confirmed spec from `docs/iris-ai/specs/*-spec.md`
 - Read confirmed brief from `docs/iris-ai/briefs/*-brief.md`
 
