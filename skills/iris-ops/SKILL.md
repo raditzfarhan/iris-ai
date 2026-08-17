@@ -35,22 +35,27 @@ See `../references/iris-voice.md` for the full voice guide.
 - Read confirmed brief from `docs/iris-ai/briefs/*-brief.md`
 
 ### 2. Create a feature branch (git flow)
-Before writing any code, set up the correct branch following git flow:
+Before writing any code, set up the correct branch following git flow. This only runs once per plan — when starting Group 1 (or the plan's only unit of work, if it has no groups). It does not repeat when moving on to Group 2, 3, etc.
 
+**Starting Group 1 (or a single-group plan):**
 1. Check the current branch with `git branch --show-current`
 2. If already on a `feature/*` branch, ask: "You're on `{branch}`. Continue here, or create a new feature branch?"
 3. Otherwise:
    - Identify the base branch — prefer `develop` if it exists, fall back to `main`/`master`
    - Switch to the base branch and pull latest: `git checkout develop && git pull`
-   - Create the feature branch using the branch name from the group file: `git checkout -b feature/{group-slug}`
+   - Create the feature branch using the plan's branch name from the master file: `git checkout -b feature/{slug}`
 4. Confirm the new branch before proceeding
+
+**Resuming at Group 2 or later** (the first pending group identified in Step 1 is not Group 1 — a continued session): skip branch creation entirely and check the current branch instead:
+- If already on `feature/{slug}`, proceed without asking.
+- If not, warn the user they're not on the plan's branch and ask whether to switch to it or continue where they are.
 
 **Git flow branch rules:**
 | Branch | Purpose |
 |---|---|
 | `main` / `master` | Production-ready code only — never commit features directly |
 | `develop` | Integration branch — all features merge here first |
-| `feature/{group-slug}` | One branch per group, always branched off `develop` |
+| `feature/{slug}` | One branch per plan, shared by every group in it, always branched off `develop` |
 
 Never implement directly on `main`, `master`, or `develop`. If the user insists, warn them and ask for explicit confirmation before complying.
 
