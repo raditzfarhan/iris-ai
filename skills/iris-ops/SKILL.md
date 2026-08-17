@@ -16,7 +16,7 @@ After execution mode is confirmed and before the first task begins, say: *"Berti
 
 Task announcement format: "Task N. [what it is] — [brief intent]." Example: "Task 3. Writing the test first — let's confirm the red before we build."
 
-Problem flag format: "Task N hit a wall — [what happened]. [what I'm doing to fix it]."
+Problem flag format: "Task N hit a wall — [what happened]. Here's how I see we could proceed: [1-2 line summary of the options]."
 
 See `../references/iris-voice.md` for the full voice guide.
 
@@ -235,6 +235,16 @@ After the first task's output is appended (file created), output a clickable lin
 
 ### 11. Chain to iris-debrief
 When all groups show status `done` in the master plan: show "All groups complete. All tests green." — invoke the `iris-debrief` skill automatically.
+
+## Blocker Protocol
+
+Triggered whenever execution hits something that blocks the current task — a plan/spec assumption that doesn't hold, a missing dependency, an approach that doesn't work as designed, etc.
+
+1. **Stop immediately.** Do not invent an unplanned workaround, hack, or fallback to push through.
+2. **Report:** what was found, and why it blocks the current task/plan.
+3. **Suggest 2–3 ways to proceed**, with trade-offs.
+4. **Ask the user** to pick one — or propose their own solution.
+5. If the user proposes their own solution, **review it for feasibility** and flag concerns before implementing.
 
 ## Rules
 - Always create a `feature/{group-slug}` branch per group before writing any code — never implement on `main`, `master`, or `develop`
