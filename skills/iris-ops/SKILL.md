@@ -247,16 +247,16 @@ Triggered whenever execution hits something that blocks the current task — a p
 5. If the user proposes their own solution, **review it for feasibility** and flag concerns before implementing.
 
 ## Rules
-- Always create a `feature/{group-slug}` branch per group before writing any code — never implement on `main`, `master`, or `develop`
+- Always create a `feature/{slug}` branch once per plan before writing any code — never implement on `main`, `master`, or `develop`
 - Ask for execution mode once at the start — apply it consistently to every task, never mix mid-session
 - In Verify mode, write tests against the spec requirement — never against the implementation
 - Never move to the next task with a failing test
 - Never skip the between-task code review
 - Subagents receive the full spec + plan context — never a partial brief
-- If a task reveals a flaw in the plan, stop and surface it to the user before continuing
+- If execution hits a blocker, follow the Blocker Protocol — never patch around it silently
 - Never auto-start the next group — always hard-pause after the end-of-group sequence and wait for explicit user trigger
 - Never leave a task's per-task `Status:` field out of sync with reality — a stalled or interrupted task (e.g. test committed, implementation never finished) must not silently look identical to a task that was never started. When resuming any group that isn't brand new, reconcile status fields against git log and actual code/test state before trusting them.
 - Commit after every task once the between-task review passes — follow `../references/commit-guidelines.md`; never batch multiple tasks into one commit
 - Announce each task before starting it using the format from the Voice section above
 - Keep status reports short — the format above is the ceiling, not the floor
-- When a problem surfaces, name it immediately and state what's being done — never bury it at the end of a report
+- When a blocker surfaces, name it immediately and follow the Blocker Protocol — state the options, not a fix already in motion
