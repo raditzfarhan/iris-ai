@@ -82,30 +82,43 @@ End with: "Plan's ready — N tasks across N groups. Confirm and we go."
 
 ### 6. Save the plan
 
-Save all files to `docs/iris-ai/plans/`:
-
-**Master file** — `YYYY-MM-DD-{slug}-plan.md`
+**If the plan has only 1 group** — no real grouping needed. Save a single flat file, same as a non-grouped plan, to `docs/iris-ai/plans/YYYY-MM-DD-{slug}-plan.md`.
 
 Include:
 - `# Plan: {Feature Name}` heading
 - `**Spec:**` link to the brief spec file
+- `**Branch:** feature/{slug}`
 - `**Date:**` YYYY-MM-DD
-- `## Groups` section with a table: `# | Group | Branch | Status | File` — one row per group, Status starts as `pending`, File is the per-group filename
+- `## Tasks` section with all tasks in the standard task format: `**What:**`, `**Test first:**`, `**Agent:**`, `**Subagent:**`, `**Est:**`, `**Status:** pending`
+- `## Sequencing Notes` section — or "None."
+
+After saving, output a clickable link:
+> Saved: [docs/iris-ai/plans/YYYY-MM-DD-{slug}-plan.md](docs/iris-ai/plans/YYYY-MM-DD-{slug}-plan.md)
+
+**If the plan has 2+ groups** — save under a per-plan subfolder: `docs/iris-ai/plans/{slug}/`.
+
+**Master file** — `docs/iris-ai/plans/{slug}/YYYY-MM-DD-{slug}-plan.md`
+
+Include:
+- `# Plan: {Feature Name}` heading
+- `**Spec:**` link to the brief spec file
+- `**Branch:** feature/{slug}`
+- `**Date:**` YYYY-MM-DD
+- `## Groups` section with a table: `# | Group | Status | File` — one row per group, Status starts as `pending`, File is the per-group filename
 - `## Sequencing Notes` section — cross-group dependencies or "None."
 
-**Per-group files** — `YYYY-MM-DD-{slug}-plan-g{N}.md` (one per group)
+**Per-group files** — `docs/iris-ai/plans/{slug}/YYYY-MM-DD-{slug}-plan-g{N}.md` (one per group)
 
 Include:
 - `# Group {N}: {Group Name}` heading
-- `**Branch:** feature/{group-slug}`
 - `**Status:** pending`
 - `**Parent plan:** YYYY-MM-DD-{slug}-plan.md`
 - `## Tasks` section with all tasks for this group in the standard task format:
   - `**What:**`, `**Test first:**`, `**Agent:**`, `**Subagent:**`, `**Est:**`, `**Status:** pending`
 
 After saving, output clickable links:
-> Saved: [docs/iris-ai/plans/YYYY-MM-DD-{slug}-plan.md](docs/iris-ai/plans/YYYY-MM-DD-{slug}-plan.md)
-> Per-group files: [g1](docs/iris-ai/plans/YYYY-MM-DD-{slug}-plan-g1.md), [g2](docs/iris-ai/plans/YYYY-MM-DD-{slug}-plan-g2.md) … (one link per group)
+> Saved: [docs/iris-ai/plans/{slug}/YYYY-MM-DD-{slug}-plan.md](docs/iris-ai/plans/{slug}/YYYY-MM-DD-{slug}-plan.md)
+> Per-group files: [g1](docs/iris-ai/plans/{slug}/YYYY-MM-DD-{slug}-plan-g1.md), [g2](docs/iris-ai/plans/{slug}/YYYY-MM-DD-{slug}-plan-g2.md) … (one link per group)
 
 ### 7. Wait for confirmation
 Only after user confirms: "Plan confirmed. Starting implementation." — invoke `.claude/skills/iris-ops/SKILL.md`.
