@@ -4,6 +4,12 @@ Reference for all IRIS-driven development. Follow these rules on every commit.
 
 ---
 
+## Authorship Rule
+
+Never add an AI/agent author or co-author to a commit — no `Co-Authored-By: Claude ...` or equivalent trailer, no mention of Claude or any AI agent anywhere in the commit message. The message describes the change only, never who or what wrote it.
+
+---
+
 ## Frequency Rule
 
 Commit at logical checkpoints — do not wait for a whole task group to finish.

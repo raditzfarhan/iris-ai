@@ -41,12 +41,12 @@ Break implementation into atomic tasks following this discipline:
 Cluster all generated tasks into feature groups before self-review:
 
 1. **Identify groups** — cluster tasks by the feature or area they build (e.g., Blog Feature, Settings, Auth). If tasks span multiple groups (e.g., a shared DB migration or base model all features depend on), create a **Foundation** group that runs first, or attach them to the earliest group that needs them. Note cross-group dependencies in Sequencing Notes.
-2. **Assign branch names** — each group gets `feature/{group-slug}`
+2. **Assign the plan's branch name** — one `feature/{slug}` branch for the whole plan, shared by every group in it (not one per group)
 3. **Present to user for confirmation:**
    ```
-   Proposed groups:
-     Group 1: Blog Feature (8 tasks) — feature/blog-feature
-     Group 2: Settings (5 tasks) — feature/settings
+   Proposed groups (branch: feature/blog-and-settings):
+     Group 1: Blog Feature (8 tasks)
+     Group 2: Settings (5 tasks)
 
    Does this grouping look right? You can rename groups, merge them, or split before I save.
    ```
@@ -65,7 +65,6 @@ Before showing the plan to the user, review it against these checks:
 | TDD coverage | Does every functional requirement have a test task? |
 | Group independence | Are all groups truly independent of each other? |
 | Cross-group dependency | Does any task in group N depend on work from a later group? If so, move it to the earlier group or note it in Sequencing Notes. |
-| Branch isolation | Can each group's branch be created and merged independently? |
 | DRY | Does any task duplicate logic or patterns already in the codebase or in an earlier task? If so, extend what exists. |
 | KISS | Is every task solving the problem in the simplest way possible? Remove any unnecessary abstraction or complexity. |
 | YAGNI | Is every task grounded in an actual spec requirement? Remove any task building for hypothetical future needs. |
@@ -83,30 +82,43 @@ End with: "Plan's ready — N tasks across N groups. Confirm and we go."
 
 ### 6. Save the plan
 
-Save all files to `docs/iris-ai/plans/`:
-
-**Master file** — `YYYY-MM-DD-{slug}-plan.md`
+**If the plan has only 1 group** — no real grouping needed. Save a single flat file, same as a non-grouped plan, to `docs/iris-ai/plans/YYYY-MM-DD-{slug}-plan.md`.
 
 Include:
 - `# Plan: {Feature Name}` heading
 - `**Spec:**` link to the brief spec file
+- `**Branch:** feature/{slug}`
 - `**Date:**` YYYY-MM-DD
-- `## Groups` section with a table: `# | Group | Branch | Status | File` — one row per group, Status starts as `pending`, File is the per-group filename
+- `## Tasks` section with all tasks in the standard task format: `**What:**`, `**Test first:**`, `**Agent:**`, `**Subagent:**`, `**Est:**`, `**Status:** pending`
+- `## Sequencing Notes` section — or "None."
+
+After saving, output a clickable link:
+> Saved: [docs/iris-ai/plans/YYYY-MM-DD-{slug}-plan.md](docs/iris-ai/plans/YYYY-MM-DD-{slug}-plan.md)
+
+**If the plan has 2+ groups** — save under a per-plan subfolder: `docs/iris-ai/plans/{slug}/`.
+
+**Master file** — `docs/iris-ai/plans/{slug}/YYYY-MM-DD-{slug}-plan.md`
+
+Include:
+- `# Plan: {Feature Name}` heading
+- `**Spec:**` link to the brief spec file
+- `**Branch:** feature/{slug}`
+- `**Date:**` YYYY-MM-DD
+- `## Groups` section with a table: `# | Group | Status | File` — one row per group, Status starts as `pending`, File is the per-group filename
 - `## Sequencing Notes` section — cross-group dependencies or "None."
 
-**Per-group files** — `YYYY-MM-DD-{slug}-plan-g{N}.md` (one per group)
+**Per-group files** — `docs/iris-ai/plans/{slug}/YYYY-MM-DD-{slug}-plan-g{N}.md` (one per group)
 
 Include:
 - `# Group {N}: {Group Name}` heading
-- `**Branch:** feature/{group-slug}`
 - `**Status:** pending`
 - `**Parent plan:** YYYY-MM-DD-{slug}-plan.md`
 - `## Tasks` section with all tasks for this group in the standard task format:
-  - `**What:**`, `**Test first:**`, `**Agent:**`, `**Subagent:**`, `**Est:**`
+  - `**What:**`, `**Test first:**`, `**Agent:**`, `**Subagent:**`, `**Est:**`, `**Status:** pending`
 
 After saving, output clickable links:
-> Saved: [docs/iris-ai/plans/YYYY-MM-DD-{slug}-plan.md](docs/iris-ai/plans/YYYY-MM-DD-{slug}-plan.md)
-> Per-group files: [g1](docs/iris-ai/plans/YYYY-MM-DD-{slug}-plan-g1.md), [g2](docs/iris-ai/plans/YYYY-MM-DD-{slug}-plan-g2.md) … (one link per group)
+> Saved: [docs/iris-ai/plans/{slug}/YYYY-MM-DD-{slug}-plan.md](docs/iris-ai/plans/{slug}/YYYY-MM-DD-{slug}-plan.md)
+> Per-group files: [g1](docs/iris-ai/plans/{slug}/YYYY-MM-DD-{slug}-plan-g1.md), [g2](docs/iris-ai/plans/{slug}/YYYY-MM-DD-{slug}-plan-g2.md) … (one link per group)
 
 ### 7. Wait for confirmation
 Only after user confirms: "Plan confirmed. Starting implementation." — invoke `.claude/skills/iris-ops/SKILL.md`.

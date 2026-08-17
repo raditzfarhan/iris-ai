@@ -16,7 +16,7 @@ After execution mode is confirmed and before the first task begins, say: *"Berti
 
 Task announcement format: "Task N. [what it is] — [brief intent]." Example: "Task 3. Writing the test first — let's confirm the red before we build."
 
-Problem flag format: "Task N hit a wall — [what happened]. [what I'm doing to fix it]."
+Problem flag format: "Task N hit a wall — [what happened]. Here's how I see we could proceed: [1-2 line summary of the options]."
 
 See `../references/iris-voice.md` for the full voice guide.
 
@@ -28,29 +28,34 @@ See `../references/iris-voice.md` for the full voice guide.
 ## Process
 
 ### 1. Load context
-- Read confirmed master plan from `docs/iris-ai/plans/*-plan.md`
-- Identify the first group with status `pending` in the master plan's Groups table
-- Read that group's file from `docs/iris-ai/plans/` (e.g., `*-plan-g1.md`)
+- Look for a per-plan subfolder first: `docs/iris-ai/plans/{slug}/`. If it exists, read the master plan from `docs/iris-ai/plans/{slug}/*-plan.md`; otherwise read the flat file `docs/iris-ai/plans/*-plan.md` directly (single-group plan, no subfolder)
+- If a subfolder exists: identify the first group with status `pending` in the master plan's Groups table, and read that group's file from the same subfolder (e.g., `*-plan-g1.md`)
+- If there's no subfolder (flat file): treat the whole file as the only unit of work — there is no separate group file to load
 - Read confirmed spec from `docs/iris-ai/specs/*-spec.md`
 - Read confirmed brief from `docs/iris-ai/briefs/*-brief.md`
 
 ### 2. Create a feature branch (git flow)
-Before writing any code, set up the correct branch following git flow:
+Before writing any code, set up the correct branch following git flow. This only runs once per plan — when starting Group 1 (or the plan's only unit of work, if it has no groups). It does not repeat when moving on to Group 2, 3, etc.
 
+**Starting Group 1 (or a single-group plan):**
 1. Check the current branch with `git branch --show-current`
 2. If already on a `feature/*` branch, ask: "You're on `{branch}`. Continue here, or create a new feature branch?"
 3. Otherwise:
    - Identify the base branch — prefer `develop` if it exists, fall back to `main`/`master`
    - Switch to the base branch and pull latest: `git checkout develop && git pull`
-   - Create the feature branch using the branch name from the group file: `git checkout -b feature/{group-slug}`
+   - Create the feature branch using the plan's branch name from the master file: `git checkout -b feature/{slug}`
 4. Confirm the new branch before proceeding
+
+**Resuming at Group 2 or later** (the first pending group identified in Step 1 is not Group 1 — a continued session): skip branch creation entirely and check the current branch instead:
+- If already on `feature/{slug}`, proceed without asking.
+- If not, warn the user they're not on the plan's branch and ask whether to switch to it or continue where they are.
 
 **Git flow branch rules:**
 | Branch | Purpose |
 |---|---|
 | `main` / `master` | Production-ready code only — never commit features directly |
 | `develop` | Integration branch — all features merge here first |
-| `feature/{group-slug}` | One branch per group, always branched off `develop` |
+| `feature/{slug}` | One branch per plan, shared by every group in it, always branched off `develop` |
 
 Never implement directly on `main`, `master`, or `develop`. If the user insists, warn them and ask for explicit confirmation before complying.
 
@@ -70,7 +75,8 @@ Both modes require all tests to pass before moving to the next task.
 Store the chosen mode and apply it to every task in this ops session. Do not ask again per task.
 
 ### 4. Identify current task
-- Identify the current task (first incomplete task in the active group file)
+- Identify the current task: the first task in the group file whose `**Status:**` field is not `done`
+- **If the group file's header status is anything other than freshly created** (i.e. this is a resume, not a fresh start) — do not trust the per-task `Status:` fields blindly. Verify against reality first: check git log for commits referencing this group's tasks, and check for orphaned test files with no matching implementation (a task can be left mid-cycle — test written and committed, implementation never done — with no field ever recording that). Reconcile the plan file's per-task status to match what's actually in the repo before picking the current task.
 - When `Subagent: yes` on a task, read the `Agent` field from the task definition
 - If `Agent` is `audit` or `probe`, load `agents/{name}-agent.md` as the agent context for that subagent dispatch
 - If `Agent` is blank or `iris`, IRIS handles the task itself
@@ -166,6 +172,7 @@ After the between-task review passes, commit all staged changes for this task:
 - Follow `../references/commit-guidelines.md` for message format and type selection
 - One commit per task — do not batch multiple tasks into one commit
 - If the working tree is clean (no file changes), skip the commit and note it in the task report
+- Update this task's `**Status:**` field to `done` in the group file. Do this as part of closing out the task — a task is never left committed without its status field updated, and never marked `done` without being committed (or explicitly noted as a no-file-change task).
 
 ### 8. End-of-group sequence
 
@@ -192,28 +199,47 @@ If no deviations were tracked: log "No structural deviations — docs unchanged.
 
 **3. Hard pause — post-group summary and menu**
 
+If this was **not** the last group, show the simplified mid-plan menu (no branch actions — the branch is still in progress):
+
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Group {N} complete: {Group Name}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Tasks:  {X}/{X} done
 Tests:  all green
-Branch: feature/{group-slug}
+Branch: feature/{slug} (in progress — {N}/{total groups} groups done)
+Docs:   {list changes, or "no changes"}
+
+1. Continue to next group
+2. Pause here — I'll continue later
+
+Next up: Group {N+1}: {Name} ({X} tasks)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+If this **was** the last group, show the full menu instead — this is the only point where the branch is offered for merge or PR:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Group {N} complete: {Group Name}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Tasks:  {X}/{X} done
+Tests:  all green
+Branch: feature/{slug}
 Docs:   {list changes, or "no changes"}
 
 What would you like to do next?
 
-  1. Finish branch — merge feature/{group-slug} → develop (or main)
-  2. Create PR — open a pull request for this group
+  1. Finish branch — merge feature/{slug} → develop (or main)
+  2. Create PR — open a pull request for this plan
   3. Do nothing — I'll handle the branch manually
   4. Custom — tell me what to do
 
-Next up: Group {N+1}: {Name} ({X} tasks) — feature/{next-group-slug}
-(replace "Next up" line with "All groups complete." if this was the last group)
+All groups complete.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-**Wait for user response.** After options 1 or 2 complete, wait — do not auto-start the next group. The next group starts only when the user explicitly says so ("continue", "start group 2", etc.).
+**Wait for user response.** After options 1 or 2 complete on the full menu, wait — do not auto-start anything further. On the mid-plan menu, only "Continue to next group" advances; "Pause here" stops and waits for the user to resume explicitly ("continue", "start group 2", etc.).
 
 ### 9. Progress tracking
 After each task report, show: `Group {G} — Progress: {N}/{total} tasks complete`
@@ -229,16 +255,27 @@ After the first task's output is appended (file created), output a clickable lin
 ### 11. Chain to iris-debrief
 When all groups show status `done` in the master plan: show "All groups complete. All tests green." — invoke the `iris-debrief` skill automatically.
 
+## Blocker Protocol
+
+Triggered whenever execution hits something that blocks the current task — a plan/spec assumption that doesn't hold, a missing dependency, an approach that doesn't work as designed, etc.
+
+1. **Stop immediately.** Do not invent an unplanned workaround, hack, or fallback to push through.
+2. **Report:** what was found, and why it blocks the current task/plan.
+3. **Suggest 2–3 ways to proceed**, with trade-offs.
+4. **Ask the user** to pick one — or propose their own solution.
+5. If the user proposes their own solution, **review it for feasibility** and flag concerns before implementing.
+
 ## Rules
-- Always create a `feature/{group-slug}` branch per group before writing any code — never implement on `main`, `master`, or `develop`
+- Always create a `feature/{slug}` branch once per plan before writing any code — never implement on `main`, `master`, or `develop`
 - Ask for execution mode once at the start — apply it consistently to every task, never mix mid-session
 - In Verify mode, write tests against the spec requirement — never against the implementation
 - Never move to the next task with a failing test
 - Never skip the between-task code review
 - Subagents receive the full spec + plan context — never a partial brief
-- If a task reveals a flaw in the plan, stop and surface it to the user before continuing
+- If execution hits a blocker, follow the Blocker Protocol — never patch around it silently
 - Never auto-start the next group — always hard-pause after the end-of-group sequence and wait for explicit user trigger
+- Never leave a task's per-task `Status:` field out of sync with reality — a stalled or interrupted task (e.g. test committed, implementation never finished) must not silently look identical to a task that was never started. When resuming any group that isn't brand new, reconcile status fields against git log and actual code/test state before trusting them.
 - Commit after every task once the between-task review passes — follow `../references/commit-guidelines.md`; never batch multiple tasks into one commit
 - Announce each task before starting it using the format from the Voice section above
 - Keep status reports short — the format above is the ceiling, not the floor
-- When a problem surfaces, name it immediately and state what's being done — never bury it at the end of a report
+- When a blocker surfaces, name it immediately and follow the Blocker Protocol — state the options, not a fix already in motion

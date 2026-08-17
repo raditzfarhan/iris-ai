@@ -5,3 +5,4 @@ outputs/
 *.docx
 node_modules/
 .env
+.worktrees/
