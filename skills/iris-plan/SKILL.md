@@ -41,12 +41,12 @@ Break implementation into atomic tasks following this discipline:
 Cluster all generated tasks into feature groups before self-review:
 
 1. **Identify groups** — cluster tasks by the feature or area they build (e.g., Blog Feature, Settings, Auth). If tasks span multiple groups (e.g., a shared DB migration or base model all features depend on), create a **Foundation** group that runs first, or attach them to the earliest group that needs them. Note cross-group dependencies in Sequencing Notes.
-2. **Assign branch names** — each group gets `feature/{group-slug}`
+2. **Assign the plan's branch name** — one `feature/{slug}` branch for the whole plan, shared by every group in it (not one per group)
 3. **Present to user for confirmation:**
    ```
-   Proposed groups:
-     Group 1: Blog Feature (8 tasks) — feature/blog-feature
-     Group 2: Settings (5 tasks) — feature/settings
+   Proposed groups (branch: feature/blog-and-settings):
+     Group 1: Blog Feature (8 tasks)
+     Group 2: Settings (5 tasks)
 
    Does this grouping look right? You can rename groups, merge them, or split before I save.
    ```
